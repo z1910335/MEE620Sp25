@@ -19,7 +19,7 @@ public partial class SimplePendScene : Node3D
 
 	enum OpMode
 	{
-		Manual,
+		Config,
 		Sim
 	}
 
@@ -32,6 +32,7 @@ public partial class SimplePendScene : Node3D
 	double time;           // simulation time
 
 	//UIPanelDisplay datDisplay;
+	GridIO gridIO;
 	int uiRefreshCtr;     //counter for display refresh
 	int uiRefreshTHold;   // threshold for display refresh
 
@@ -59,6 +60,18 @@ public partial class SimplePendScene : Node3D
 		cam.Distance = camDist;
 		cam.Target = camTg;
 
+		// Set up simulation
+		opMode = OpMode.Config;
+		pendLength = 1.0;
+		pendRotation = new Vector3();
+		dthetaMan = 0.03f;
+		angleManChanged = true;
+		sim = new SimplePendSim();
+		sim.Length = pendLength;
+		sim.Angle = 0.0;
+		sim.GenSpeed = 0.0;
+		time = 0.0;
+
 		// Set up model
 		float mountHeight = 1.4f;
 		Node3D mnt = GetNode<Node3D>("Axle");
@@ -69,6 +82,9 @@ public partial class SimplePendScene : Node3D
 		pModel.Length = (float)pendLength;
 		//pModel.StickDiameter = 0.15f;
 		//pModel.BallDiameter = 0.6f;
+
+		// Display
+		SetupUI();
 	}
 
 	//------------------------------------------------------------------------
@@ -77,10 +93,13 @@ public partial class SimplePendScene : Node3D
 	//------------------------------------------------------------------------
 	public override void _Process(double delta)
 	{
-		if(opMode == OpMode.Manual){  // change angle manually
+		if(opMode == OpMode.Config){  // change angle manually
 			if(Input.IsActionPressed("ui_right")){
 				pendRotation.Z += dthetaMan;
-				// datDisplay.SetValue(1, Mathf.RadToDeg(pendRotation.Z));
+				gridIO.SetNumeric(0,1, Mathf.RadToDeg(pendRotation.Z));
+				gridIO.SetText(1,1, "---");
+				gridIO.SetText(2,1, "---");
+				gridIO.SetText(3,1, "---");
 				// datDisplay.SetValue(2, "---");
 				// datDisplay.SetValue(3, "---");
 				// datDisplay.SetValue(4, "---");
@@ -89,6 +108,10 @@ public partial class SimplePendScene : Node3D
 			}
 			if(Input.IsActionPressed("ui_left")){
 				pendRotation.Z -= dthetaMan;
+				gridIO.SetNumeric(0,1, Mathf.RadToDeg(pendRotation.Z));
+				gridIO.SetText(1,1, "---");
+				gridIO.SetText(2,1, "---");
+				gridIO.SetText(3,1, "---");
 				// datDisplay.SetValue(1, Mathf.RadToDeg(pendRotation.Z));
 				// datDisplay.SetValue(2, "---");
 				// datDisplay.SetValue(3, "---");
@@ -99,11 +122,12 @@ public partial class SimplePendScene : Node3D
 
 			if(Input.IsActionJustPressed("ui_accept")){
 				if(angleManChanged){
-					// sim.Angle = (double)pendRotation.Z;
-					// sim.GenSpeed = 0.0;
+					sim.Angle = (double)pendRotation.Z;
+					sim.GenSpeed = 0.0;
 				}
 
 				opMode = OpMode.Sim;
+				gridIO.SetText(4,1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				// instructLabel.Text = instSim;
 				angleManChanged = false;
@@ -112,13 +136,18 @@ public partial class SimplePendScene : Node3D
 		}
 
 		// angle determined by simulation
-		// pendRotation.Z = (float)sim.Angle;
-		// pModel.Rotation = pendRotation;
+		pendRotation.Z = (float)sim.Angle;
+		pModel.Rotation = pendRotation;
 
 		// data display
 		if(uiRefreshCtr > uiRefreshTHold){
-			// float ke = (float)sim.KineticEnergy;
-			// float pe = (float)sim.PotentialEnergy;
+			float ke = (float)sim.KineticEnergy;
+			float pe = (float)sim.PotentialEnergy;
+
+			gridIO.SetNumeric(0,1, Mathf.RadToDeg(pendRotation.Z));
+			gridIO.SetNumeric(1,1, ke);
+			gridIO.SetNumeric(2,1, pe);
+			gridIO.SetNumeric(3,1, ke+pe);
 
 			// datDisplay.SetValue(1, Mathf.RadToDeg(pendRotation.Z));
 			// datDisplay.SetValue(2, ke);
@@ -130,7 +159,14 @@ public partial class SimplePendScene : Node3D
 
 		// Change to manual mode
 		if(Input.IsActionJustPressed("ui_accept")){
-			opMode = OpMode.Manual;
+			opMode = OpMode.Config;
+
+			gridIO.SetText(4,1, opMode.ToString());
+			gridIO.SetText(1,1, "---");
+			gridIO.SetText(2,1, "---");
+			gridIO.SetText(3,1, "---");
+
+
 			//datDisplay.SetValue(0, opMode.ToString());
 			//instructLabel.Text = instManual;
 			///////// datDisplay.SetValue(2, "---");
@@ -138,5 +174,55 @@ public partial class SimplePendScene : Node3D
 			///////// datDisplay.SetValue(4, "---");
 		}
 
+	} // end _Process
+
+	//------------------------------------------------------------------------
+    // _PhysicsProcess:
+    //------------------------------------------------------------------------
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+
+		if(opMode == OpMode.Config)
+			return;
+
+		sim.Step(time, delta);
+		time += delta;
+    }
+
+	//------------------------------------------------------------------------
+    // SetupUI():
+    //------------------------------------------------------------------------
+	private void SetupUI()
+	{
+		MarginContainer mcBL = GetNode<MarginContainer>(
+			"UINode/MargContBL");
+
+		VBoxContainer vBoxBL = new VBoxContainer();
+		mcBL.AddChild(vBoxBL);
+
+		Label title = new Label();
+		title.Text = "Simple Pendulum";
+		vBoxBL.AddChild(title);
+
+		vBoxBL.AddChild(new HSeparator());
+
+		gridIO = new GridIO();
+		vBoxBL.AddChild(gridIO);
+		gridIO.SetSize(5,2);
+		gridIO.InitGridCells();
+		gridIO.SetDigitsAfterDecimal(0, 1, 1);
+		gridIO.SetDigitsAfterDecimal(1, 1, 4);
+		gridIO.SetDigitsAfterDecimal(2, 1, 4);
+		gridIO.SetDigitsAfterDecimal(3, 1, 4);
+		gridIO.SetText(1,1, "---");
+		gridIO.SetText(2,1, "---");
+		gridIO.SetText(3,1, "---");
+		gridIO.SetText(0,0, "Angle: ");
+		gridIO.SetText(1,0, "Kinetic: ");
+		gridIO.SetText(2,0, "Potential: ");
+		gridIO.SetText(3,0, "Total Erg: ");
+		gridIO.SetText(4,0, "Mode:");
+		gridIO.SetText(4,1, "Config");
 	}
 }
