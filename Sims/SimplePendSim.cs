@@ -79,6 +79,9 @@ public class SimplePendSim : Simulator
         }
     }
 
+    //******************************************************************
+    // Students enter energy calculations here.
+    //******************************************************************
     // Kinetic energy ----------
     public double KineticEnergy
     {

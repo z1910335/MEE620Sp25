@@ -85,6 +85,7 @@ public partial class SimplePendScene : Node3D
 
 		// Display
 		SetupUI();
+		uiRefreshTHold = 3;
 	}
 
 	//------------------------------------------------------------------------
