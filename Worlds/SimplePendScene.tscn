@@ -1,0 +1,54 @@
+[gd_scene load_steps=11 format=3 uid="uid://be7bi464kcrqi"]
+
+[ext_resource type="Script" path="res://Worlds/SimplePendScene.cs" id="1_5p646"]
+[ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_eyvkb"]
+[ext_resource type="PackedScene" uid="uid://bo83i1liy2g62" path="res://Models/StickBall.tscn" id="2_joy6h"]
+[ext_resource type="PackedScene" uid="uid://c6libmpjpamkh" path="res://Utils/CamRig.tscn" id="2_q6qkq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hmqo2"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_0g5pk"]
+sky_material = SubResource("ProceduralSkyMaterial_hmqo2")
+
+[sub_resource type="Environment" id="Environment_l6a81"]
+background_mode = 2
+sky = SubResource("Sky_0g5pk")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iqh1m"]
+albedo_texture = ExtResource("1_eyvkb")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3h3b4"]
+material = SubResource("StandardMaterial3D_iqh1m")
+size = Vector2(4, 4)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3r7ks"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.3
+
+[node name="SimplePendScene" type="Node3D"]
+script = ExtResource("1_5p646")
+
+[node name="StickBall" parent="." instance=ExtResource("2_joy6h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_l6a81")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 11.868, 0)
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_3h3b4")
+
+[node name="CamRig" parent="." instance=ExtResource("2_q6qkq")]
+
+[node name="Axle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.4, 0)
+mesh = SubResource("CylinderMesh_3r7ks")

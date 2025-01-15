@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bo83i1liy2g62"]
+
+[ext_resource type="Script" path="res://Models/StickBall.cs" id="1_cwugn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1o3j"]
+albedo_color = Color(0.0588235, 0.733333, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_77oxd"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_s1o3j")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_473pq"]
+albedo_color = Color(0.996078, 0.227451, 0.419608, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hylcd"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_473pq")
+radius = 0.15
+height = 0.3
+
+[node name="StickBall" type="Node3D"]
+script = ExtResource("1_cwugn")
+
+[node name="Stick" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CylinderMesh_77oxd")
+
+[node name="Ball" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("SphereMesh_hylcd")
