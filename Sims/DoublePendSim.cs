@@ -59,6 +59,8 @@ public class DoublePendSim : Simulator
     public double KineticEnergy
     {
         get{
+            double theta1 = x[0];
+            double theta2 = x[1];
             double u1 = x[2];
             double u2 = x[3];
 
