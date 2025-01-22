@@ -32,13 +32,40 @@ public class SimplePendSim : Simulator
         double omega = xx[1];        // generalized speed
 
         // Evaluate right sides of differential equations of motion
-        // ##### You will need to provide these ###### //
+        //********************************************************************
+        // Students enter equations of motion below
+        //********************************************************************
         ff[0] = 0.0;   // time derivative of state theta
-        ff[1] = 0.0;   // time derivative of state u
+        ff[1] = 0.0;   // time derivative of state omega
+    }
+
+    //******************************************************************
+    // Students enter energy calculations here.
+    //******************************************************************
+    // Kinetic energy ----------
+    public double KineticEnergy
+    {
+        get{
+            double theta = x[0];
+            double omega = x[1];
+
+            return 0.0;
+        }
+    }
+
+    // Potential energy
+    public double PotentialEnergy
+    {
+         get{
+            double theta = x[0];
+            double omega = x[1];
+
+            return 0.0; 
+        }
     }
 
     //------------------------------------------------------------------------
-    // Getters and Setters
+    // Getters and Setters    [STUDENTS: DO NOT CHANGE THESE FUNCTIONS]
     //------------------------------------------------------------------------
 
     // Pendulum length ---------------------------
@@ -79,28 +106,5 @@ public class SimplePendSim : Simulator
         }
     }
 
-    //******************************************************************
-    // Students enter energy calculations here.
-    //******************************************************************
-    // Kinetic energy ----------
-    public double KineticEnergy
-    {
-        get{
-            double theta = x[0];
-            double omega = x[1];
-
-            return 0.0;
-        }
-    }
-
-    // Potential energy
-    public double PotentialEnergy
-    {
-         get{
-            double theta = x[0];
-            double omega = x[1];
-
-            return 0.0; 
-        }
-    }
+    
 }
