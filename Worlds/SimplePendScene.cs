@@ -31,7 +31,7 @@ public partial class SimplePendScene : Node3D
 	SimplePendSim sim;     // object for the simulation
 	double time;           // simulation time
 
-	//UIPanelDisplay datDisplay;
+	// UI Display
 	GridIO gridIO;
 	int uiRefreshCtr;     //counter for display refresh
 	int uiRefreshTHold;   // threshold for display refresh
@@ -101,9 +101,6 @@ public partial class SimplePendScene : Node3D
 				gridIO.SetText(1,1, "---");
 				gridIO.SetText(2,1, "---");
 				gridIO.SetText(3,1, "---");
-				// datDisplay.SetValue(2, "---");
-				// datDisplay.SetValue(3, "---");
-				// datDisplay.SetValue(4, "---");
 				pModel.Rotation = pendRotation;
 				angleManChanged = true;
 			}
@@ -113,10 +110,6 @@ public partial class SimplePendScene : Node3D
 				gridIO.SetText(1,1, "---");
 				gridIO.SetText(2,1, "---");
 				gridIO.SetText(3,1, "---");
-				// datDisplay.SetValue(1, Mathf.RadToDeg(pendRotation.Z));
-				// datDisplay.SetValue(2, "---");
-				// datDisplay.SetValue(3, "---");
-				// datDisplay.SetValue(4, "---");
 				pModel.Rotation = pendRotation;
 				angleManChanged = true;
 			}
@@ -148,11 +141,6 @@ public partial class SimplePendScene : Node3D
 			gridIO.SetNumeric(1,1, ke);
 			gridIO.SetNumeric(2,1, pe);
 			gridIO.SetNumeric(3,1, ke+pe);
-
-			// datDisplay.SetValue(1, Mathf.RadToDeg(pendRotation.Z));
-			// datDisplay.SetValue(2, ke);
-			// datDisplay.SetValue(3, pe);
-			// datDisplay.SetValue(4, ke+pe);
 			uiRefreshCtr = 0;   // reset the counter
 		}
 		++uiRefreshCtr;
