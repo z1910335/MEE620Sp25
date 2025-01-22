@@ -22,17 +22,19 @@ public partial class DoublePendScene : Node3D
 	double pendLen2;
 	double pendMass1;
 	double pendMass2;
+	float mountHeight;
 
 	// Data display stuff
 	// UIPanelDisplay datDisplay;
+	GridIO gridIO;
 	int uiRefreshCtr;     //counter for display refresh
 	int uiRefreshTHold;   // threshold for display refresh
 
 	// Mode of operation
 	enum OpMode
 	{
-		Manual_1,
-		Manual_2,
+		Config1,
+		Config2,
 		Sim
 	}
 
@@ -63,7 +65,7 @@ public partial class DoublePendScene : Node3D
 		pendLen2 = 0.7;
 		pendMass1 = 1.4;
 		pendMass2 = 1.1;
-		opMode = OpMode.Manual_1;
+		opMode = OpMode.Config1;
 		pend1Rotation = new Vector3();
 		pend2Rotation = new Vector3();
 		dthetaMan = 0.03f;
@@ -80,21 +82,7 @@ public partial class DoublePendScene : Node3D
 		time = 0.0;
 
 		// build the model
-		float mountHeight = 1.9f;
-		Node3D mnt = GetNode<Node3D>("Axle");
-		mnt.Position = new Vector3(0.0f, mountHeight, 0.0f);
-		var sbScene = GD.Load<PackedScene>("res://Models/StickBall.tscn");
-		pModel1 = (StickBall)sbScene.Instantiate();
-		AddChild(pModel1);
-		pModel1.Position = new Vector3(0.0f, mountHeight, 0.0f);
-		pModel1.Length = (float)pendLen1;
-		pModel1.BallDiameter = 0.25f;
-
-		pModel2 = (StickBall)sbScene.Instantiate();
-		pModel1.AddChild(pModel2);
-		pModel2.Position = new Vector3(0.0f, -(float)pendLen1, 0.0f);
-		pModel2.Length = (float)pendLen2;
-		pModel2.BallDiameter = 0.25f;
+		BuildModel();
 
 		// Set up the camera rig
 		longitudeDeg = 30.0f;
@@ -109,40 +97,8 @@ public partial class DoublePendScene : Node3D
 		cam.Target = camTg;
 
 		// Set up data display
-		// datDisplay = GetNode<UIPanelDisplay>(
-		// 	"UINode/MarginContainer/DatDisplay");
-		// datDisplay.SetNDisplay(6);
-		// datDisplay.SetLabel(0,"Mode");
-		// datDisplay.SetValue(0,opMode.ToString());
-		// datDisplay.SetLabel(1,"Angle1 (deg)");
-		// datDisplay.SetValue(1, 0.0f);
-		// datDisplay.SetLabel(2,"Angle2 (deg)");
-		// datDisplay.SetValue(2, 0.0f);
-		// datDisplay.SetLabel(3,"Kinetic");
-		// datDisplay.SetValue(3,"---");
-		// datDisplay.SetLabel(4,"Potential");
-		// datDisplay.SetValue(4,"---");
-		// datDisplay.SetLabel(5,"Tot Energy");
-		// datDisplay.SetValue(5,"---");
+		SetupUI();
 
-		// datDisplay.SetDigitsAfterDecimal(1,1);
-		// datDisplay.SetDigitsAfterDecimal(2,1);
-		// datDisplay.SetDigitsAfterDecimal(3,4);
-		// datDisplay.SetDigitsAfterDecimal(4,4);
-		// datDisplay.SetDigitsAfterDecimal(5,4);
-
-		uiRefreshCtr = 0;
-		uiRefreshTHold = 3;
-
-		instructLabel = GetNode<Label>(
-			"UINode/MarginContainerBL/InstructLabel");
-		instManual1 = "Press left & right arrows to change angle 1; " +
-			"<Tab> to change angle 2; <Space> to simulate.";
-		instManual2 = "Press left & right arrows to change angle 2; " +
-			"<Tab> to change angle 1; <Space> to simulate.";
-		instSim = "Press <Space> to stop simulation and change " +
-			"initial conditions.";
-		instructLabel.Text = instManual1;
 	}
 
 	//------------------------------------------------------------------------
@@ -160,9 +116,13 @@ public partial class DoublePendScene : Node3D
 		if(sim.Angle2 < -Math.PI)
 			sim.Angle2 = sim.Angle2 + 2.0*Math.PI;
 
-		if(opMode == OpMode.Manual_1){  // change angle manually
+		if(opMode == OpMode.Config1){  // change angle manually
 			if(Input.IsActionPressed("ui_right")){
 				pend1Rotation.Z += dthetaMan;
+				gridIO.SetNumeric(1,1, Mathf.RadToDeg(pend1Rotation.Z));
+				gridIO.SetText(3,1, "---");
+				gridIO.SetText(4,1, "---");
+				gridIO.SetText(5,1, "---");
 				// datDisplay.SetValue(1, Mathf.RadToDeg(pend1Rotation.Z));
 				// datDisplay.SetValue(3, "---");
 				// datDisplay.SetValue(4, "---");
@@ -172,6 +132,10 @@ public partial class DoublePendScene : Node3D
 			}
 			if(Input.IsActionPressed("ui_left")){
 				pend1Rotation.Z -= dthetaMan;
+				gridIO.SetNumeric(1,1, Mathf.RadToDeg(pend1Rotation.Z));
+				gridIO.SetText(3,1, "---");
+				gridIO.SetText(4,1, "---");
+				gridIO.SetText(5,1, "---");
 				// datDisplay.SetValue(1, Mathf.RadToDeg(pend1Rotation.Z));
 				// datDisplay.SetValue(3, "---");
 				// datDisplay.SetValue(4, "---");
@@ -181,7 +145,8 @@ public partial class DoublePendScene : Node3D
 			}
 
 			if(Input.IsActionJustPressed("ui_focus_next")){
-				opMode = OpMode.Manual_2;
+				opMode = OpMode.Config2;
+				gridIO.SetText(0,1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instManual2;
 			}
@@ -195,6 +160,7 @@ public partial class DoublePendScene : Node3D
 				}
 
 				opMode = OpMode.Sim;
+				gridIO.SetText(0,1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instSim;
 				angleManChanged = false;
@@ -203,13 +169,17 @@ public partial class DoublePendScene : Node3D
 			return;
 		}
 
-		if(opMode == OpMode.Manual_2){  // change angle 2 manually
+		if(opMode == OpMode.Config2){  // change angle 2 manually
 			if(Input.IsActionPressed("ui_right")){
 				pend2Rotation.Z += dthetaMan;
 				// datDisplay.SetValue(2, Mathf.RadToDeg(pend2Rotation.Z));
 				// datDisplay.SetValue(3, "---");
 				// datDisplay.SetValue(4, "---");
 				// datDisplay.SetValue(5, "---");
+				gridIO.SetNumeric(2,1, Mathf.RadToDeg(pend2Rotation.Z));
+				gridIO.SetText(3,1, "---");
+				gridIO.SetText(4,1, "---");
+				gridIO.SetText(5,1, "---");
 				pModel2.Rotation = pend2Rotation;
 				angleManChanged = true;
 			}
@@ -219,12 +189,17 @@ public partial class DoublePendScene : Node3D
 				// datDisplay.SetValue(3, "---");
 				// datDisplay.SetValue(4, "---");
 				// datDisplay.SetValue(5, "---");
+				gridIO.SetNumeric(2,1, Mathf.RadToDeg(pend2Rotation.Z));
+				gridIO.SetText(3,1, "---");
+				gridIO.SetText(4,1, "---");
+				gridIO.SetText(5,1, "---");
 				pModel2.Rotation = pend2Rotation;
 				angleManChanged = true;
 			}
 
 			if(Input.IsActionJustPressed("ui_focus_next")){
-				opMode = OpMode.Manual_1;
+				opMode = OpMode.Config1;
+				gridIO.SetText(0,1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instManual1;
 			}
@@ -238,6 +213,7 @@ public partial class DoublePendScene : Node3D
 				}
 
 				opMode = OpMode.Sim;
+				gridIO.SetText(0,1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instSim;
 				angleManChanged = false;
@@ -257,6 +233,11 @@ public partial class DoublePendScene : Node3D
 			float ke = (float)sim.KineticEnergy;
 			float pe = (float)sim.PotentialEnergy;
 
+			gridIO.SetNumeric(1,1, Mathf.RadToDeg(pend1Rotation.Z));
+			gridIO.SetNumeric(2,1, Mathf.RadToDeg(pend2Rotation.Z));
+			gridIO.SetNumeric(3,1, ke);
+			gridIO.SetNumeric(4,1, pe);
+			gridIO.SetNumeric(5,1, ke+pe);
 			// datDisplay.SetValue(1, Mathf.RadToDeg(pend1Rotation.Z));
 			// datDisplay.SetValue(2, Mathf.RadToDeg(pend2Rotation.Z));
 			// datDisplay.SetValue(3, ke);
@@ -268,7 +249,8 @@ public partial class DoublePendScene : Node3D
 
 		if(opMode == OpMode.Sim){
 			if(Input.IsActionJustPressed("ui_accept")){
-				opMode = OpMode.Manual_1;
+				opMode = OpMode.Config1;
+				gridIO.SetText(0,1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instManual1;
 			}
@@ -287,5 +269,83 @@ public partial class DoublePendScene : Node3D
 
 		sim.Step(time, delta);
 		time += delta;
+	}
+
+	//------------------------------------------------------------------------
+    // SetupUI:
+    //------------------------------------------------------------------------
+	private void SetupUI()
+	{
+		MarginContainer mcTL = GetNode<MarginContainer>(
+			"UINode/MarginContainer");
+
+		VBoxContainer vBoxTL = new VBoxContainer();
+		mcTL.AddChild(vBoxTL);
+
+		Label title = new Label();
+		title.Text = "Double Pendulum";
+		vBoxTL.AddChild(title);
+
+		vBoxTL.AddChild(new HSeparator());
+
+		gridIO = new GridIO();
+		vBoxTL.AddChild(gridIO);
+		gridIO.SetSize(6,2);
+		gridIO.InitGridCells();
+
+		gridIO.SetDigitsAfterDecimal(1, 1, 2);
+		gridIO.SetDigitsAfterDecimal(2, 1, 2);
+		gridIO.SetDigitsAfterDecimal(3, 1, 4);
+		gridIO.SetDigitsAfterDecimal(4, 1, 4);
+		gridIO.SetDigitsAfterDecimal(5, 1, 4);
+
+		gridIO.SetText(0,0, "Mode: ");
+		gridIO.SetText(1,0, "Angle1:");
+		gridIO.SetText(2,0, "Angle2:");
+		gridIO.SetText(3,0, "Kinetic:");
+		gridIO.SetText(4,0, "Potential:");
+		gridIO.SetText(5,0, "Tot Energy:");
+
+		gridIO.SetText(0,1, "Config1");
+		gridIO.SetText(1,1, "----");
+		gridIO.SetText(2,1, "----");
+		gridIO.SetText(3,1, "----");
+		gridIO.SetText(4,1, "----");
+		gridIO.SetText(5,1, "----");
+
+		uiRefreshCtr = 0;
+		uiRefreshTHold = 3;
+
+		instructLabel = GetNode<Label>(
+			"UINode/MarginContainerBL/InstructLabel");
+		instManual1 = "Press left & right arrows to change angle 1; " +
+			"<Tab> to change angle 2; <Space> to simulate.";
+		instManual2 = "Press left & right arrows to change angle 2; " +
+			"<Tab> to change angle 1; <Space> to simulate.";
+		instSim = "Press <Space> to stop simulation and change " +
+			"initial conditions.";
+		instructLabel.Text = instManual1;
+	}
+
+	//------------------------------------------------------------------------
+	// BuildModel:
+	//------------------------------------------------------------------------
+	private void BuildModel()
+	{
+		mountHeight = 1.9f;
+		Node3D mnt = GetNode<Node3D>("Axle");
+		mnt.Position = new Vector3(0.0f, mountHeight, 0.0f);
+		var sbScene = GD.Load<PackedScene>("res://Models/StickBall.tscn");
+		pModel1 = (StickBall)sbScene.Instantiate();
+		AddChild(pModel1);
+		pModel1.Position = new Vector3(0.0f, mountHeight, 0.0f);
+		pModel1.Length = (float)pendLen1;
+		pModel1.BallDiameter = 0.25f;
+
+		pModel2 = (StickBall)sbScene.Instantiate();
+		pModel1.AddChild(pModel2);
+		pModel2.Position = new Vector3(0.0f, -(float)pendLen1, 0.0f);
+		pModel2.Length = (float)pendLen2;
+		pModel2.BallDiameter = 0.25f;
 	}
 }
