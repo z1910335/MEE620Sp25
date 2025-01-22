@@ -266,9 +266,14 @@ public partial class DoublePendScene : Node3D
 
 		if(opMode != OpMode.Sim)
 			return;
+	
+		int nSubSteps = 4;
+		double subDt = delta/(1.0*nSubSteps);
 
-		sim.Step(time, delta);
-		time += delta;
+		for(int i=0;i<nSubSteps;i++){
+			sim.Step(time, subDt);
+			time += subDt;
+		}
 	}
 
 	//------------------------------------------------------------------------
