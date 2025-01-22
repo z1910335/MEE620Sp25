@@ -129,8 +129,7 @@ public partial class SimplePendScene : Node3D
 
 				opMode = OpMode.Sim;
 				gridIO.SetText(4,1, opMode.ToString());
-				// datDisplay.SetValue(0, opMode.ToString());
-				// instructLabel.Text = instSim;
+				instructLabel.Text = instSim;
 				angleManChanged = false;
 			}
 			return;
@@ -169,7 +168,7 @@ public partial class SimplePendScene : Node3D
 
 
 			//datDisplay.SetValue(0, opMode.ToString());
-			//instructLabel.Text = instManual;
+			instructLabel.Text = instManual;
 			///////// datDisplay.SetValue(2, "---");
 			///////// datDisplay.SetValue(3, "---");
 			///////// datDisplay.SetValue(4, "---");
@@ -225,5 +224,18 @@ public partial class SimplePendScene : Node3D
 		gridIO.SetText(3,0, "Total Erg: ");
 		gridIO.SetText(4,0, "Mode:");
 		gridIO.SetText(4,1, "Config");
+
+		MarginContainer mcBR = GetNode<MarginContainer>(
+			"UINode/MargContBR");
+
+		instManual = "Press left & right arrows to change angle. " +
+			"Press <Space> to simulate.";
+		instSim = "Press <Space> to stop simulation and change " +
+			"initial conditions.";
+
+		instructLabel = new Label();
+		mcBR.AddChild(instructLabel);
+		instructLabel.Text = instManual;
+
 	}
 }
