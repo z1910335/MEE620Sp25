@@ -25,6 +25,9 @@ public partial class PendCartScene : Node3D
 	// model stuff
 	PendCartModel model;
 
+	Node3D cgPuck;
+	Vector3 cgPuckLoc;
+
 	// Data display stuff
 	//UIPanelDisplay datDisplay;
 	GridIO gridIO;
@@ -84,6 +87,9 @@ public partial class PendCartScene : Node3D
 		model.Position = new Vector3(0.0f, wallHeight, 0.0f);
 		model.PendulumLength = (float)pendLength;
 
+		// CG Puck
+		cgPuck = GetNode<Node3D>("CGPuckBase/CGPuck");
+
 		// Set up the camera rig
 		longitudeDeg = 30.0f;
 		latitudeDeg = 15.0f;
@@ -119,13 +125,6 @@ public partial class PendCartScene : Node3D
 				gridIO.SetText(3, 1, "---");
 				gridIO.SetText(4, 1, "---");
 				gridIO.SetText(5, 1, "---");
-
-				// datDisplay.SetValue(1, cartX);
-				// datDisplay.SetValue(3, "---");
-				// datDisplay.SetValue(4, "---");
-				// datDisplay.SetValue(5, "---");
-				// datDisplay.SetValue(6, "---");
-				// datDisplay.SetValue(7, "---");
 			}
 
 			if(Input.IsActionPressed("ui_left")){
@@ -137,13 +136,6 @@ public partial class PendCartScene : Node3D
 				gridIO.SetText(3, 1, "---");
 				gridIO.SetText(4, 1, "---");
 				gridIO.SetText(5, 1, "---");
-
-				// datDisplay.SetValue(1, cartX);
-				// datDisplay.SetValue(3, "---");
-				// datDisplay.SetValue(4, "---");
-				// datDisplay.SetValue(5, "---");
-				// datDisplay.SetValue(6, "---");
-				// datDisplay.SetValue(7, "---");
 			}
 
 			if(Input.IsActionJustPressed("ui_focus_next")){
@@ -199,12 +191,6 @@ public partial class PendCartScene : Node3D
 				gridIO.SetText(4, 1, "---");
 				gridIO.SetText(5, 1, "---");
 
-				// datDisplay.SetValue(2, Mathf.RadToDeg(pendAngle));
-				// datDisplay.SetValue(3, "---");
-				// datDisplay.SetValue(4, "---");
-				// datDisplay.SetValue(5, "---");
-				// datDisplay.SetValue(6, "---");
-				// datDisplay.SetValue(7, "---");
 			}
 
 			if(Input.IsActionJustPressed("ui_focus_next")){
@@ -248,6 +234,10 @@ public partial class PendCartScene : Node3D
 			gridIO.SetNumeric(3,1, ke);
 			gridIO.SetNumeric(4,1, pe);
 			gridIO.SetNumeric(5,1, ke+pe);
+
+			cgPuckLoc.X = (float)xG;
+			cgPuckLoc.Y = (float)yG;
+			cgPuck.Position = cgPuckLoc;
 
 			// datDisplay.SetValue(1, cartX);
 			// datDisplay.SetValue(2, Mathf.RadToDeg(pendAngle));

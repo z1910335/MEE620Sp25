@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dy2pw6ff3fiv1"]
+[gd_scene load_steps=16 format=3 uid="uid://dy2pw6ff3fiv1"]
 
 [ext_resource type="PackedScene" uid="uid://c6libmpjpamkh" path="res://Utils/CamRig.tscn" id="1_2go6i"]
 [ext_resource type="Script" path="res://Worlds/PendCartScene.cs" id="1_nlfyv"]
 [ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_wejb8"]
 [ext_resource type="Texture2D" uid="uid://coj2hodhawtcs" path="res://Textures/kennyLT08.png" id="4_vyo1y"]
 [ext_resource type="PackedScene" uid="uid://cg6o85vwtqjvo" path="res://Models/PendCartModel.tscn" id="5_4ymwk"]
+[ext_resource type="Texture2D" uid="uid://cyxljdaamsxbk" path="res://Textures/cylTex3WG.png" id="6_xiuay"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ty0co"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -35,6 +36,15 @@ uv1_triplanar = true
 material = SubResource("StandardMaterial3D_nnr6a")
 size = Vector3(5, 2, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ipj8"]
+albedo_texture = ExtResource("6_xiuay")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jpxa3"]
+material = SubResource("StandardMaterial3D_0ipj8")
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.03
+
 [node name="PendCartScene" type="Node3D"]
 script = ExtResource("1_nlfyv")
 
@@ -57,6 +67,14 @@ mesh = SubResource("BoxMesh_e0qhv")
 
 [node name="PendCartModel" parent="." instance=ExtResource("5_4ymwk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="CGPuckBase" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28, 0.3)
+
+[node name="CGPuck" type="MeshInstance3D" parent="CGPuckBase"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_jpxa3")
+skeleton = NodePath("../..")
 
 [node name="UINode" type="Control" parent="."]
 layout_mode = 3
