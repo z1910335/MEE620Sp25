@@ -3,12 +3,12 @@
 //============================================================================
 using System;
 
-public class PendCartSim : Simulator
+public partial class PendCartSim : Simulator
 {
     // physical parameters
-    double L;    // Length of rod
-    double mc;   // mass of cart
-    double mp;   // mass of pendulum
+    // double L;    // Length of rod
+    // double mc;   // mass of cart
+    // double mp;   // mass of pendulum
 
 
     //------------------------------------------------------------------------
@@ -33,20 +33,20 @@ public class PendCartSim : Simulator
     // RHSFuncPendCart:  Evaluates the right sides of the differential
     //                   equations for the pendulum/cart
     //------------------------------------------------------------------------
-    private void RHSFuncPendCart(double[] xx, double t, double[] ff)
-    {
-        double xCart = xx[0];
-        double theta = xx[1];
-        double u1 = xx[2];
-        double u2 = xx[3];
+    // private void RHSFuncPendCart(double[] xx, double t, double[] ff)
+    // {
+    //     double xCart = xx[0];
+    //     double theta = xx[1];
+    //     double u1 = xx[2];
+    //     double u2 = xx[3];
 
-        // Evaluate right sides of differential equations of motion
-        // ##### You will need to provide these ###### //
-        ff[0] = 0.0;   // time derivative of state xCart
-        ff[1] = 0.0;   // time derivative of state theta
-        ff[2] = 0.0;   // time derivative of state u1
-        ff[3] = 0.0;   // time derivative of state u2
-    }
+    //     // Evaluate right sides of differential equations of motion
+    //     // ##### You will need to provide these ###### //
+    //     ff[0] = 0.0;   // time derivative of state xCart
+    //     ff[1] = 0.0;   // time derivative of state theta
+    //     ff[2] = 0.0;   // time derivative of state u1
+    //     ff[3] = 0.0;   // time derivative of state u2
+    // }
 
 
     //------------------------------------------------------------------------
@@ -148,52 +148,4 @@ public class PendCartSim : Simulator
         }
     }
 
-    // Kinetic energy ----------------------------
-    public double KineticEnergy
-    {
-        get{
-            double theta = x[1];
-            double u1 = x[2];
-            double u2 = x[3];
-
-            //########## YOU NEED TO CALCULATE THIS ###########
-            return 0.0; 
-        }
-    }
-
-    // Potential energy ------------------------------
-    public double PotentialEnergy
-    {
-         get{
-            double xCart = x[0];
-            double theta = x[1];
-
-            //########## YOU NEED TO CALCULATE THIS ###########
-            return 0.0; 
-        }
-    }
-
-    // Center of Mass, horizontal coordinate ---------------
-    public double MassCenterX
-    {
-        get{
-            double xCart = x[0];
-            double theta = x[1];
-
-            //########## YOU NEED TO CALCULATE THIS ###########
-            return 0.0; 
-        }
-    }
-
-    // Center of Mass, vertical coordinate ------------------
-    public double MassCenterY
-    {
-        get{
-            double xCart = x[0];
-            double theta = x[1];
-
-            //########## YOU NEED TO CALCULATE THIS ###########
-            return 0.0; 
-        }
-    }
 }
