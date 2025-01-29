@@ -220,14 +220,16 @@ public partial class PendCartScene : Node3D
 		// update model position and angle
 		cartX = (float)sim.Position;
 		pendAngle = (float)sim.Angle;
+		cgPuckLoc.X = (float)sim.MassCenterX;
+		cgPuckLoc.Y = (float)sim.MassCenterY;
+		cgPuck.Position = cgPuckLoc;
+
 		model.SetPositionAngle(cartX, pendAngle);
 		
 		// data display
 		if(uiRefreshCtr > uiRefreshTHold){
 			float ke = (float)sim.KineticEnergy;
 			float pe = (float)sim.PotentialEnergy;
-			float xG = (float)sim.MassCenterX;
-			float yG = (float)sim.MassCenterY;
 
 			gridIO.SetNumeric(1,1, cartX);
 			gridIO.SetNumeric(2,1, Mathf.RadToDeg(pendAngle));
@@ -235,17 +237,6 @@ public partial class PendCartScene : Node3D
 			gridIO.SetNumeric(4,1, pe);
 			gridIO.SetNumeric(5,1, ke+pe);
 
-			cgPuckLoc.X = (float)xG;
-			cgPuckLoc.Y = (float)yG;
-			cgPuck.Position = cgPuckLoc;
-
-			// datDisplay.SetValue(1, cartX);
-			// datDisplay.SetValue(2, Mathf.RadToDeg(pendAngle));
-			// datDisplay.SetValue(3, ke);
-			// datDisplay.SetValue(4, pe);
-			// datDisplay.SetValue(5, ke+pe);
-			// datDisplay.SetValue(6, xG);
-			// datDisplay.SetValue(7, yG);
 			uiRefreshCtr = 0;   // reset the counter
 		}
 		++uiRefreshCtr;
