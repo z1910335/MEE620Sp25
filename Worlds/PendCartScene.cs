@@ -115,6 +115,10 @@ public partial class PendCartScene : Node3D
 				model.SetPositionAngle(cartX, pendAngle);
 				manChanged = true;
 
+				gridIO.SetNumeric(1,1, cartX);
+				gridIO.SetText(3, 1, "---");
+				gridIO.SetText(4, 1, "---");
+				gridIO.SetText(5, 1, "---");
 
 				// datDisplay.SetValue(1, cartX);
 				// datDisplay.SetValue(3, "---");
@@ -129,6 +133,11 @@ public partial class PendCartScene : Node3D
 				model.SetPositionAngle(cartX, pendAngle);
 				manChanged = true;
 
+				gridIO.SetNumeric(1,1, cartX);
+				gridIO.SetText(3, 1, "---");
+				gridIO.SetText(4, 1, "---");
+				gridIO.SetText(5, 1, "---");
+
 				// datDisplay.SetValue(1, cartX);
 				// datDisplay.SetValue(3, "---");
 				// datDisplay.SetValue(4, "---");
@@ -139,6 +148,7 @@ public partial class PendCartScene : Node3D
 
 			if(Input.IsActionJustPressed("ui_focus_next")){
 				opMode = OpMode.SetAngle;
+				gridIO.SetText(0, 1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instManAngle;
 			}
@@ -152,6 +162,7 @@ public partial class PendCartScene : Node3D
 				}
 
 				opMode = OpMode.Simulate;
+				gridIO.SetText(0, 1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instSim;
 				manChanged = false;
@@ -164,6 +175,11 @@ public partial class PendCartScene : Node3D
 				pendAngle += dthetaMan;
 				model.SetPositionAngle(cartX, pendAngle);
 				manChanged = true;
+
+				gridIO.SetNumeric(2,1, Mathf.RadToDeg(pendAngle));
+				gridIO.SetText(3, 1, "---");
+				gridIO.SetText(4, 1, "---");
+				gridIO.SetText(5, 1, "---");
 
 				// datDisplay.SetValue(2, Mathf.RadToDeg(pendAngle));
 				// datDisplay.SetValue(3, "---");
@@ -178,6 +194,11 @@ public partial class PendCartScene : Node3D
 				model.SetPositionAngle(cartX, pendAngle);
 				manChanged = true;
 
+				gridIO.SetNumeric(2,1, Mathf.RadToDeg(pendAngle));
+				gridIO.SetText(3, 1, "---");
+				gridIO.SetText(4, 1, "---");
+				gridIO.SetText(5, 1, "---");
+
 				// datDisplay.SetValue(2, Mathf.RadToDeg(pendAngle));
 				// datDisplay.SetValue(3, "---");
 				// datDisplay.SetValue(4, "---");
@@ -188,6 +209,7 @@ public partial class PendCartScene : Node3D
 
 			if(Input.IsActionJustPressed("ui_focus_next")){
 				opMode = OpMode.SetCart;
+				gridIO.SetText(0, 1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instManPos;
 			}
@@ -201,6 +223,7 @@ public partial class PendCartScene : Node3D
 				}
 
 				opMode = OpMode.Simulate;
+				gridIO.SetText(0, 1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instSim;
 				manChanged = false;
@@ -220,6 +243,12 @@ public partial class PendCartScene : Node3D
 			float xG = (float)sim.MassCenterX;
 			float yG = (float)sim.MassCenterY;
 
+			gridIO.SetNumeric(1,1, cartX);
+			gridIO.SetNumeric(2,1, Mathf.RadToDeg(pendAngle));
+			gridIO.SetNumeric(3,1, ke);
+			gridIO.SetNumeric(4,1, pe);
+			gridIO.SetNumeric(5,1, ke+pe);
+
 			// datDisplay.SetValue(1, cartX);
 			// datDisplay.SetValue(2, Mathf.RadToDeg(pendAngle));
 			// datDisplay.SetValue(3, ke);
@@ -234,6 +263,7 @@ public partial class PendCartScene : Node3D
 		if(opMode == OpMode.Simulate){
 			if(Input.IsActionJustPressed("ui_accept")){
 				opMode = OpMode.SetCart;
+				gridIO.SetText(0, 1, opMode.ToString());
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instManPos;
 			}
