@@ -1,0 +1,89 @@
+[gd_scene load_steps=13 format=3 uid="uid://dy2pw6ff3fiv1"]
+
+[ext_resource type="PackedScene" uid="uid://c6libmpjpamkh" path="res://Utils/CamRig.tscn" id="1_2go6i"]
+[ext_resource type="Script" path="res://Worlds/PendCartScene.cs" id="1_nlfyv"]
+[ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_wejb8"]
+[ext_resource type="Texture2D" uid="uid://coj2hodhawtcs" path="res://Textures/kennyLT08.png" id="4_vyo1y"]
+[ext_resource type="PackedScene" uid="uid://cg6o85vwtqjvo" path="res://Models/PendCartModel.tscn" id="5_4ymwk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ty0co"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_gc5x3"]
+sky_material = SubResource("ProceduralSkyMaterial_ty0co")
+
+[sub_resource type="Environment" id="Environment_klg8g"]
+background_mode = 2
+sky = SubResource("Sky_gc5x3")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1l4rq"]
+albedo_texture = ExtResource("1_wejb8")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_otcwt"]
+material = SubResource("StandardMaterial3D_1l4rq")
+size = Vector2(5, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nnr6a"]
+albedo_texture = ExtResource("4_vyo1y")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_e0qhv"]
+material = SubResource("StandardMaterial3D_nnr6a")
+size = Vector3(5, 2, 1)
+
+[node name="PendCartScene" type="Node3D"]
+script = ExtResource("1_nlfyv")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_klg8g")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.998165, -0.052444, 0.0302784, -1.49013e-08, 0.499998, 0.866027, -0.060557, -0.864437, 0.49908, 0, 11.9739, 0)
+shadow_enabled = true
+
+[node name="CamRig" parent="." instance=ExtResource("1_2go6i")]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+mesh = SubResource("PlaneMesh_otcwt")
+
+[node name="Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.5)
+mesh = SubResource("BoxMesh_e0qhv")
+
+[node name="PendCartModel" parent="." instance=ExtResource("5_4ymwk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="UINode" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UINode"]
+layout_mode = 0
+offset_right = 181.0
+offset_bottom = 44.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="MarginContainerBL" type="MarginContainer" parent="UINode"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -34.0
+offset_right = 129.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="InstructLabel" type="Label" parent="UINode/MarginContainerBL"]
+layout_mode = 2
+text = "Default text."
