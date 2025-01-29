@@ -27,13 +27,14 @@ public partial class PendCartScene : Node3D
 
 	// Data display stuff
 	//UIPanelDisplay datDisplay;
+	GridIO gridIO;
 	int uiRefreshCtr;     //counter for display refresh
 	int uiRefreshTHold;   // threshold for display refresh
 
 	// Mode of operation
 	enum OpMode
 	{
-		SetPosition,
+		SetCart,
 		SetAngle,
 		Simulate,
 	}
@@ -64,7 +65,7 @@ public partial class PendCartScene : Node3D
 		// build the simulation
 		float wallHeight = 2.0f;
 		double pendLength = 1.5;
-		opMode = OpMode.SetPosition;
+		opMode = OpMode.SetCart;
 		dxMan = 0.02f;
 		dthetaMan = 0.03f;
 		manChanged = false;
@@ -97,49 +98,8 @@ public partial class PendCartScene : Node3D
 		cam.FOVDeg = camFOV;
 		cam.Target = camTg;
 
-		// Set up data display
-		/* 
-		datDisplay = GetNode<UIPanelDisplay>(
-			"UINode/MarginContainer/DatDisplay");
-		datDisplay.SetNDisplay(8);
-		datDisplay.SetLabel(0,"Mode");
-		datDisplay.SetValue(0,opMode.ToString());
-		datDisplay.SetLabel(1,"Cart Pos.");
-		datDisplay.SetValue(1, 0.0f);
-		datDisplay.SetLabel(2,"Angle (deg)");
-		datDisplay.SetValue(2, 0.0f);
-		datDisplay.SetLabel(3,"Kinetic");
-		datDisplay.SetValue(3,"---");
-		datDisplay.SetLabel(4,"Potential");
-		datDisplay.SetValue(4,"---");
-		datDisplay.SetLabel(5,"Tot Energy");
-		datDisplay.SetValue(5,"---");
-		datDisplay.SetLabel(6,"Mass Ctr X");
-		datDisplay.SetValue(6,"---");
-		datDisplay.SetLabel(7,"Mass Ctr Y");
-		datDisplay.SetValue(7,"---");
-
-		datDisplay.SetDigitsAfterDecimal(1,2);
-		datDisplay.SetDigitsAfterDecimal(2,1);
-		datDisplay.SetDigitsAfterDecimal(3,4);
-		datDisplay.SetDigitsAfterDecimal(4,4);
-		datDisplay.SetDigitsAfterDecimal(5,4);
-		datDisplay.SetDigitsAfterDecimal(6,4);
-		datDisplay.SetDigitsAfterDecimal(7,4);
-		*/
-
-		uiRefreshCtr = 0;
-		uiRefreshTHold = 3;
-
-		instructLabel = GetNode<Label>(
-			"UINode/MarginContainerBL/InstructLabel");
-		instManPos = "Press left & right arrows to change cart position; " +
-			"<Tab> to change pendulum angle; <Space> to simulate.";
-		instManAngle = "Press left & right arrows to change pendulum angle; "+
-			"<Tab> to change cart position; <Space> to simulate.";
-		instSim = "Press <Space> to stop simulation and change " +
-			"initial conditions.";
-		instructLabel.Text = instManPos;
+		SetupUI();
+		
 	}
 
 	//------------------------------------------------------------------------
@@ -149,7 +109,7 @@ public partial class PendCartScene : Node3D
 	public override void _Process(double delta)
 	{
 
-		if(opMode == OpMode.SetPosition){
+		if(opMode == OpMode.SetCart){
 			if(Input.IsActionPressed("ui_right")){
 				cartX += dxMan;
 				model.SetPositionAngle(cartX, pendAngle);
@@ -227,7 +187,7 @@ public partial class PendCartScene : Node3D
 			}
 
 			if(Input.IsActionJustPressed("ui_focus_next")){
-				opMode = OpMode.SetPosition;
+				opMode = OpMode.SetCart;
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instManPos;
 			}
@@ -273,7 +233,7 @@ public partial class PendCartScene : Node3D
 
 		if(opMode == OpMode.Simulate){
 			if(Input.IsActionJustPressed("ui_accept")){
-				opMode = OpMode.SetPosition;
+				opMode = OpMode.SetCart;
 				// datDisplay.SetValue(0, opMode.ToString());
 				instructLabel.Text = instManPos;
 			}
@@ -296,5 +256,64 @@ public partial class PendCartScene : Node3D
 		time += deltaByTwo;
 		sim.Step(time, deltaByTwo);
 		time += deltaByTwo;
+	}
+
+	//------------------------------------------------------------------------
+	// SetupUI
+	//------------------------------------------------------------------------
+	private void SetupUI()
+	{
+		MarginContainer mcTL = GetNode<MarginContainer>(
+			"UINode/MarginContainer");
+
+		VBoxContainer vBoxTL = new VBoxContainer();
+
+		PanelContainer pc = new PanelContainer();
+		mcTL.AddChild(pc);
+		pc.AddChild(vBoxTL);
+
+		Label title = new Label();
+		title.Text = "Pendulum & Cart";
+		vBoxTL.AddChild(title);
+
+		vBoxTL.AddChild(new HSeparator());
+
+		gridIO = new GridIO();
+		vBoxTL.AddChild(gridIO);
+		gridIO.SetSize(6,2);
+		gridIO.InitGridCells();
+
+		gridIO.SetDigitsAfterDecimal(1, 1, 2);
+		gridIO.SetDigitsAfterDecimal(2, 1, 2);
+		gridIO.SetDigitsAfterDecimal(3, 1, 4);
+		gridIO.SetDigitsAfterDecimal(4, 1, 4);
+		gridIO.SetDigitsAfterDecimal(5, 1, 4);
+
+		gridIO.SetText(0,0, "Mode: ");
+		gridIO.SetText(1,0, "Cart Pos:");
+		gridIO.SetText(2,0, "Angle (deg):");
+		gridIO.SetText(3,0, "Kinetic:");
+		gridIO.SetText(4,0, "Potential:");
+		gridIO.SetText(5,0, "Tot Energy:");
+
+		gridIO.SetText(0,1, "SetCart");
+		gridIO.SetText(1,1, "----");
+		gridIO.SetText(2,1, "----");
+		gridIO.SetText(3,1, "----");
+		gridIO.SetText(4,1, "----");
+		gridIO.SetText(5,1, "----");
+
+		uiRefreshCtr = 0;
+		uiRefreshTHold = 3;
+
+		instructLabel = GetNode<Label>(
+			"UINode/MarginContainerBL/InstructLabel");
+		instManPos = "Press left & right arrows to change cart position; " +
+			"<Tab> to change pendulum angle; <Space> to simulate.";
+		instManAngle = "Press left & right arrows to change pendulum angle; "+
+			"<Tab> to change cart position; <Space> to simulate.";
+		instSim = "Press <Space> to stop simulation and change " +
+			"initial conditions.";
+		instructLabel.Text = instManPos;
 	}
 }
