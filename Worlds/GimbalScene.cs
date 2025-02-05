@@ -45,6 +45,7 @@ public partial class GimbalScene : Node3D
 
 	// Data display stuff
 	//UIPanelDisplay datDisplay;
+	GridIO gridIO;
 	int uiRefreshCtr;     //counter for display refresh
 	int uiRefreshTHold;   // threshold for display refresh
 
@@ -153,6 +154,7 @@ public partial class GimbalScene : Node3D
 		// datDisplay.SetCyan(6);
 		// datDisplay.SetCyan(7);
 		// datDisplay.SetCyan(8);
+		SetupUI();
 		uiRefreshCtr = 0;
 		uiRefreshTHold = 3;
 
@@ -485,4 +487,58 @@ public partial class GimbalScene : Node3D
 		sim.Step(time, deltaByTwo);
 		time += deltaByTwo;
     }
+
+	//------------------------------------------------------------------------
+	// SetupUI:
+	//------------------------------------------------------------------------
+	private void SetupUI()
+	{
+		MarginContainer mcTL = GetNode<MarginContainer>(
+			"UINode/MarginContainer");
+
+		PanelContainer pctTL = new PanelContainer();
+		mcTL.AddChild(pctTL);
+
+		MarginContainer pmc = new MarginContainer();
+		pctTL.AddChild(pmc);
+
+		VBoxContainer vBoxTL = new VBoxContainer();
+		pmc.AddChild(vBoxTL);
+
+		Label title = new Label();
+		title.Text = "Euler Angle Kinematics";
+		vBoxTL.AddChild(title);
+
+		vBoxTL.AddChild(new HSeparator());
+
+		gridIO = new GridIO();
+		vBoxTL.AddChild(gridIO);
+		gridIO.SetSize(8,2);
+		gridIO.InitGridCells();
+
+		gridIO.SetDigitsAfterDecimal(2, 1, 1);
+		gridIO.SetDigitsAfterDecimal(3, 1, 1);
+		gridIO.SetDigitsAfterDecimal(4, 1, 1);
+		gridIO.SetDigitsAfterDecimal(5, 1, 1);
+		gridIO.SetDigitsAfterDecimal(6, 1, 1);
+		gridIO.SetDigitsAfterDecimal(7, 1, 1);
+
+		gridIO.SetText(0,0, "Mode");
+		gridIO.SetText(1,0, "Ghost Model");
+		gridIO.SetText(2,0, "Yaw (deg)");
+		gridIO.SetText(3,0, "Pitch (deg)");
+		gridIO.SetText(4,0, "Roll (deg)");
+		gridIO.SetText(5,0, "omegaXB");
+		gridIO.SetText(6,0, "omegaYB");
+		gridIO.SetText(7,0, "omegaZB");
+
+		gridIO.SetText(0,1,"Manual");
+		gridIO.SetText(1,1,"OFF");
+		gridIO.SetNumeric(2,1, 0.0f);
+		gridIO.SetNumeric(3,1, 0.0f);
+		gridIO.SetNumeric(4,1, 0.0f);
+		gridIO.SetNumeric(5,1, 0.0f);
+		gridIO.SetNumeric(6,1, 0.0f);
+		gridIO.SetNumeric(7,1, 0.0f);
+	}
 }
