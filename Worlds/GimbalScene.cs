@@ -219,6 +219,15 @@ public partial class GimbalScene : Node3D
 		sim.SetEulerType(modelStr);
 
 		actvIdx = 0;
+		gridIO.SetText(2, 0, angNames[0] + ">>");
+		gridIO.SetText(3, 0, angNames[1]);
+		gridIO.SetText(4, 0, angNames[2]);
+		gridIO.SetNumeric(2, 0, 0.0f);
+		gridIO.SetNumeric(3, 0, 0.0f);
+		gridIO.SetNumeric(4, 0, 0.0f);
+		gridIO.SetYellow(2,0); gridIO.SetYellow(2,1);
+		gridIO.SetWhite(3,0);  gridIO.SetWhite(3,1);
+		gridIO.SetWhite(4,0);  gridIO.SetWhite(4,1);
 		// datDisplay.SetLabel(3, angNames[0] + ">>");
 		// datDisplay.SetLabel(4, angNames[1]);
 		// datDisplay.SetLabel(5, angNames[2]);
@@ -251,6 +260,9 @@ public partial class GimbalScene : Node3D
 			pitchRate = 1.0; rollRate = yawRate = 0.0;
 		}
 
+		gridIO.SetNumeric(5,1, (float)rollRate);
+		gridIO.SetNumeric(6,1, (float)yawRate);
+		gridIO.SetNumeric(7,1, (float)pitchRate);
 		// datDisplay.SetValue(6, (float)rollRate);
 		// datDisplay.SetValue(7, (float)yawRate);
 		// datDisplay.SetValue(8, (float)pitchRate);
@@ -277,6 +289,10 @@ public partial class GimbalScene : Node3D
 			sim.Theta3 = (double)Mathf.DegToRad(angles[2]);
 
 			opMode = OpMode.Simulate;
+			gridIO.SetText(0, 1, "Simulate");
+			gridIO.SetWhite(2, 0);   gridIO.SetWhite(2, 1);
+			gridIO.SetWhite(3, 0);   gridIO.SetWhite(3, 1);
+			gridIO.SetWhite(4, 0);   gridIO.SetWhite(4, 1);
 			// datDisplay.SetValue(1, "Simulate");
 			// datDisplay.SetWhite(3);
 			// datDisplay.SetWhite(4);
@@ -292,6 +308,9 @@ public partial class GimbalScene : Node3D
 
 			opMode = OpMode.Manual;
 			actvIdx = 0;
+			gridIO.SetText(0, 1, "Manual");
+			gridIO.SetText(2, 0, angNames[0] + " >>");
+			gridIO.SetYellow(2,0);   gridIO.SetYellow(2,1);
 			// datDisplay.SetValue(1, "Manual");
 			// datDisplay.SetLabel(3, angNames[0] + " >>");
 			// datDisplay.SetYellow(3);
@@ -372,6 +391,9 @@ public partial class GimbalScene : Node3D
 				angles[1] = Mathf.RadToDeg((float)sim.Theta2);
 				angles[2] = Mathf.RadToDeg((float)sim.Theta3);
 
+				gridIO.SetNumeric(2, 1, angles[0]);
+				gridIO.SetNumeric(3, 1, angles[0]);
+				gridIO.SetNumeric(4, 1, angles[0]);
 				// datDisplay.SetValue(3,angles[0]);
 				// datDisplay.SetValue(4,angles[1]);
 				// datDisplay.SetValue(5,angles[2]);
@@ -412,6 +434,7 @@ public partial class GimbalScene : Node3D
 		}
 
 		if(angleChanged){
+			gridIO.SetNumeric(actvIdx+2, 1, angles[actvIdx]);
 			// datDisplay.SetValue(actvIdx+3, angles[actvIdx]);
 			if(angles[actvIdx] > 180.0f)
 				angles[actvIdx] -= 360.0f;
@@ -421,11 +444,15 @@ public partial class GimbalScene : Node3D
 		}
 
 		if(Input.IsActionJustPressed("ui_focus_next")){
+			gridIO.SetText(actvIdx+2, 0, angNames[actvIdx]);
+			gridIO.SetWhite(actvIdx+2, 0);  gridIO.SetWhite(actvIdx+2, 1);
 			// datDisplay.SetLabel(actvIdx+3, angNames[actvIdx]);
 			// datDisplay.SetWhite(actvIdx+3);
 			++actvIdx;
 			if(actvIdx >2)
 				actvIdx = 0;
+			gridIO.SetText(actvIdx+2, 0, angNames[actvIdx]+ " >>");
+			gridIO.SetYellow(actvIdx+2, 0);  gridIO.SetYellow(actvIdx+2, 1);
 			// datDisplay.SetLabel(actvIdx+3, angNames[actvIdx]+">>");
 			// datDisplay.SetYellow(actvIdx+3);
 		}
@@ -434,12 +461,16 @@ public partial class GimbalScene : Node3D
 			if(showGhost){
 				showGhost = false;
 				model2.Hide();
+				gridIO.SetText(1, 1, "OFF");
+				gridIO.SetWhite(1,1);
 				// datDisplay.SetValue(2,"OFF");
 				// datDisplay.SetWhite(2);
 			}
 			else{
 				showGhost = true;
 				model2.Show();
+				gridIO.SetText(1, 1, "ON");
+				gridIO.SetWhite(1,1);
 				// datDisplay.SetValue(2,"ON");
 				// datDisplay.SetWhite(2);
 				ProcessAngleChange();
@@ -457,6 +488,8 @@ public partial class GimbalScene : Node3D
 			if(rCode == 2){ // bad DCM
 				if(dcmValid && showGhost){
 					dcmValid = false;
+					gridIO.SetText(1,1, "ERROR!");
+					gridIO.SetCyan(1,1);
 					// datDisplay.SetCyan(2,false,true);
 					// datDisplay.SetValue(2,"ERROR!");
 				}
@@ -464,6 +497,8 @@ public partial class GimbalScene : Node3D
 			else{
 				if(!dcmValid && showGhost){
 					dcmValid = true;
+					gridIO.SetText(1,1, "ON");
+					gridIO.SetWhite(1,1);
 					// datDisplay.SetWhite(2);
 					// datDisplay.SetValue(2,"ON");
 				}
@@ -540,5 +575,10 @@ public partial class GimbalScene : Node3D
 		gridIO.SetNumeric(5,1, 0.0f);
 		gridIO.SetNumeric(6,1, 0.0f);
 		gridIO.SetNumeric(7,1, 0.0f);
+
+		gridIO.SetYellow(2,0); gridIO.SetYellow(2,1);
+		gridIO.SetCyan(5,0);   gridIO.SetCyan(5,1);
+		gridIO.SetCyan(6,0);   gridIO.SetCyan(6,1);
+		gridIO.SetCyan(7,0);   gridIO.SetCyan(7,1);
 	}
 }
