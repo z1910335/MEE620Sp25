@@ -330,6 +330,36 @@ public partial class GridIO : GridContainer
 		label[ii,jj].Set("theme_override_colors/font_color",new Color(0,1,1));
 	}
 
+	//------------------------------------------------------------------------
+	// SetCyan: Sets the color of text in specified cell to Cyan
+	//------------------------------------------------------------------------
+	public void SetWhite(int ii, int jj)
+	{
+		if(!initialized){
+			GD.PrintErr(
+				"GridIO::SetWhite:Error: Not initialized");
+			return;
+		}
+
+		if(ii < 0 || ii >= nRow){
+			string err_txt = 
+				"GridIO::SetWhite:Error: row index " + ii + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		if(jj < 0 || jj >= nCol){
+			string err_txt = 
+				"GridIO::SetWhite:Error column index " + jj + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		label[ii,jj].Set("theme_override_colors/font_color",new Color(1,1,1));
+	}
+
 	//public override void _Process(double delta)
 	//{
 	//}
