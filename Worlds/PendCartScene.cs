@@ -29,7 +29,6 @@ public partial class PendCartScene : Node3D
 	Vector3 cgPuckLoc;
 
 	// Data display stuff
-	//UIPanelDisplay datDisplay;
 	GridIO gridIO;
 	int uiRefreshCtr;     //counter for display refresh
 	int uiRefreshTHold;   // threshold for display refresh
