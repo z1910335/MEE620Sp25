@@ -4,7 +4,7 @@
 using System;
 using Godot;
 
-public class SpinTopSim : Simulator
+public partial class SpinTopSim : Simulator
 {
     enum SimMode
     {
@@ -15,10 +15,10 @@ public class SpinTopSim : Simulator
 
     // physical parameters
     double h;    // distance of CG from contact rotation point
-    double m;   // mass of top
+    double m;    // mass of top
     double IGa;  // moment of inertia about its spin axis
     double IGp;  // moment of inertia about its CG, perpendicular to spin axis
-    double ICp; // moment of inertia about contact point, perp to spin axis
+    double ICp;  // moment of inertia about contact point, perp to spin axis
 
     double ke;   // kinetic energy to be calculated by auxFunc
     double pe;   // potential energy to be calculated by auxFunc
@@ -89,125 +89,14 @@ public class SpinTopSim : Simulator
     }
 
     //------------------------------------------------------------------------
-    // CalcKineticEnergyBody
-    //------------------------------------------------------------------------
-    private double CalcKineticEnergyBody()
-    {
-        //******* Students write this function ********
-
-        return 0.0;
-    }
-
-    //------------------------------------------------------------------------
-    // CalcPotentialEnergyBody
-    //------------------------------------------------------------------------
-    private double CalcPotentialEnergyBody()
-    {
-        //******* Students write this function ********
-
-        return 0.0;
-    }
-
-    //------------------------------------------------------------------------
-    // CalcAngMoVertBody
-    //------------------------------------------------------------------------
-    private double CalcAngMoVertBody()
-    {
-        //******* Students write this function ********
-        
-        return 0.0;
-    }
-
-    //------------------------------------------------------------------------
     // AuxFuncBody: This function is used to calculate angular velocity, 
     //     angular momentum, and other quantities of interest
     //------------------------------------------------------------------------
     private void AuxFuncBody()
     {
-        ke = CalcKineticEnergyBody();
-        pe = CalcPotentialEnergyBody();
-        angMoY = CalcAngMoVertBody();
-    }
-
-    //------------------------------------------------------------------------
-    // RHSFuncSpinTopLean:  Evaluates the right sides of the differential
-    //                 equations for the spinning top (lean frame)
-    //------------------------------------------------------------------------
-    private void RHSFuncSpinTopLean(double[] xx, double t, double[] ff)
-    {
-        double psi = xx[0];
-        double phi = xx[1];
-        double theta = xx[2];
-        double psiDot = xx[3];
-        double phiDot = xx[4];
-        double thetaDot = xx[5];
-
-        double cosPhi = Math.Cos(phi);
-        double sinPhi = Math.Sin(phi);
-        double tanPhi = Math.Tan(phi);
-
-        // Evaluate right sides of differential equations of motion
-        // ##### You will need to provide these ###### //
-        ff[0] = 0.0;   // time deriv of state psi
-        ff[1] = 0.0;   // time deriv of state phi
-        ff[2] = 0.0;   // time deriv of state theta
-        ff[3] = 0.0;   // time deriv of state psiDot
-        ff[4] = 0.0;   // time deriv of state phiDot
-        ff[5] = 0.0;   // time deriv of state thetaDot
-
-    }
-
-    //------------------------------------------------------------------------
-    // AuxFuncLean: This function is used to calculate angular velocity, 
-    //     angular momentum, and other quantities of interest
-    //------------------------------------------------------------------------
-    private void AuxFuncLean()
-    {
-        //********* Students write your expressions for kinetic energy,
-        //          potential energy, vertical component of angular momentum,
-        //          and (soon) support forces
-
-        double psi = x[0];
-        double phi = x[1];
-        double theta = x[2];
-        double psiDot = x[3];
-        double phiDot = x[4];
-        double thetaDot = x[5];
-
-        double cosPsi = Math.Cos(psi);
-        double sinPsi = Math.Sin(psi);
-        double cosPhi = Math.Cos(phi);
-        double sinPhi = Math.Sin(phi);
-        double tanPhi = Math.Tan(phi);
-
-
         ke = 0.0;
         pe = 0.0;
         angMoY = 0.0;
-
-        // Components of support force in P (precession) frame
-        cPx = 0.0;
-        cPy = 0.0;
-        cPz = 0.0;
-    }
-
-    //------------------------------------------------------------------------
-    // CalcSimplePrecession: Given the initial lean angle phi, and rotation
-    //       rate thetaDot, calculate the initial precession rate psiDot so
-    //       that the spinning top exhibits simple precession without 
-    //       nutation. For some inputs, there is no simple precession 
-    //       solution. In that case return the value "closest" to simple 
-    //       precession.
-    //------------------------------------------------------------------------
-    private double CalcSimplePrecession(double phi, double thetaDot)
-    {
-        double cosPhi = Math.Cos(phi);
-        double sinPhi = Math.Sin(phi);
-
-        // ****** Students write your code here *******
-
-        precessICFound = false;  // change to true if found
-        return 0.0;
     }
 
     //------------------------------------------------------------------------
