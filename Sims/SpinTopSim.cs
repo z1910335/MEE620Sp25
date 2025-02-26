@@ -88,16 +88,6 @@ public partial class SpinTopSim : Simulator
         ff[5] = ((ICp-IGa)*omegaX*omegaY + m*g*h*sinPhi*cosTheta)/ICp;   // time deriv os state omegaZ
     }
 
-    //------------------------------------------------------------------------
-    // AuxFuncBody: This function is used to calculate angular velocity, 
-    //     angular momentum, and other quantities of interest
-    //------------------------------------------------------------------------
-    private void AuxFuncBody()
-    {
-        ke = 0.0;
-        pe = 0.0;
-        angMoY = 0.0;
-    }
 
     //------------------------------------------------------------------------
     // ResetIC

@@ -14,8 +14,33 @@ public partial class SpinTopSim : Simulator
     // double ICp;  // moment of inertia about contact point, perp to spin axis
 
     //------------------------------------------------------------------------
+    // AuxFuncBody: This function is used to calculate angular velocity, 
+    //     and vertical component of angular momentum of the simulation
+    //     formulated in the BODY FRAME
+    //------------------------------------------------------------------------
+    private void AuxFuncBody()
+    {
+        double psi = x[0];
+        double phi = x[1];
+        double theta = x[2];
+        double omegaX = x[3];
+        double omegaY = x[4];
+        double omegaZ = x[5];
+
+        double cosPhi = Math.Cos(phi);
+        double sinPhi = Math.Sin(phi);
+        double tanPhi = Math.Tan(phi);
+        double cosTheta = Math.Cos(theta);
+        double sinTheta = Math.Sin(theta);
+
+        ke = 0.0;
+        pe = 0.0;
+        angMoY = 0.0;
+    }
+
+    //------------------------------------------------------------------------
     // RHSFuncSpinTopLean:  Evaluates the right sides of the differential
-    //                 equations for the spinning top (lean frame)
+    //                 equations for the spinning derived in the LEAN FRAME.
     //------------------------------------------------------------------------
     private void RHSFuncSpinTopLean(double[] xx, double t, double[] ff)
     {
@@ -43,7 +68,8 @@ public partial class SpinTopSim : Simulator
 
     //------------------------------------------------------------------------
     // AuxFuncLean: This function is used to calculate angular velocity, 
-    //     angular momentum, and other quantities of interest
+    //     vertical component of angular momentum of the system formulated
+    //     in the LEAN FRAME.
     //------------------------------------------------------------------------
     private void AuxFuncLean()
     {
