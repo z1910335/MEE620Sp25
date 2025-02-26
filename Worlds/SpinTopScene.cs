@@ -54,7 +54,8 @@ public partial class SpinTopScene : Node3D
 	Vector3 camTg;       // coords of camera target
 
 	// Data display stuff
-	UIPanelDisplay datDisplay;
+	//UIPanelDisplay datDisplay;
+	GridIO gridIO;
 	int uiRefreshCtr;     //counter for display refresh
 	int uiRefreshTHold;   // threshold for display refresh
 
@@ -151,11 +152,11 @@ public partial class SpinTopScene : Node3D
 
 				double angMoY = sim.AngMoY;
 
-				datDisplay.SetValue(1,leanDeg);
-				datDisplay.SetValue(2,(float)ke);
-				datDisplay.SetValue(3,(float)pe);
-				datDisplay.SetValue(4,(float)totErg);
-				datDisplay.SetValue(5,(float)angMoY);
+				// datDisplay.SetValue(1,leanDeg);
+				// datDisplay.SetValue(2,(float)ke);
+				// datDisplay.SetValue(3,(float)pe);
+				// datDisplay.SetValue(4,(float)totErg);
+				// datDisplay.SetValue(5,(float)angMoY);
 
 				uiRefreshCtr = 0;
 			}
@@ -227,8 +228,8 @@ public partial class SpinTopScene : Node3D
 			}
 		}
 		model.SetEulerAnglesYZY(0.0f,Mathf.DegToRad(leanICDeg), 0.0f);
-		datDisplay.SetValue(0, leanICDeg);
-		datDisplay.SetValue(1, leanICDeg);
+		// datDisplay.SetValue(0, leanICDeg);
+		// datDisplay.SetValue(1, leanICDeg);
 	}
 
 	//------------------------------------------------------------------------
@@ -239,29 +240,29 @@ public partial class SpinTopScene : Node3D
 		VBoxContainer vbox = GetNode<VBoxContainer>("UINode/MgContainTL/VBox");
 
 		// Set up data display
-		datDisplay = vbox.GetNode<UIPanelDisplay>("DatDisplay");
-		datDisplay.SetNDisplay(6);
+		// datDisplay = vbox.GetNode<UIPanelDisplay>("DatDisplay");
+		// datDisplay.SetNDisplay(6);
 
-		datDisplay.SetDigitsAfterDecimal(0,1);
-		datDisplay.SetDigitsAfterDecimal(1,1);
-		datDisplay.SetDigitsAfterDecimal(2,4);
-		datDisplay.SetDigitsAfterDecimal(3,4);
-		datDisplay.SetDigitsAfterDecimal(4,4);
-		datDisplay.SetDigitsAfterDecimal(5,4);
+		// datDisplay.SetDigitsAfterDecimal(0,1);
+		// datDisplay.SetDigitsAfterDecimal(1,1);
+		// datDisplay.SetDigitsAfterDecimal(2,4);
+		// datDisplay.SetDigitsAfterDecimal(3,4);
+		// datDisplay.SetDigitsAfterDecimal(4,4);
+		// datDisplay.SetDigitsAfterDecimal(5,4);
 
-		datDisplay.SetLabel(0,"Lean IC");
-		datDisplay.SetLabel(1,"Lean deg");
-		datDisplay.SetLabel(2,"Kinetic");
-		datDisplay.SetLabel(3,"Potential");
-		datDisplay.SetLabel(4,"Total");
-		datDisplay.SetLabel(5,"Ang.Mo.Vert");
+		// datDisplay.SetLabel(0,"Lean IC");
+		// datDisplay.SetLabel(1,"Lean deg");
+		// datDisplay.SetLabel(2,"Kinetic");
+		// datDisplay.SetLabel(3,"Potential");
+		// datDisplay.SetLabel(4,"Total");
+		// datDisplay.SetLabel(5,"Ang.Mo.Vert");
 
-		datDisplay.SetValue(0,leanICDeg);
-		datDisplay.SetValue(1,leanICDeg);
-		datDisplay.SetValue(2,0.0f);
-		datDisplay.SetValue(3,0.0f);
-		datDisplay.SetValue(4,0.0f);
-		datDisplay.SetValue(5,0.0f);
+		// datDisplay.SetValue(0,leanICDeg);
+		// datDisplay.SetValue(1,leanICDeg);
+		// datDisplay.SetValue(2,0.0f);
+		// datDisplay.SetValue(3,0.0f);
+		// datDisplay.SetValue(4,0.0f);
+		// datDisplay.SetValue(5,0.0f);
 
 		uiRefreshCtr = 0;
 		uiRefreshTHold = 3;
