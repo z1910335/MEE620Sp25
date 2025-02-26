@@ -1,0 +1,120 @@
+[gd_scene load_steps=13 format=3 uid="uid://xju6sw1bpsvv"]
+
+[ext_resource type="Script" path="res://Worlds/SpinTopScene.cs" id="1_0lipg"]
+[ext_resource type="Texture2D" uid="uid://j5d15pfgqxyw" path="res://Textures/kennyDK4.png" id="1_3lmro"]
+[ext_resource type="PackedScene" uid="uid://blxgponho1qji" path="res://Utils/CamRig.tscn" id="2_tb20h"]
+[ext_resource type="PackedScene" uid="uid://dbaqsdihpn7a4" path="res://Models/TopDiskModel.tscn" id="4_6e05n"]
+[ext_resource type="PackedScene" uid="uid://uuj16p5aw6lj" path="res://Utils/UIPanelDisplay.tscn" id="5_8xdfn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5tq51"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_5lf7j"]
+sky_material = SubResource("ProceduralSkyMaterial_5tq51")
+
+[sub_resource type="Environment" id="Environment_u8uyl"]
+background_mode = 2
+sky = SubResource("Sky_5lf7j")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i3kg7"]
+albedo_texture = ExtResource("1_3lmro")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ktc2i"]
+material = SubResource("StandardMaterial3D_i3kg7")
+size = Vector2(4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lopoe"]
+albedo_color = Color(0.0588235, 0.733333, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_62ry8"]
+material = SubResource("StandardMaterial3D_lopoe")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 1.0
+
+[node name="SpinTopScene" type="Node3D"]
+script = ExtResource("1_0lipg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_u8uyl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.999978, -0.00567995, 0.00327929, 1.47562e-08, 0.499998, 0.866026, -0.00655863, -0.866008, 0.499988, 0, 6, 0)
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_ktc2i")
+
+[node name="CamRig" parent="." instance=ExtResource("2_tb20h")]
+
+[node name="Pedistal" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_62ry8")
+
+[node name="TopDiskModel" parent="." instance=ExtResource("4_6e05n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="UINode" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MgContainTL" type="MarginContainer" parent="UINode"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="VBox" type="VBoxContainer" parent="UINode/MgContainTL"]
+layout_mode = 2
+
+[node name="HBoxAdjust" type="HBoxContainer" parent="UINode/MgContainTL/VBox"]
+layout_mode = 2
+
+[node name="LLeftButton" type="Button" parent="UINode/MgContainTL/VBox/HBoxAdjust"]
+layout_mode = 2
+text = "<<"
+
+[node name="LeftButton" type="Button" parent="UINode/MgContainTL/VBox/HBoxAdjust"]
+layout_mode = 2
+text = "<"
+
+[node name="Label" type="Label" parent="UINode/MgContainTL/VBox/HBoxAdjust"]
+layout_mode = 2
+text = "Adjust"
+
+[node name="RightButton" type="Button" parent="UINode/MgContainTL/VBox/HBoxAdjust"]
+layout_mode = 2
+text = ">"
+
+[node name="RRightButton" type="Button" parent="UINode/MgContainTL/VBox/HBoxAdjust"]
+layout_mode = 2
+text = ">>"
+
+[node name="DatDisplay" parent="UINode/MgContainTL/VBox" instance=ExtResource("5_8xdfn")]
+layout_mode = 2
+
+[node name="OptionSpinRate" type="OptionButton" parent="UINode/MgContainTL/VBox"]
+layout_mode = 2
+
+[node name="CheckPrecess" type="CheckBox" parent="UINode/MgContainTL/VBox"]
+layout_mode = 2
+text = "Precession IC"
+
+[node name="OptionSim" type="OptionButton" parent="UINode/MgContainTL/VBox"]
+layout_mode = 2
+
+[node name="OptionSimSubSteps" type="OptionButton" parent="UINode/MgContainTL/VBox"]
+layout_mode = 2
+
+[node name="SimButton" type="Button" parent="UINode/MgContainTL/VBox"]
+layout_mode = 2
+text = "Simulate"
