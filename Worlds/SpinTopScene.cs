@@ -152,6 +152,12 @@ public partial class SpinTopScene : Node3D
 
 				double angMoY = sim.AngMoY;
 
+				gridIO.SetNumeric(1,1, leanDeg);
+				gridIO.SetNumeric(2,1, (float)ke);
+				gridIO.SetNumeric(3,1, (float)pe);
+				gridIO.SetNumeric(4,1, (float)totErg);
+				gridIO.SetNumeric(5,1, (float)angMoY);
+
 				// datDisplay.SetValue(1,leanDeg);
 				// datDisplay.SetValue(2,(float)ke);
 				// datDisplay.SetValue(3,(float)pe);
@@ -228,6 +234,8 @@ public partial class SpinTopScene : Node3D
 			}
 		}
 		model.SetEulerAnglesYZY(0.0f,Mathf.DegToRad(leanICDeg), 0.0f);
+		gridIO.SetNumeric(0,1, leanICDeg);
+		gridIO.SetNumeric(1,1, leanICDeg);
 		// datDisplay.SetValue(0, leanICDeg);
 		// datDisplay.SetValue(1, leanICDeg);
 	}
@@ -238,8 +246,35 @@ public partial class SpinTopScene : Node3D
 	private void SetupUI()
 	{
 		VBoxContainer vbox = GetNode<VBoxContainer>("UINode/MgContainTL/VBox");
+		MarginContainer hd = vbox.GetNode<MarginContainer>("HoldsDisplay");
 
 		// Set up data display
+		gridIO = new GridIO();
+		hd.AddChild(gridIO);
+		gridIO.SetSize(6,2);
+		gridIO.InitGridCells();
+
+		gridIO.SetDigitsAfterDecimal(0,1,1);
+		gridIO.SetDigitsAfterDecimal(1,1,1);
+		gridIO.SetDigitsAfterDecimal(2,1,4);
+		gridIO.SetDigitsAfterDecimal(3,1,4);
+		gridIO.SetDigitsAfterDecimal(4,1,4);
+		gridIO.SetDigitsAfterDecimal(5,1,4);
+
+		gridIO.SetText(0,0,"Lean IC");
+		gridIO.SetText(1,0,"Lean deg");
+		gridIO.SetText(2,0,"Kinetic");
+		gridIO.SetText(3,0,"Potential");
+		gridIO.SetText(4,0,"Total");
+		gridIO.SetText(5,0,"Ang.Mo.Vert");
+
+		gridIO.SetNumeric(0,1, leanICDeg);
+		gridIO.SetNumeric(1,1, leanICDeg);
+		gridIO.SetNumeric(2,1, 0.0f);
+		gridIO.SetNumeric(3,1, 0.0f);
+		gridIO.SetNumeric(4,1, 0.0f);
+		gridIO.SetNumeric(5,1, 0.0f);
+
 		// datDisplay = vbox.GetNode<UIPanelDisplay>("DatDisplay");
 		// datDisplay.SetNDisplay(6);
 
