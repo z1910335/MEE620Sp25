@@ -1,0 +1,131 @@
+[gd_scene load_steps=13 format=3 uid="uid://8xnuhhkhrhfw"]
+
+[ext_resource type="Script" path="res://Worlds/GimbalScene.cs" id="1_1hx0g"]
+[ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_ajr5c"]
+[ext_resource type="PackedScene" uid="uid://cldl1guhfg1sn" path="res://Models/GimbalToy.tscn" id="2_ixhao"]
+[ext_resource type="PackedScene" uid="uid://c6libmpjpamkh" path="res://Utils/CamRig.tscn" id="2_wevxr"]
+[ext_resource type="PackedScene" uid="uid://be3ncv5dmnnc8" path="res://Models/AirplaneToy.tscn" id="3_33k1d"]
+[ext_resource type="ButtonGroup" uid="uid://dgujxscnrb7e4" path="res://Resources/ButtonGroupEuler.tres" id="7_whokt"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j7y3n"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_1iubo"]
+sky_material = SubResource("ProceduralSkyMaterial_j7y3n")
+
+[sub_resource type="Environment" id="Environment_4absd"]
+background_mode = 2
+sky = SubResource("Sky_1iubo")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4kgva"]
+albedo_texture = ExtResource("1_ajr5c")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_j46d7"]
+material = SubResource("StandardMaterial3D_4kgva")
+size = Vector2(4, 4)
+
+[sub_resource type="Theme" id="Theme_0xfux"]
+MarginContainer/constants/margin_bottom = 8
+MarginContainer/constants/margin_left = 8
+MarginContainer/constants/margin_right = 8
+MarginContainer/constants/margin_top = 8
+
+[node name="GimbalScene" type="Node3D"]
+script = ExtResource("1_1hx0g")
+
+[node name="GimbalToy" parent="." instance=ExtResource("2_ixhao")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="AirplaneToy" parent="." instance=ExtResource("3_33k1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
+visible = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4absd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.965927, -0.224141, 0.129407, -1.49013e-08, 0.499998, 0.866027, -0.258815, -0.836518, 0.482961, 0, 4, 0)
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_j46d7")
+
+[node name="CamRig" parent="." instance=ExtResource("2_wevxr")]
+
+[node name="UINode" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_0xfux")
+
+[node name="MarginContainer" type="MarginContainer" parent="UINode"]
+layout_mode = 0
+offset_right = 108.0
+offset_bottom = 36.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="MarginContainerBL" type="MarginContainer" parent="UINode"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 135.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="InstructLabel" type="Label" parent="UINode/MarginContainerBL"]
+layout_mode = 2
+text = "Instructions Here"
+
+[node name="MarginContainerTR" type="MarginContainer" parent="UINode"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="VBox" type="VBoxContainer" parent="UINode/MarginContainerTR"]
+layout_mode = 2
+
+[node name="EulerOption" type="OptionButton" parent="UINode/MarginContainerTR/VBox"]
+layout_mode = 2
+
+[node name="CheckBoxRoll" type="CheckBox" parent="UINode/MarginContainerTR/VBox"]
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+button_pressed = true
+button_group = ExtResource("7_whokt")
+text = "Roll Spin (x)"
+
+[node name="CheckBoxYaw" type="CheckBox" parent="UINode/MarginContainerTR/VBox"]
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+button_group = ExtResource("7_whokt")
+text = "Yaw Spin (y)"
+
+[node name="CheckBoxPitch" type="CheckBox" parent="UINode/MarginContainerTR/VBox"]
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+button_group = ExtResource("7_whokt")
+text = "Pitch Spin (z)"
+
+[node name="SimButton" type="Button" parent="UINode/MarginContainerTR/VBox"]
+layout_mode = 2
+text = "Simulate"

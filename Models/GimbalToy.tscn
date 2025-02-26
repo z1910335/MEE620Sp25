@@ -1,0 +1,94 @@
+[gd_scene load_steps=13 format=3 uid="uid://cldl1guhfg1sn"]
+
+[ext_resource type="PackedScene" uid="uid://be3ncv5dmnnc8" path="res://Models/AirplaneToy.tscn" id="1_s6upf"]
+[ext_resource type="Script" path="res://Models/GimbalToy.cs" id="1_vwv7r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h01tu"]
+albedo_color = Color(0.996078, 0.227451, 0.419608, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_euype"]
+material = SubResource("StandardMaterial3D_h01tu")
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.3
+radial_segments = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bi7yd"]
+albedo_color = Color(0.0588235, 0.733333, 1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ii3wf"]
+material = SubResource("StandardMaterial3D_bi7yd")
+inner_radius = 1.4
+outer_radius = 1.46
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_83ppb"]
+albedo_color = Color(0.996078, 0.227451, 0.419608, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k3rnc"]
+material = SubResource("StandardMaterial3D_83ppb")
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.23
+radial_segments = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85vaa"]
+albedo_color = Color(0.329412, 0.607843, 0.470588, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_aqe05"]
+material = SubResource("StandardMaterial3D_85vaa")
+inner_radius = 1.14
+outer_radius = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t1b0k"]
+albedo_color = Color(0.996078, 0.227451, 0.419608, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ky8rf"]
+material = SubResource("StandardMaterial3D_t1b0k")
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.3
+
+[node name="GimbalToy" type="Node3D"]
+script = ExtResource("1_vwv7r")
+
+[node name="OuterRingNode" type="Node3D" parent="."]
+
+[node name="OuterNubNode" type="Node3D" parent="OuterRingNode"]
+
+[node name="Nub5" type="MeshInstance3D" parent="OuterRingNode/OuterNubNode"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.58, 0, 0)
+mesh = SubResource("CylinderMesh_euype")
+
+[node name="Nub6" type="MeshInstance3D" parent="OuterRingNode/OuterNubNode"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.58, 0, 0)
+mesh = SubResource("CylinderMesh_euype")
+
+[node name="OuterRing" type="MeshInstance3D" parent="OuterRingNode"]
+mesh = SubResource("TorusMesh_ii3wf")
+
+[node name="Nub1" type="MeshInstance3D" parent="OuterRingNode/OuterRing"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.3, 0, 0)
+mesh = SubResource("CylinderMesh_k3rnc")
+
+[node name="Nub3" type="MeshInstance3D" parent="OuterRingNode/OuterRing"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.3, 0, 0)
+mesh = SubResource("CylinderMesh_k3rnc")
+
+[node name="MiddleRingNode" type="Node3D" parent="OuterRingNode"]
+
+[node name="MiddleRing" type="MeshInstance3D" parent="OuterRingNode/MiddleRingNode"]
+mesh = SubResource("TorusMesh_aqe05")
+
+[node name="Nub2" type="MeshInstance3D" parent="OuterRingNode/MiddleRingNode/MiddleRing"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.02, 0, 0)
+mesh = SubResource("CylinderMesh_ky8rf")
+skeleton = NodePath("../../../OuterRing")
+
+[node name="Nub4" type="MeshInstance3D" parent="OuterRingNode/MiddleRingNode/MiddleRing"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.02, 0, 0)
+mesh = SubResource("CylinderMesh_ky8rf")
+skeleton = NodePath("../../../OuterRing")
+
+[node name="InnerRingNode" type="Node3D" parent="OuterRingNode/MiddleRingNode"]
+
+[node name="AirplaneToy" parent="OuterRingNode/MiddleRingNode/InnerRingNode" instance=ExtResource("1_s6upf")]

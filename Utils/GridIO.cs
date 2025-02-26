@@ -210,6 +210,156 @@ public partial class GridIO : GridContainer
 		fString[ii,jj] = decString[ii,jj] + sfxString[ii,jj];
 	}
 
+	//------------------------------------------------------------------------
+	// SetColor: Sets the color of text in specified cell to specified color
+	//------------------------------------------------------------------------
+	public void SetColor(int ii, int jj, Color cc)
+	{
+		if(!initialized){
+			GD.PrintErr(
+				"GridIO::SetColor:Error: Not initialized");
+			return;
+		}
+
+		if(ii < 0 || ii >= nRow){
+			string err_txt = 
+				"GridIO::SetColor:Error: row index " + ii + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		if(jj < 0 || jj >= nCol){
+			string err_txt = 
+				"GridIO::SetColor:Error column index " + jj + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		label[ii,jj].Set("theme_override_colors/font_color", cc);
+	}
+
+	//------------------------------------------------------------------------
+	// SetYellow: Sets the color of text in specified cell to yellow
+	//------------------------------------------------------------------------
+	public void SetYellow(int ii, int jj)
+	{
+		if(!initialized){
+			GD.PrintErr(
+				"GridIO::SetYellow:Error: Not initialized");
+			return;
+		}
+
+		if(ii < 0 || ii >= nRow){
+			string err_txt = 
+				"GridIO::SetYellow:Error: row index " + ii + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		if(jj < 0 || jj >= nCol){
+			string err_txt = 
+				"GridIO::SetYellow:Error column index " + jj + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		label[ii,jj].Set("theme_override_colors/font_color",new Color(1,1,0));
+	}
+
+	//------------------------------------------------------------------------
+	// SetMagenta: Sets the color of text in specified cell to magenta
+	//------------------------------------------------------------------------
+	public void SetMagenta(int ii, int jj)
+	{
+		if(!initialized){
+			GD.PrintErr(
+				"GridIO::SetMagenta:Error: Not initialized");
+			return;
+		}
+
+		if(ii < 0 || ii >= nRow){
+			string err_txt = 
+				"GridIO::SetMagenta:Error: row index " + ii + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		if(jj < 0 || jj >= nCol){
+			string err_txt = 
+				"GridIO::SetMagenta:Error column index " + jj + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		label[ii,jj].Set("theme_override_colors/font_color",new Color(1,0,1));
+	}
+
+	//------------------------------------------------------------------------
+	// SetCyan: Sets the color of text in specified cell to Cyan
+	//------------------------------------------------------------------------
+	public void SetCyan(int ii, int jj)
+	{
+		if(!initialized){
+			GD.PrintErr(
+				"GridIO::SetCyan:Error: Not initialized");
+			return;
+		}
+
+		if(ii < 0 || ii >= nRow){
+			string err_txt = 
+				"GridIO::SetCyan:Error: row index " + ii + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		if(jj < 0 || jj >= nCol){
+			string err_txt = 
+				"GridIO::SetCyan:Error column index " + jj + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		label[ii,jj].Set("theme_override_colors/font_color",new Color(0,1,1));
+	}
+
+	//------------------------------------------------------------------------
+	// SetCyan: Sets the color of text in specified cell to Cyan
+	//------------------------------------------------------------------------
+	public void SetWhite(int ii, int jj)
+	{
+		if(!initialized){
+			GD.PrintErr(
+				"GridIO::SetWhite:Error: Not initialized");
+			return;
+		}
+
+		if(ii < 0 || ii >= nRow){
+			string err_txt = 
+				"GridIO::SetWhite:Error: row index " + ii + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		if(jj < 0 || jj >= nCol){
+			string err_txt = 
+				"GridIO::SetWhite:Error column index " + jj + 
+				" out of range.";
+			GD.PrintErr(err_txt);
+			return;
+		}
+
+		label[ii,jj].Set("theme_override_colors/font_color",new Color(1,1,1));
+	}
+
 	//public override void _Process(double delta)
 	//{
 	//}
