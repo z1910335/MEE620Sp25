@@ -1,7 +1,7 @@
 //============================================================================
 // EulerKinemSim.cs   Given an angular velocity, integrate differential
 //        equations for the Euler angles which achieves the provided angular
-//        velocity
+//        velocity.  STUDENT INTERFACE.
 //============================================================================
 using System;
 
