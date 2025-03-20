@@ -1,10 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://8xnuhhkhrhfw"]
+[gd_scene load_steps=13 format=3 uid="uid://c33d8n2q21qxj"]
 
 [ext_resource type="Script" path="res://Worlds/GimbalScene.cs" id="1_1hx0g"]
 [ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_ajr5c"]
-[ext_resource type="PackedScene" uid="uid://cldl1guhfg1sn" path="res://Models/GimbalToy.tscn" id="2_ixhao"]
+[ext_resource type="PackedScene" path="res://Models/GimbalToy.tscn" id="2_ixhao"]
 [ext_resource type="PackedScene" uid="uid://c6libmpjpamkh" path="res://Utils/CamRig.tscn" id="2_wevxr"]
-[ext_resource type="PackedScene" uid="uid://be3ncv5dmnnc8" path="res://Models/AirplaneToy.tscn" id="3_33k1d"]
+[ext_resource type="PackedScene" path="res://Models/AirplaneToy.tscn" id="3_33k1d"]
 [ext_resource type="ButtonGroup" uid="uid://dgujxscnrb7e4" path="res://Resources/ButtonGroupEuler.tres" id="7_whokt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j7y3n"]

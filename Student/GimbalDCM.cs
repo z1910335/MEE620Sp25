@@ -33,17 +33,17 @@ public class GimbalDCM
         // students, write your expressions that go into the DCM below
         //        Array indices start at zero in C#.
 
-        DCM[0,0] = 1.0; // first row
-        DCM[0,1] = 0.0;
-        DCM[0,2] = 0.0;
+        DCM[0,0] = c1*c2; // first row
+        DCM[0,1] = s1*s3-s2*c1*c3;
+        DCM[0,2] = s1*c3+s2*s3*c1;
 
-        DCM[1,0] = 0.0; // second row
-        DCM[1,1] = 1.0;
-        DCM[1,2] = 0.0;
+        DCM[1,0] = s2; // second row
+        DCM[1,1] = c2*c3;
+        DCM[1,2] = -s3*c2;
 
-        DCM[2,0] = 0.0; // third row
-        DCM[2,1] = 0.0;
-        DCM[2,2] = 1.0;
+        DCM[2,0] = -s1*c2; // third row
+        DCM[2,1] = s1*s2*c3+s3*c1;
+        DCM[2,2] = -s1*s2*s3+c1*c3;
     }
 
     //------------------------------------------------------------------------
@@ -63,17 +63,17 @@ public class GimbalDCM
         // students, write your expressions that go into the DCM below
         //        Array indices start at zero in C#.
 
-        DCM[0,0] = 1.0; // first row
-        DCM[0,1] = 0.0;
-        DCM[0,2] = 0.0;
+        DCM[0,0] = c2*c3; // first row
+        DCM[0,1] = -s3*c2;
+        DCM[0,2] = s2;
 
-        DCM[1,0] = 0.0; // second row
-        DCM[1,1] = 1.0;
-        DCM[1,2] = 0.0;
+        DCM[1,0] = s1*s2*c3+s3*c1; // second row
+        DCM[1,1] = -s1*s2*s3+c1*c3;
+        DCM[1,2] = -s1*c2;
 
-        DCM[2,0] = 0.0; // third row
-        DCM[2,1] = 0.0;
-        DCM[2,2] = 1.0;
+        DCM[2,0] = s1*s3-s2*c1*c3; // third row
+        DCM[2,1] = s1*c3+s2*s3*c1;
+        DCM[2,2] = c1*c2;
     }
 
     //------------------------------------------------------------------------

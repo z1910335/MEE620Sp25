@@ -35,8 +35,8 @@ public class SimplePendSim : Simulator
         //********************************************************************
         // Students enter equations of motion below
         //********************************************************************
-        ff[0] = 0.0;   // time derivative of state theta
-        ff[1] = 0.0;   // time derivative of state omega
+        ff[0] = omega;   // time derivative of state theta
+        ff[1] = -(g/L)*Math.Sin(theta);   // time derivative of state omega
     }
 
     //******************************************************************
@@ -46,10 +46,10 @@ public class SimplePendSim : Simulator
     public double KineticEnergy
     {
         get{
-            double theta = x[0];
+             double theta = x[0];
             double omega = x[1];
 
-            return 0.0;
+            return 0.5 * L * L * omega * omega;
         }
     }
 
@@ -60,7 +60,7 @@ public class SimplePendSim : Simulator
             double theta = x[0];
             double omega = x[1];
 
-            return 0.0; 
+            return - g * L * Math.Cos(theta); 
         }
     }
 

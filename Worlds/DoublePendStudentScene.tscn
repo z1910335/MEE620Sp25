@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://bieximu00a760"]
+
+[ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_3y45f"]
+[ext_resource type="Script" path="res://Worlds/DoublePendStudentScene.cs" id="1_v5r6y"]
+[ext_resource type="PackedScene" uid="uid://c6libmpjpamkh" path="res://Utils/CamRig.tscn" id="3_fihed"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_w35lt"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_vnpct"]
+sky_material = SubResource("ProceduralSkyMaterial_w35lt")
+
+[sub_resource type="Environment" id="Environment_sv7yu"]
+background_mode = 2
+sky = SubResource("Sky_vnpct")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n85ia"]
+albedo_texture = ExtResource("1_3y45f")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i6asj"]
+material = SubResource("StandardMaterial3D_n85ia")
+size = Vector2(4, 4)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gi22p"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.3
+
+[node name="DoublePendStudentScene" type="Node3D"]
+script = ExtResource("1_v5r6y")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 17, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sv7yu")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_i6asj")
+
+[node name="CamRig" parent="." instance=ExtResource("3_fihed")]
+
+[node name="Axle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2, 0)
+mesh = SubResource("CylinderMesh_gi22p")
+
+[node name="UINode" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UINode"]
+layout_mode = 0
+offset_right = 167.0
+offset_bottom = 48.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="MarginContainerBL" type="MarginContainer" parent="UINode"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -29.0
+offset_right = 86.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="InstructLabel" type="Label" parent="UINode/MarginContainerBL"]
+layout_mode = 2
+text = "Instructions go here."

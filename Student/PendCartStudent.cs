@@ -25,10 +25,24 @@ public partial class PendCartSim : Simulator
         // Evaluate right sides of differential equations of motion
         // ##### You will need to provide these ###### //
 
-        ff[0] = 0.0;   // time derivative of state xCart
-        ff[1] = 0.0;   // time derivative of state theta
-        ff[2] = 0.0;   // time derivative of state u
-        ff[3] = 0.0;   // time derivative of state omega
+
+        double cosTheta = Math.Cos(theta);
+        double sinTheta = Math.Sin(theta);
+
+        double A = mp*L*L;
+        double B = mp*L*cosTheta;
+        double C = mp*L*cosTheta;
+        double D = mp+mc;
+        double det = A*D-B*C;
+
+        double R1 = mp*L*g*sinTheta;
+        double R2 = -mp*L*omega*omega*sinTheta;
+
+        ff[0] = u;   // time derivative of state xCart
+        ff[1] = omega;   // time derivative of state theta
+        ff[2] = (D*R1-B*R2)/det;   // time derivative of state u
+        ff[3] =  (-C*R1+A*R2)/det;  // time derivative of state omega | (-C*R1+A*R2)/det   -(g/L)*Math.Sin(theta)
+
     }
 
     //------------------------------------------------------------------------
@@ -45,7 +59,11 @@ public partial class PendCartSim : Simulator
             double omega = x[3];
 
             //########## YOU NEED TO CALCULATE THIS ###########
-            return 0.0; 
+
+            double KE_cart = 0.5 * mc * u * u;
+            double KE_pend = 0.5 * mp * (u * u + L * L * omega * omega) + mp * u * L * omega * Math.Cos(theta);
+        
+            return KE_cart + KE_pend;
         }
     }
 
@@ -58,8 +76,9 @@ public partial class PendCartSim : Simulator
             double u     = x[2];
             double omega = x[3];
 
-            //########## YOU NEED TO CALCULATE THIS ###########
-            return 0.0; 
+            //########## YOU NEED TO CALCULATE THIS ##########
+        
+            return -mp*g*L*Math.Cos(theta);
         }
     }
 
@@ -71,7 +90,8 @@ public partial class PendCartSim : Simulator
             double theta = x[1];
 
             //########## YOU NEED TO CALCULATE THIS ###########
-            return 0.0; 
+
+            return (mc * xCart + mp * (xCart + L * Math.Sin(theta))) / (mc + mp);
         }
     }
 
@@ -83,7 +103,8 @@ public partial class PendCartSim : Simulator
             double theta = x[1];
 
             //########## YOU NEED TO CALCULATE THIS ###########
-            return 0.0; 
+        
+            return (mp * (-L*Math.Cos(theta))) / (mc + mp);
         }
     }
 
