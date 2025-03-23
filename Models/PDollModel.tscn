@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://lrgbvfvjoc32"]
+
+[node name="PDollModel" type="Node3D"]
+
+[node name="RootNode" type="Node3D" parent="."]
+
+[node name="VertOffset" type="Node3D" parent="RootNode"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RootNode/VertOffset"]

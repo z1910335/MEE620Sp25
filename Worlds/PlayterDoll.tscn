@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://d37uxgowo3fop"]
+
+[ext_resource type="Script" path="res://Worlds/PlayterDoll.cs" id="1_ae45y"]
+[ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_yfyyj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fewck"]
+albedo_texture = ExtResource("1_yfyyj")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ibyyb"]
+material = SubResource("StandardMaterial3D_fewck")
+size = Vector2(6, 6)
+
+[node name="PlayterDoll" type="Node3D"]
+script = ExtResource("1_ae45y")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_ibyyb")
