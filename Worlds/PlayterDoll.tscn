@@ -1,7 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://d37uxgowo3fop"]
+[gd_scene load_steps=9 format=3 uid="uid://d37uxgowo3fop"]
 
 [ext_resource type="Script" path="res://Worlds/PlayterDoll.cs" id="1_ae45y"]
 [ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_yfyyj"]
+[ext_resource type="PackedScene" uid="uid://c6libmpjpamkh" path="res://Utils/CamRig.tscn" id="3_boaiw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ax8bb"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_xpa00"]
+sky_material = SubResource("ProceduralSkyMaterial_ax8bb")
+
+[sub_resource type="Environment" id="Environment_tep7x"]
+background_mode = 2
+sky = SubResource("Sky_xpa00")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fewck"]
 albedo_texture = ExtResource("1_yfyyj")
@@ -14,5 +28,14 @@ size = Vector2(6, 6)
 [node name="PlayterDoll" type="Node3D"]
 script = ExtResource("1_ae45y")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tep7x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 8, 0)
+shadow_enabled = true
+
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_ibyyb")
+
+[node name="CamRig" parent="." instance=ExtResource("3_boaiw")]

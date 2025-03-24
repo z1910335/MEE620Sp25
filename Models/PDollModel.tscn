@@ -1,9 +1,12 @@
-[gd_scene format=3 uid="uid://lrgbvfvjoc32"]
+[gd_scene load_steps=2 format=3 uid="uid://lrgbvfvjoc32"]
+
+[ext_resource type="Script" path="res://Models/PDollModel.cs" id="1_emh1q"]
 
 [node name="PDollModel" type="Node3D"]
+script = ExtResource("1_emh1q")
 
 [node name="RootNode" type="Node3D" parent="."]
 
-[node name="VertOffset" type="Node3D" parent="RootNode"]
+[node name="VertShift" type="Node3D" parent="RootNode"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RootNode/VertOffset"]
+[node name="UpperBody" type="MeshInstance3D" parent="RootNode/VertShift"]
