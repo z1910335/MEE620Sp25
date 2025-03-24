@@ -7,7 +7,18 @@ using System;
 
 public partial class PlayterDoll : Node3D
 {
+	// parameters
+	double ma = 0.107;     // arm mass ratio
+	double rho = 2.21;     // dimensionless radius of gyration
+	double gammay = 0.091; // ratio I_Gy/I_Gx
+	double gammaz = 1.05;  // ratio I_Gz/I_Gx
+	double h = 1.56;       // dimensionless height of shoulder above CG
+	double L = 1.65;       // dimensionless length to arm mass
+
 	float cgHeight;
+
+	// model
+	PDollModel model;
 
 	// Camera Stuff
 	CamRig cam;
@@ -26,12 +37,17 @@ public partial class PlayterDoll : Node3D
 	{
 		GD.Print("PlayterDoll");
 
-		cgHeight = 3.0f;
+		cgHeight = 6.0f;
+
+		// set up doll model
+		model = GetNode<PDollModel>("PDollModel");
+		model.Position = new Vector3(0.0f, cgHeight, 0.0f);
+		model.Initialize((float)h, (float)L, 2.0f, 3.0f, 3.75f, 0.5f);
 
 		// Set up the camera rig
-		longitudeDeg = 30.0f;
+		longitudeDeg = -120.0f;  //60
 		latitudeDeg = 15.0f;
-		camDist = 4.0f;
+		camDist = 12.0f;
 
 		camTg = new Vector3(0.0f, cgHeight, 0.0f);
 		cam = GetNode<CamRig>("CamRig");

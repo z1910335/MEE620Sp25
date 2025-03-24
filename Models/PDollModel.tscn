@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://lrgbvfvjoc32"]
+[gd_scene load_steps=5 format=3 uid="uid://lrgbvfvjoc32"]
 
 [ext_resource type="Script" path="res://Models/PDollModel.cs" id="1_emh1q"]
+[ext_resource type="Script" path="res://Models/PDUpperBody.cs" id="2_xtsyy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57fcr"]
+albedo_color = Color(0.984314, 0.592157, 0.988235, 1)
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_ucxiy"]
 
 [node name="PDollModel" type="Node3D"]
 script = ExtResource("1_emh1q")
@@ -9,4 +15,7 @@ script = ExtResource("1_emh1q")
 
 [node name="VertShift" type="Node3D" parent="RootNode"]
 
-[node name="UpperBody" type="MeshInstance3D" parent="RootNode/VertShift"]
+[node name="PDUpperBody" type="MeshInstance3D" parent="RootNode/VertShift"]
+material_override = SubResource("StandardMaterial3D_57fcr")
+mesh = SubResource("ImmediateMesh_ucxiy")
+script = ExtResource("2_xtsyy")

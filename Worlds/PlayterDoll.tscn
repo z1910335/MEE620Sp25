@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://d37uxgowo3fop"]
+[gd_scene load_steps=10 format=3 uid="uid://d37uxgowo3fop"]
 
 [ext_resource type="Script" path="res://Worlds/PlayterDoll.cs" id="1_ae45y"]
 [ext_resource type="Texture2D" uid="uid://dhdpq1uwdhn6y" path="res://Textures/kennyDK4.png" id="1_yfyyj"]
 [ext_resource type="PackedScene" uid="uid://c6libmpjpamkh" path="res://Utils/CamRig.tscn" id="3_boaiw"]
+[ext_resource type="PackedScene" uid="uid://lrgbvfvjoc32" path="res://Models/PDollModel.tscn" id="4_6wxni"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ax8bb"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -23,7 +24,7 @@ uv1_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ibyyb"]
 material = SubResource("StandardMaterial3D_fewck")
-size = Vector2(6, 6)
+size = Vector2(20, 20)
 
 [node name="PlayterDoll" type="Node3D"]
 script = ExtResource("1_ae45y")
@@ -39,3 +40,5 @@ shadow_enabled = true
 mesh = SubResource("PlaneMesh_ibyyb")
 
 [node name="CamRig" parent="." instance=ExtResource("3_boaiw")]
+
+[node name="PDollModel" parent="." instance=ExtResource("4_6wxni")]
