@@ -4,25 +4,30 @@
 //============================================================================
 using Godot;
 using System;
-using System.Net;
 
 public partial class PDUpperBody : MeshInstance3D
 {
-	float hWidth = 1.0f;
-	float hThick = 0.25f;
-	float height = 3.0f;
+	// float hWidth = 1.0f;
+	// float hThick = 0.25f;
+	// float height = 3.0f;
 
 	ImmediateMesh mesh;
 	
-	// Called when the node enters the scene tree for the first time.
+	//------------------------------------------------------------------------
+	// _Ready: Called once when the node enters the scene tree for the first 
+	//         time.
+	//------------------------------------------------------------------------
 	public override void _Ready()
 	{
 		mesh = new ImmediateMesh();
 	}
 
+	//------------------------------------------------------------------------
+	// GenMesh: generate mesh
+	//------------------------------------------------------------------------
 	public void GenMesh(float hw, float hgt, float hthk)
 	{
-		GD.Print("PDUpperBody:GenMesh");
+		//GD.Print("PDUpperBody:GenMesh");
 
 		mesh.SurfaceBegin(Mesh.PrimitiveType.Triangles);
 
@@ -106,16 +111,13 @@ public partial class PDUpperBody : MeshInstance3D
 		mesh.SurfaceSetUV(new Vector2(0.0f,1.0f));
 		mesh.SurfaceAddVertex(new Vector3( hw, -hgt,-hthk));  //bl
 
-		//mesh.SurfaceAddVertex(new Vector3(, , ));
-
-
 		mesh.SurfaceEnd();
 
 		Mesh = mesh;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+	// public override void _Process(double delta)
+	// {
+	// }
 }

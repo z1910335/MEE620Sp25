@@ -14,6 +14,7 @@ public partial class PlayterDoll : Node3D
 	double gammaz = 1.05;  // ratio I_Gz/I_Gx
 	double h = 1.56;       // dimensionless height of shoulder above CG
 	double L = 1.65;       // dimensionless length to arm mass
+	double Lrod = 1.75;    // length of arm rod (for visual)
 
 	float cgHeight;
 
@@ -28,6 +29,7 @@ public partial class PlayterDoll : Node3D
 	float camFOV;
 	Vector3 camTg;       // coords of camera target
 
+	double theta;   // somersault angle for testing
 
 	//------------------------------------------------------------------------
 	// _Ready: Called once when the node enters the scene tree for the first 
@@ -45,7 +47,7 @@ public partial class PlayterDoll : Node3D
 		model.Initialize((float)h, (float)L, 2.0f, 3.0f, 3.75f, 0.5f);
 
 		// Set up the camera rig
-		longitudeDeg = -120.0f;  //60
+		longitudeDeg = 30.0f;  //60
 		latitudeDeg = 15.0f;
 		camDist = 12.0f;
 
@@ -56,6 +58,8 @@ public partial class PlayterDoll : Node3D
 		cam.Distance = camDist;
 		cam.Target = camTg;
 		cam.Position = new Vector3(0.0f, cgHeight, 0.0f);
+
+		theta = 0.0;
 	}
 
 	//------------------------------------------------------------------------
@@ -64,5 +68,16 @@ public partial class PlayterDoll : Node3D
 	//------------------------------------------------------------------------
 	public override void _Process(double delta)
 	{
+		model.SetSimpleRotation((float)theta);
 	}
+
+	//------------------------------------------------------------------------
+	// _PhysicsProcess:
+	//------------------------------------------------------------------------
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+
+		theta += delta;
+    }
 }
