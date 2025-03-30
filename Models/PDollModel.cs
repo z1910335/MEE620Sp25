@@ -39,6 +39,16 @@ public partial class PDollModel : Node3D
 	}
 
 	//------------------------------------------------------------------------
+	// update  Updates the orientation of the model and the angles of the
+	//         arms.
+	//------------------------------------------------------------------------
+	public void Update(float q0, float q1, float q2, float q3,
+		float thetaL, float thetaR)
+	{
+
+	}
+
+	//------------------------------------------------------------------------
 	// Initialize:
 	//------------------------------------------------------------------------
 	public void Initialize(float h, float L, float Lrod, float hUB, float hLB,
