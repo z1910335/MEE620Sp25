@@ -14,6 +14,8 @@ public partial class PDollModel : Node3D
 	PDUpperBody ubody;
 	PdLowerBody lbody;
 	Node3D shoulderFrame;
+	Node3D afL;            // left arm frame
+	Node3D afR;            // right arm frame
 
 	Vector3 eulerAngles;
 
@@ -30,6 +32,8 @@ public partial class PDollModel : Node3D
 		ubody = GetNode<PDUpperBody>("RootNode/VertShift/PDUpperBody");
 		lbody = GetNode<PdLowerBody>("RootNode/VertShift/PDLowerBody");
 		shoulderFrame = vertShift.GetNode<Node3D>("ShoulderFrame");
+		afL = shoulderFrame.GetNode<Node3D>("ArmFrameL");
+		afR = shoulderFrame.GetNode<Node3D>("ArmFrameR");
 
 		eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 	}
@@ -50,21 +54,52 @@ public partial class PDollModel : Node3D
 		shoulderFrame.Rotation = new Vector3(shAngle, 0.0f, 0.0f);
 		shoulderFrame.Position = new Vector3(0.0f, -shoulderOffset, 0.0f);
 
-		MeshInstance3D ShCylL = shoulderFrame.GetNode<MeshInstance3D>("CylL");
-		ShCylL.Position = new Vector3(1.0f, 0.0f, 0.0f);
+		MeshInstance3D ShCylL = afL.GetNode<MeshInstance3D>("CylL");
+		ShCylL.Position = new Vector3(0.0f, 0.0f, 0.0f);
 		ShCylL.Rotation = new Vector3(-0.5f*MathF.PI, 0.0f, 0.0f);
 		CylinderMesh shMeshL = (CylinderMesh)ShCylL.Mesh;
 		shMeshL.TopRadius = shoulderOffset;
 		shMeshL.BottomRadius = shoulderOffset;
 		shMeshL.Height = 1.2f*thk;
 
-		MeshInstance3D ShCylR = shoulderFrame.GetNode<MeshInstance3D>("CylR");
-		ShCylR.Position = new Vector3(-1.0f, 0.0f, 0.0f);
+		MeshInstance3D ShCylR = afR.GetNode<MeshInstance3D>("CylR");
+		ShCylR.Position = new Vector3(0.0f, 0.0f, 0.0f);
 		ShCylR.Rotation = new Vector3(0.5f*MathF.PI, 0.0f, 0.0f);
 		CylinderMesh shMeshR = (CylinderMesh)ShCylR.Mesh;
 		shMeshR.TopRadius = shoulderOffset;
 		shMeshR.BottomRadius = shoulderOffset;
 		shMeshR.Height = 1.2f*thk;
+
+		afL.Position = new Vector3(1.0f, 0.0f, 0.0f);
+		MeshInstance3D aRodL = afL.GetNode<MeshInstance3D>("Rod");
+		aRodL.Position = new Vector3(0.5f*Lrod, 0.0f, 0.0f);
+		aRodL.Rotation = new Vector3(0.0f, 0.0f, MathF.PI*0.5f);
+		CylinderMesh aRodMeshL = (CylinderMesh)aRodL.Mesh;
+		aRodMeshL.TopRadius = 0.1f;
+		aRodMeshL.BottomRadius = 0.1f;
+		aRodMeshL.Height = Lrod;
+		GD.Print("Lrod = " + Lrod);
+
+		MeshInstance3D aMassL = afL.GetNode<MeshInstance3D>("Mass");
+		aMassL.Position = new Vector3(L, 0.0f, 0.0f);
+		SphereMesh aSphMeshL = (SphereMesh)aMassL.Mesh;
+		aSphMeshL.Radius = 0.4f;
+		aSphMeshL.Height = 0.8f;
+
+		afR.Position = new Vector3(-1.0f, 0.0f, 0.0f);
+		MeshInstance3D aRodR = afR.GetNode<MeshInstance3D>("Rod");
+		aRodR.Position = new Vector3(-0.5f*Lrod, 0.0f, 0.0f);
+		aRodR.Rotation = new Vector3(0.0f, 0.0f, MathF.PI*0.5f);
+		CylinderMesh aRodMeshR = (CylinderMesh)aRodR.Mesh;
+		aRodMeshR.TopRadius = 0.1f;
+		aRodMeshR.BottomRadius = 0.1f;
+		aRodMeshR.Height = Lrod;
+
+		MeshInstance3D aMassR = afR.GetNode<MeshInstance3D>("Mass");
+		aMassR.Position = new Vector3(-L, 0.0f, 0.0f);
+		SphereMesh aSphMeshR = (SphereMesh)aMassR.Mesh;
+		aSphMeshR.Radius = 0.4f;
+		aSphMeshR.Height = 0.8f;
 	}
 
 

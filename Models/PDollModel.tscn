@@ -1,25 +1,26 @@
-[gd_scene load_steps=15 format=3 uid="uid://lrgbvfvjoc32"]
+[gd_scene load_steps=24 format=3 uid="uid://lrgbvfvjoc32"]
 
 [ext_resource type="Script" path="res://Models/PDollModel.cs" id="1_emh1q"]
-[ext_resource type="Texture2D" uid="uid://cqgjfblbwpwkh" path="res://Textures/boxTexVibO_BG.png" id="2_sggqr"]
+[ext_resource type="Texture2D" uid="uid://nfvi33lt5l7e" path="res://Textures/boxTex3GrBuArr.png" id="2_jfwed"]
 [ext_resource type="Script" path="res://Models/PDUpperBody.cs" id="2_xtsyy"]
+[ext_resource type="Texture2D" uid="uid://c6ovyft6womh3" path="res://Textures/boxTex3GrBu2Arr.png" id="4_6flrj"]
 [ext_resource type="Script" path="res://Models/PdLowerBody.cs" id="4_6hpi8"]
-[ext_resource type="Texture2D" uid="uid://bws3stklh4l7v" path="res://Textures/boxTexVibO_GB.png" id="4_yb6v4"]
-[ext_resource type="Texture2D" uid="uid://dvkgg6koyo1pd" path="res://Textures/cylTexVibO_R.png" id="6_cpr7i"]
+[ext_resource type="Texture2D" uid="uid://dqafirdm2me3f" path="res://Textures/cylTex3bWR.png" id="6_p46kd"]
+[ext_resource type="Texture2D" uid="uid://cd85hw6f5f4w0" path="res://Textures/cylTex3bWB.png" id="7_wj8t4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57fcr"]
 albedo_color = Color(1, 1, 0.988235, 1)
-albedo_texture = ExtResource("2_sggqr")
+albedo_texture = ExtResource("2_jfwed")
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_ucxiy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3uw7a"]
-albedo_texture = ExtResource("4_yb6v4")
+albedo_texture = ExtResource("4_6flrj")
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_f8crx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_usbq4"]
-albedo_texture = ExtResource("6_cpr7i")
+albedo_texture = ExtResource("6_p46kd")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_k26wq"]
 material = SubResource("StandardMaterial3D_usbq4")
@@ -27,8 +28,27 @@ top_radius = 0.25
 bottom_radius = 0.25
 height = 0.6
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x6kx6"]
+albedo_color = Color(1, 0.796078, 0.360784, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_e20mw"]
+material = SubResource("StandardMaterial3D_x6kx6")
+top_radius = 0.1
+bottom_radius = 0.1
+radial_segments = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rwccw"]
+albedo_texture = ExtResource("7_wj8t4")
+
+[sub_resource type="SphereMesh" id="SphereMesh_m5756"]
+material = SubResource("StandardMaterial3D_rwccw")
+radius = 0.4
+height = 0.8
+radial_segments = 32
+rings = 16
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qbbdi"]
-albedo_texture = ExtResource("6_cpr7i")
+albedo_texture = ExtResource("6_p46kd")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_m8xqr"]
 material = SubResource("StandardMaterial3D_qbbdi")
@@ -36,6 +56,25 @@ top_radius = 0.25
 bottom_radius = 0.25
 height = 0.6
 radial_segments = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_02s0d"]
+albedo_color = Color(1, 0.796078, 0.360784, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_47eun"]
+material = SubResource("StandardMaterial3D_02s0d")
+top_radius = 0.1
+bottom_radius = 0.1
+radial_segments = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dagp"]
+albedo_texture = ExtResource("7_wj8t4")
+
+[sub_resource type="SphereMesh" id="SphereMesh_18u3n"]
+material = SubResource("StandardMaterial3D_3dagp")
+radius = 0.4
+height = 0.8
+radial_segments = 32
+rings = 16
 
 [node name="PDollModel" type="Node3D"]
 script = ExtResource("1_emh1q")
@@ -56,10 +95,34 @@ script = ExtResource("4_6hpi8")
 
 [node name="ShoulderFrame" type="Node3D" parent="RootNode/VertShift"]
 
-[node name="CylL" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, 0, 0)
-mesh = SubResource("CylinderMesh_k26wq")
+[node name="ArmFrameL" type="Node3D" parent="RootNode/VertShift/ShoulderFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
-[node name="CylR" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1, 0, 0)
+[node name="CylL" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame/ArmFrameL"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_k26wq")
+skeleton = NodePath("../..")
+
+[node name="Rod" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame/ArmFrameL"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("CylinderMesh_e20mw")
+
+[node name="Mass" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame/ArmFrameL"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.65, 0, 0)
+mesh = SubResource("SphereMesh_m5756")
+
+[node name="ArmFrameR" type="Node3D" parent="RootNode/VertShift/ShoulderFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="CylR" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame/ArmFrameR"]
+transform = Transform3D(-5.21253e-16, -4.37114e-08, 1, -1, 1.19249e-08, 0, -1.19249e-08, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_m8xqr")
+skeleton = NodePath("../..")
+
+[node name="Rod" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame/ArmFrameR"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1, 0, 0)
+mesh = SubResource("CylinderMesh_47eun")
+
+[node name="Mass" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame/ArmFrameR"]
+transform = Transform3D(-5.21253e-16, -4.37114e-08, 1, -1, 1.19249e-08, 0, -1.19249e-08, -1, -4.37114e-08, -1.65, 0, 0)
+mesh = SubResource("SphereMesh_18u3n")
