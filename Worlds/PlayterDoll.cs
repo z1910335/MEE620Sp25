@@ -19,6 +19,10 @@ public partial class PlayterDoll : Node3D
 
 	float cgHeight;
 
+	// simulation
+	PlayterSim sim;
+	double time;
+
 	// model
 	PDollModel model;
 
@@ -41,6 +45,8 @@ public partial class PlayterDoll : Node3D
 		GD.Print("PlayterDoll");
 
 		cgHeight = 6.0f;
+		sim = new PlayterSim();
+		time = 0.0;
 
 		// set up doll model
 		model = GetNode<PDollModel>("PDollModel");
