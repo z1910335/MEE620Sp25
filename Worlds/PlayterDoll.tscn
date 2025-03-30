@@ -33,10 +33,11 @@ script = ExtResource("1_ae45y")
 environment = SubResource("Environment_tep7x")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 8, 0)
+transform = Transform3D(0.500003, -0.75, 0.43301, 1.47562e-08, 0.499998, 0.866027, -0.866023, -0.433016, 0.250002, 0, 8, 0)
 shadow_enabled = true
 
 [node name="Floor" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("PlaneMesh_ibyyb")
 
 [node name="CamRig" parent="." instance=ExtResource("3_boaiw")]

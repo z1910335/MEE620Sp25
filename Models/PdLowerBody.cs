@@ -28,7 +28,7 @@ public partial class PdLowerBody : MeshInstance3D
 	//------------------------------------------------------------------------
 	public void GenMesh(float hw, float hgt, float hthk, float tprFrac)
 	{
-		GD.Print("PdLowerBody:GenMesh");
+		//GD.Print("PdLowerBody:GenMesh");
 
 		float hwb = hw*tprFrac;  // Half width at the bottom
 
@@ -56,8 +56,69 @@ public partial class PdLowerBody : MeshInstance3D
 		mesh.SurfaceSetUV(new Vector2(0.33f,0.5f));
 		mesh.SurfaceAddVertex(new Vector3(-hwb, -hgt, hthk));
 
+		// left face
+		mesh.SurfaceSetNormal(normLt);
+		mesh.SurfaceSetUV(new Vector2(0.67f,0.0f));
+		mesh.SurfaceAddVertex(new Vector3( hw, 0.0f, hthk));
+		mesh.SurfaceSetUV(new Vector2(1.0f,0.0f));
+		mesh.SurfaceAddVertex(new Vector3( hw, 0.0f,-hthk));
+		mesh.SurfaceSetUV(new Vector2(1.0f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3( hwb, -hgt,-hthk));
 
+		mesh.SurfaceSetUV(new Vector2(0.67f,0.0f));
+		mesh.SurfaceAddVertex(new Vector3( hw, 0.0f, hthk));
+		mesh.SurfaceSetUV(new Vector2(1.0f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3( hwb, -hgt,-hthk));
+		mesh.SurfaceSetUV(new Vector2(0.67f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3( hwb, -hgt, hthk));
 
+		// right face
+		mesh.SurfaceSetNormal(normRt);
+		mesh.SurfaceSetUV(new Vector2(0.0f,0.0f));
+		mesh.SurfaceAddVertex(new Vector3(-hw, 0.0f,-hthk));
+		mesh.SurfaceSetUV(new Vector2(0.33f,0.0f));
+		mesh.SurfaceAddVertex(new Vector3(-hw, 0.0f, hthk));
+		mesh.SurfaceSetUV(new Vector2(0.33f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3(-hwb, -hgt, hthk));
+
+		mesh.SurfaceSetUV(new Vector2(0.33f,0.0f));
+		mesh.SurfaceAddVertex(new Vector3(-hw, 0.0f,-hthk));
+		mesh.SurfaceSetUV(new Vector2(0.0f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3(-hwb, -hgt, hthk));
+		mesh.SurfaceSetUV(new Vector2(0.33f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3(-hwb, -hgt,-hthk));
+
+		// back face
+		mesh.SurfaceSetNormal(new Vector3(0.0f, 0.0f, -1.0f));
+		mesh.SurfaceSetUV(new Vector2(0.0f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3( hw, 0.0f,-hthk));  //tl
+		mesh.SurfaceSetUV(new Vector2(0.33f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3(-hw, 0.0f,-hthk));  //tr
+		mesh.SurfaceSetUV(new Vector2(0.3f,1.0f));
+		mesh.SurfaceAddVertex(new Vector3(-hwb, -hgt,-hthk));  //br
+
+		mesh.SurfaceSetUV(new Vector2(0.0f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3( hw, 0.0f,-hthk));  //tl
+		mesh.SurfaceSetUV(new Vector2(0.33f,1.0f));
+		mesh.SurfaceAddVertex(new Vector3(-hwb, -hgt,-hthk));  //br
+		mesh.SurfaceSetUV(new Vector2(0.0f,1.0f));
+		mesh.SurfaceAddVertex(new Vector3( hwb, -hgt,-hthk));  //bl
+
+		// bottom face
+		mesh.SurfaceSetNormal(new Vector3(0.0f, -1.0f, 0.0f));
+		mesh.SurfaceSetUV(new Vector2(0.67f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3(-hwb, -hgt,hthk));
+		mesh.SurfaceSetUV(new Vector2(1.0f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3( hwb, -hgt,hthk));
+		mesh.SurfaceSetUV(new Vector2(1.0f,1.0f));
+		mesh.SurfaceAddVertex(new Vector3( hwb, -hgt,-hthk));
+
+		mesh.SurfaceSetUV(new Vector2(0.67f,0.5f));
+		mesh.SurfaceAddVertex(new Vector3(-hwb, -hgt,hthk));
+		mesh.SurfaceSetUV(new Vector2(1.0f,1.0f));
+		mesh.SurfaceAddVertex(new Vector3( hwb, -hgt,-hthk));
+		mesh.SurfaceSetUV(new Vector2(0.67f,1.0f));
+		mesh.SurfaceAddVertex(new Vector3( -hwb, -hgt,-hthk));
 
 		mesh.SurfaceEnd();
 

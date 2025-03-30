@@ -15,6 +15,7 @@ public partial class PlayterDoll : Node3D
 	double h = 1.56;       // dimensionless height of shoulder above CG
 	double L = 1.65;       // dimensionless length to arm mass
 	double Lrod = 1.75;    // length of arm rod (for visual)
+	double phi = 0.0;      // shoulder angle
 
 	float cgHeight;
 
@@ -44,10 +45,11 @@ public partial class PlayterDoll : Node3D
 		// set up doll model
 		model = GetNode<PDollModel>("PDollModel");
 		model.Position = new Vector3(0.0f, cgHeight, 0.0f);
-		model.Initialize((float)h, (float)L, 2.0f, 3.0f, 3.75f, 0.5f);
+		model.Initialize((float)h, (float)L, 2.0f /*lRod*/, 3.0f /*hUb*/, 
+		3.75f /*hLb*/, 0.5f /*thk*/, (float)phi);
 
 		// Set up the camera rig
-		longitudeDeg = 30.0f;  //60
+		longitudeDeg = 30.0f;  //30
 		latitudeDeg = 15.0f;
 		camDist = 12.0f;
 

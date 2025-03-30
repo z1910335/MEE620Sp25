@@ -1,17 +1,41 @@
-[gd_scene load_steps=8 format=3 uid="uid://lrgbvfvjoc32"]
+[gd_scene load_steps=15 format=3 uid="uid://lrgbvfvjoc32"]
 
 [ext_resource type="Script" path="res://Models/PDollModel.cs" id="1_emh1q"]
-[ext_resource type="Texture2D" uid="uid://byyhwpkeqma2c" path="res://Textures/boxTex3Num.png" id="2_fe8oo"]
+[ext_resource type="Texture2D" uid="uid://cqgjfblbwpwkh" path="res://Textures/boxTexVibO_BG.png" id="2_sggqr"]
 [ext_resource type="Script" path="res://Models/PDUpperBody.cs" id="2_xtsyy"]
 [ext_resource type="Script" path="res://Models/PdLowerBody.cs" id="4_6hpi8"]
+[ext_resource type="Texture2D" uid="uid://bws3stklh4l7v" path="res://Textures/boxTexVibO_GB.png" id="4_yb6v4"]
+[ext_resource type="Texture2D" uid="uid://dvkgg6koyo1pd" path="res://Textures/cylTexVibO_R.png" id="6_cpr7i"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57fcr"]
 albedo_color = Color(1, 1, 0.988235, 1)
-albedo_texture = ExtResource("2_fe8oo")
+albedo_texture = ExtResource("2_sggqr")
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_ucxiy"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3uw7a"]
+albedo_texture = ExtResource("4_yb6v4")
+
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_f8crx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_usbq4"]
+albedo_texture = ExtResource("6_cpr7i")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k26wq"]
+material = SubResource("StandardMaterial3D_usbq4")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qbbdi"]
+albedo_texture = ExtResource("6_cpr7i")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_m8xqr"]
+material = SubResource("StandardMaterial3D_qbbdi")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.6
+radial_segments = 32
 
 [node name="PDollModel" type="Node3D"]
 script = ExtResource("1_emh1q")
@@ -26,5 +50,16 @@ mesh = SubResource("ImmediateMesh_ucxiy")
 script = ExtResource("2_xtsyy")
 
 [node name="PDLowerBody" type="MeshInstance3D" parent="RootNode/VertShift"]
+material_override = SubResource("StandardMaterial3D_3uw7a")
 mesh = SubResource("ImmediateMesh_f8crx")
 script = ExtResource("4_6hpi8")
+
+[node name="ShoulderFrame" type="Node3D" parent="RootNode/VertShift"]
+
+[node name="CylL" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, 0, 0)
+mesh = SubResource("CylinderMesh_k26wq")
+
+[node name="CylR" type="MeshInstance3D" parent="RootNode/VertShift/ShoulderFrame"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1, 0, 0)
+mesh = SubResource("CylinderMesh_m8xqr")
