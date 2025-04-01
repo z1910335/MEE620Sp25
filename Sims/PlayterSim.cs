@@ -17,12 +17,17 @@ public partial class PlayterSim : Simulator
     double L;      // dimless distance of arm mass from shoulder
     double k;      // dimless torsional stiffness of shoulder spring
     double c;      // dimless torsional damping coeff in shoulder damper
+    double phi;    // angle of arm swing plane relative to vertical
+    double cosPhi;
+    double sinPhi;
 
     enum ShoulderDynamics{
         Free,        // Free to respond to the dynamics of the doll
         Prescribed,  // Prescribed by user input
     }
     ShoulderDynamics shoulderDyn;
+
+    LinSysEq sys;
 
     //------------------------------------------------------------------------
     // Constructor 
@@ -37,7 +42,17 @@ public partial class PlayterSim : Simulator
         h = 1.56;
         L = 1.65;
 
+        phi = 0.0;
+        cosPhi = Math.Cos(phi);
+        sinPhi = Math.Sin(phi);
+
         shoulderDyn = ShoulderDynamics.Free;
+
+        SetRHSFunc(RHSFuncPlayter);
+
+        Reinitialize();
+
+        
     }
 
 
@@ -67,5 +82,84 @@ public partial class PlayterSim : Simulator
         x[14] = 0.0;      // xG
         x[15] = 0.0;      // yG
         x[16] = 0.0;      // zG
+    }  // end Reinitialize
+
+    //------------------------------------------------------------------------
+    // Getters/Setters
+    //------------------------------------------------------------------------
+
+    // arm mass -----------------------------
+    public double ArmMass
+    {
+        get { return mA; }
+        set { 
+            if(value > 0.01 && value < 2.0)
+                mA = value; 
+        }
     }
-}
+
+    // Radius of Gyration  ---------------
+    public double RadiusOfGyration
+    {
+        get { return rho;}
+
+        set{
+            if(value > 0.05)
+                rho = value;
+        }
+    }
+
+    // GammaY - Ratio of moments of inertia --------
+    public double GammaY
+    {
+        get { return gammaY; }
+
+        set {
+            if (value > 0.01)
+                gammaY = value;
+        }
+    }
+
+    // GammaZ - Ratio of moments of inertia --------
+    public double GammaZ
+    {
+        get { return gammaZ; }
+
+        set {
+            if (value > 0.01)
+                gammaZ = value;
+        }
+    }
+
+    // ShoulderHeight -------------------
+    public double ShoulderHeight
+    {
+        get{ return h;}
+
+        set{ h = value;}
+    }
+
+    // ArmLength -----------------------
+    public double ArmLength
+    {
+        get{ return L; }
+
+        set{
+            if(value > 0.1)
+                L = value;
+        }
+    }
+
+    // Phi ---------------------------
+    public double Phi
+    {
+        get{ return phi; }
+
+        set{
+            phi = value;
+            cosPhi = Math.Cos(phi);
+            sinPhi = Math.Sin(phi);
+        }
+    }
+
+}// end class

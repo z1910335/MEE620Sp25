@@ -68,6 +68,20 @@ public partial class PlayterDoll : Node3D
 		cam.Position = new Vector3(0.0f, cgHeight, 0.0f);
 
 		theta = 0.0;
+
+		LinSysEq sys;
+		int ii,jj;
+        Random rnd = new Random();
+        sys = new LinSysEq(8);
+        for(ii=0; ii<8; ++ii){
+            for(jj=0; jj<8; ++jj){
+                sys.SetA(ii, jj, rnd.NextDouble());
+            }
+			sys.SetB(ii, rnd.NextDouble());
+        }
+
+		sys.SolveGauss();
+		GD.Print("Check = " + sys.Check());
 	}
 
 	//------------------------------------------------------------------------
