@@ -111,11 +111,28 @@ public class LinSysEq
     }
 
     //------------------------------------------------------------------------
-    // PivotRow
+    // PivotRow: Execute partial pivoting
     //------------------------------------------------------------------------
     private void PivotRow(int jj)
     {
+        double maxElem = Math.Abs(M[ridx[jj], cidx[jj]]);
+        double dum;
+        int rowIdx = jj;  // row with biggest pivot element (intial guess)
+        int ii, holder;
 
+        for(ii=jj+1; ii<nact; ++ii){    // find largest element in jth column
+            dum = Math.Abs(M[ridx[ii], cidx[jj]]);
+            if(dum > maxElem){
+                maxElem = dum;
+                rowIdx = ii;
+            }
+        }
+
+        if(rowIdx != jj){    // swap rows if there's one with a larger pivot 
+            holder = ridx[jj];
+            ridx[jj] = ridx[rowIdx];
+            ridx[rowIdx] = holder;
+        }
     }
 
     //------------------------------------------------------------------------
