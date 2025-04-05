@@ -21,6 +21,27 @@ public partial class PlayterSim : Simulator
     double cosPhi;
     double sinPhi;
 
+    // generalized speeds
+    double omegaX;
+    double omegaY;
+    double omegaZ;
+    double omegaFL;
+    double omegaFR;
+    double vx;
+    double vy;
+    double vz;
+
+    // generalized coordinates
+    double q0;      // quaternion coords
+    double q1;
+    double q2;
+    double q3;
+    double thetaL;  // left arm angle
+    double thetaR;  // right arm angle
+    double xG;      // coordinates of body's center of mass
+    double yG;
+    double zG;
+
     enum ShoulderDynamics{
         Free,        // Free to respond to the dynamics of the doll
         Prescribed,  // Prescribed by user input
@@ -55,17 +76,17 @@ public partial class PlayterSim : Simulator
         
     }
 
-
     //------------------------------------------------------------------------
-    // Reinitialize: reset initial condition when simulation get restarted
+    // Reinitialize: reset initial condition when simulation get restarted.
+    //      Initial condition gets set to zero spin by default.
     //------------------------------------------------------------------------
     private void Reinitialize()
     {
 
         // Generalized Speeds
-        x[0] = 1.0;      // omegaX
+        x[0] = 0.0;      // omegaX
         x[1] = 0.0;      // omegaY
-        x[2] = 0.01;     // omegaZ
+        x[2] = 0.0;      // omegaZ
         x[3] = 0.0;      // omegaFL
         x[4] = 0.0;      // omegaFR
         x[5] = 0.0;      // vx
@@ -73,7 +94,7 @@ public partial class PlayterSim : Simulator
         x[7] = 0.0;      // vz
 
         // Generalized Coordinates
-        x[8]  = 1.0;      // q0
+        x[8]  = 0.0;      // q0
         x[9]  = 0.0;      // q1
         x[10] = 0.0;      // q2
         x[11] = 0.0;      // q3
@@ -85,8 +106,142 @@ public partial class PlayterSim : Simulator
     }  // end Reinitialize
 
     //------------------------------------------------------------------------
+    // SetSpinIC - Set initial conditions corresponding to a pure spin
+    //      about the doll's center of mass. The center of mass of the body
+    //      will have to be given a velocity so that the doll's center of mass
+    //      is stationary. OmegaX is set to 1.0. OmegaY and omegaZ can be set
+    //      to other values. Arm angles are not reset, so they can be given
+    //      any valid values
+    //------------------------------------------------------------------------
+    public void SetSpinIC(double omY = 0.0, double omZ = 0.0)
+    {
+        // #### Not sure what to do here
+        x[0] = 1.0;
+        x[1] = omY;
+        x[2] = omZ;
+    }
+
+    //------------------------------------------------------------------------
     // Getters/Setters
     //------------------------------------------------------------------------
+
+    // OmegaX ------------------------------
+    public double OmegaX
+    {
+        get{ return x[0];}
+
+        //set{ x[0] = value; }
+    }
+
+    // OmegaY ------------------------------
+    public double OmegaY
+    {
+        get{ return x[1];}
+
+        //set{ x[1] = value; }
+    }
+
+    // OmegaZ ------------------------------
+    public double OmegaZ
+    {
+        get{ return x[2];}
+
+        //set{ x[2] = value; }
+    }
+
+    // OmegaFL ------------------------------
+    public double OmegaFL
+    {
+        get{ return x[3];}
+
+        //set{ x[3] = value; }
+    }
+
+    // OmegaFR ------------------------------
+    public double OmegaFR
+    {
+        get{ return x[4];}
+
+        //set{ x[0] = value; }
+    }
+
+    // Vx -----------------------------------
+    public double Vx
+    {
+        get{ return x[5];}
+    }
+
+    // Vy -----------------------------------
+    public double Vy
+    {
+        get{ return x[6];}
+    }
+
+    // Vz -----------------------------------
+    public double Vz
+    {
+        get{ return x[7];}
+    }
+
+    // Q0 -----------------------------------
+    public double Q0
+    {
+        get{ return x[8];}
+    }
+
+    // Q1 -----------------------------------
+    public double Q1
+    {
+        get{ return x[9];}
+    }
+
+    // Q2 -----------------------------------
+    public double Q2
+    {
+        get{ return x[10];}
+    }
+
+    // Q3 -----------------------------------
+    public double Q3
+    {
+        get{ return x[11];}
+    }
+
+    // ThetaL -----------------------------------
+    public double ThetaL
+    {
+        get{ return x[12];}
+
+        set{ x[12] = value; }
+    }
+
+    // ThetaR -----------------------------------
+    public double ThetaR
+    {
+        get{ return x[13];}
+
+        set{ x[13] = value; }
+    }
+
+    // XG -----------------------------------
+    public double XG
+    {
+        get{ return x[14];}
+
+        set{ x[14] = value; }
+    }
+
+    // YG -----------------------------------
+    public double YG
+    {
+        get{ return x[15];}
+    }
+
+    // ZG -----------------------------------
+    public double ZG
+    {
+        get{ return x[16];}
+    }
 
     // arm mass -----------------------------
     public double ArmMass
