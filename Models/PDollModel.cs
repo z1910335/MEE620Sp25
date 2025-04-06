@@ -43,9 +43,9 @@ public partial class PDollModel : Node3D
 	//         arms.
 	//------------------------------------------------------------------------
 	public void Update(float q0, float q1, float q2, float q3,
-		float thetaL, float thetaR)
+		float thetaL, float thetaR, float xG, float yG, float zG)
 	{
-
+		this.Quaternion = new Quaternion(q1, q2, q3, q0);
 	}
 
 	//------------------------------------------------------------------------

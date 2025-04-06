@@ -47,6 +47,7 @@ public partial class PlayterDoll : Node3D
 		cgHeight = 6.0f;
 		sim = new PlayterSim();
 		time = 0.0;
+		SetParamsDoll();
 
 		// set up doll model
 		model = GetNode<PDollModel>("PDollModel");
@@ -69,6 +70,7 @@ public partial class PlayterDoll : Node3D
 
 		theta = 0.0;
 
+		/*
 		LinSysEq sys;
 		int ii,jj;
         Random rnd = new Random();
@@ -82,6 +84,7 @@ public partial class PlayterDoll : Node3D
 
 		sys.SolveGauss();
 		GD.Print("Check = " + sys.Check());
+		/**/
 	}
 
 	//------------------------------------------------------------------------
@@ -90,7 +93,64 @@ public partial class PlayterDoll : Node3D
 	//------------------------------------------------------------------------
 	public override void _Process(double delta)
 	{
-		model.SetSimpleRotation((float)theta);
+		//model.SetSimpleRotation((float)theta);
+		float q0 = (float)sim.Q0;
+		float q1 = (float)sim.Q1;
+		float q2 = (float)sim.Q2;
+		float q3 = (float)sim.Q3;
+		float thL = (float)sim.ThetaL;
+		float thR = (float)sim.ThetaR;
+		float xG = (float)sim.XG;
+		float yG = (float)sim.YG;
+		float zG = (float)sim.ZG;
+
+		model.Update(q0, q1, q2, q3, thL, thR, xG, yG, zG);
+	}
+
+	//------------------------------------------------------------------------
+	// SetParamsDoll
+	//------------------------------------------------------------------------
+	private void SetParamsDoll()
+	{
+		ma = 0.107;     // arm mass ratio
+		rho = 2.21;     // dimensionless radius of gyration
+		gammay = 0.091; // ratio I_Gy/I_Gx
+		gammaz = 1.05;  // ratio I_Gz/I_Gx
+		h = 1.56;       // dimensionless height of shoulder above CG
+		L = 1.65;       // dimensionless length to arm mass
+		Lrod = 2.5;    // length of arm rod (for visual)
+		phi = 0.0;      // shoulder angle
+
+		sim.ArmMass = ma;
+		sim.RadiusOfGyration = rho;
+		sim.GammaY = gammay;
+		sim.GammaZ = gammaz;
+		sim.ShoulderHeight = h;
+		sim.ArmLength = L;
+		sim.Phi = phi;
+	}
+
+	//------------------------------------------------------------------------
+	// SetParamsHuman
+	//------------------------------------------------------------------------
+	private void SetParamsHuman()
+	{
+		ma = 0.107;     // arm mass ratio
+		rho = 2.21;     // dimensionless radius of gyration
+		gammay = 0.091; // ratio I_Gy/I_Gx
+		gammaz = 1.05;  // ratio I_Gz/I_Gx
+		h = 1.56;       // dimensionless height of shoulder above CG
+		L = 1.65;       // dimensionless length to arm mass
+		Lrod = 2.5;    // length of arm rod (for visual)
+		phi = 0.0;      // shoulder angle
+
+		sim.ArmMass = ma;
+		sim.RadiusOfGyration = rho;
+		sim.GammaY = gammay;
+		sim.GammaZ = gammaz;
+		sim.ShoulderHeight = h;
+		sim.ArmLength = L;
+		sim.Phi = phi;
 	}
 
 	//------------------------------------------------------------------------
@@ -100,6 +160,7 @@ public partial class PlayterDoll : Node3D
     {
         base._PhysicsProcess(delta);
 
-		theta += delta;
+		sim.Step(time, delta);
+		time += delta;
     }
 }
