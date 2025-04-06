@@ -94,7 +94,7 @@ public partial class PlayterSim : Simulator
         x[7] = 0.0;      // vz
 
         // Generalized Coordinates
-        x[8]  = 0.0;      // q0
+        x[8]  = 1.0;      // q0
         x[9]  = 0.0;      // q1
         x[10] = 0.0;      // q2
         x[11] = 0.0;      // q3
