@@ -43,3 +43,28 @@ mesh = SubResource("PlaneMesh_ibyyb")
 [node name="CamRig" parent="." instance=ExtResource("3_boaiw")]
 
 [node name="PDollModel" parent="." instance=ExtResource("4_6wxni")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MgCTL" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="pContain" type="PanelContainer" parent="Control/MgCTL"]
+layout_mode = 2
+
+[node name="MC" type="MarginContainer" parent="Control/MgCTL/pContain"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8

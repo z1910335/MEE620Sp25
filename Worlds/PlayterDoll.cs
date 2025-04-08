@@ -36,6 +36,11 @@ public partial class PlayterDoll : Node3D
 
 	double theta;   // somersault angle for testing
 
+	Label armModeLabel;
+	LineEdit[] icOmega;
+	Button simButton;
+	Button resetButton;
+
 	//------------------------------------------------------------------------
 	// _Ready: Called once when the node enters the scene tree for the first 
 	//         time.
@@ -69,6 +74,10 @@ public partial class PlayterDoll : Node3D
 		cam.Position = new Vector3(0.0f, cgHeight, 0.0f);
 
 		theta = 0.0;
+
+		Label armModeLabel;
+
+		SetupUI();
 
 		/*
 		LinSysEq sys;
@@ -163,4 +172,64 @@ public partial class PlayterDoll : Node3D
 		sim.Step(time, delta);
 		time += delta;
     }
+
+	//------------------------------------------------------------------------
+	// SetupUI
+	//------------------------------------------------------------------------
+	private void SetupUI()
+	{
+		int i;
+
+		MarginContainer mcTL = GetNode<MarginContainer>("Control/MgCTL/pContain/MC");
+
+		VBoxContainer vbox = new VBoxContainer();
+		mcTL.AddChild(vbox);
+
+		Label titleLabel = new Label();
+		titleLabel.Text = "Playter Doll Simulator";
+		vbox.AddChild(titleLabel);
+		vbox.AddChild(new HSeparator());
+
+		GridContainer grid = new GridContainer();
+		grid.Columns = 2;
+		vbox.AddChild(grid);
+
+		Label armLabel = new Label();
+		armLabel.Text = "Arm Mode:";
+		armModeLabel = new Label();
+		armModeLabel.Text = "Free";
+		grid.AddChild(armLabel);
+		grid.AddChild(armModeLabel);
+		grid.AddChild(new HSeparator());
+		grid.AddChild(new HSeparator());
+
+		Label[] icLabel;
+		icLabel = new Label[3];
+		icOmega = new LineEdit[3];
+		for(i=0; i<3; ++i){
+			icLabel[i] = new Label();
+			icOmega[i] = new LineEdit();
+			icOmega[i].TooltipText = "Enter initial condition.";
+			grid.AddChild(icLabel[i]);
+			grid.AddChild(icOmega[i]);
+		}
+		icLabel[0].Text = "IC: OmegaX: ";
+		icLabel[1].Text = "IC: OmegaY: ";
+		icLabel[2].Text = "IC: OmegaZ: ";
+
+		icOmega[0].Text = "1.0";
+		icOmega[1].Text = "0.0";
+		icOmega[2].Text = "0.0";
+
+		grid.AddChild(new HSeparator());
+		grid.AddChild(new HSeparator());
+
+		simButton = new Button();
+		simButton.Text = "Simulate";
+		vbox.AddChild(simButton);
+
+		resetButton = new Button();
+		resetButton.Text = "Reset";
+		vbox.AddChild(resetButton);
+	}
 }
