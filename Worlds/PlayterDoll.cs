@@ -38,6 +38,7 @@ public partial class PlayterDoll : Node3D
 
 	Label armModeLabel;
 	LineEdit[] icOmega;
+	SpinBox[] sbIcOmega;
 	Button simButton;
 	Button resetButton;
 
@@ -75,7 +76,6 @@ public partial class PlayterDoll : Node3D
 
 		theta = 0.0;
 
-		Label armModeLabel;
 
 		SetupUI();
 
@@ -206,20 +206,32 @@ public partial class PlayterDoll : Node3D
 		Label[] icLabel;
 		icLabel = new Label[3];
 		icOmega = new LineEdit[3];
+		sbIcOmega = new SpinBox[3];
 		for(i=0; i<3; ++i){
 			icLabel[i] = new Label();
-			icOmega[i] = new LineEdit();
-			icOmega[i].TooltipText = "Enter initial condition.";
+			//icOmega[i] = new LineEdit();
+			//icOmega[i].TooltipText = "Enter initial condition.";
+			sbIcOmega[i] = new SpinBox();
 			grid.AddChild(icLabel[i]);
-			grid.AddChild(icOmega[i]);
+			//grid.AddChild(icOmega[i]);
+			grid.AddChild(sbIcOmega[i]);
+			//icOmega[i] = sbIcOmega[i].GetLineEdit();
+			sbIcOmega[i].Step = 0.01f;
+			sbIcOmega[i].MaxValue = 2.0f;
+			sbIcOmega[i].ValueChanged += OnICValueChanged;
+			//sbIcOmega[i].Suffix = "rad/s";
 		}
 		icLabel[0].Text = "IC: OmegaX: ";
 		icLabel[1].Text = "IC: OmegaY: ";
 		icLabel[2].Text = "IC: OmegaZ: ";
 
-		icOmega[0].Text = "1.0";
-		icOmega[1].Text = "0.0";
-		icOmega[2].Text = "0.0";
+		sbIcOmega[0].Value = 1.0f;
+		sbIcOmega[1].Value = 0.0f;
+		sbIcOmega[2].Value = 0.0f;
+
+		// icOmega[0].Text = "1.0";
+		// icOmega[1].Text = "0.0";
+		// icOmega[2].Text = "0.0";
 
 		grid.AddChild(new HSeparator());
 		grid.AddChild(new HSeparator());
@@ -231,5 +243,15 @@ public partial class PlayterDoll : Node3D
 		resetButton = new Button();
 		resetButton.Text = "Reset";
 		vbox.AddChild(resetButton);
+	}
+
+
+	private void OnICValueChanged(double val)
+	{
+		double omX = sbIcOmega[0].Value;
+		double omY = sbIcOmega[1].Value;
+		double omZ = sbIcOmega[2].Value;
+		
+		GD.Print("Omega = " + omX + ", " + omY + ", " + omZ);
 	}
 }
