@@ -130,6 +130,8 @@ public partial class PlayterDoll : Node3D
 		float zG = (float)sim.ZG;
 
 		model.Update(q0, q1, q2, q3, thL, thR, xG, yG, zG);
+
+		timeLabel.Text = time.ToString("0.0");
 	}
 
 	//------------------------------------------------------------------------
@@ -185,8 +187,10 @@ public partial class PlayterDoll : Node3D
     {
         base._PhysicsProcess(delta);
 
-		sim.Step(time, delta);
-		time += delta;
+		if(runMode == RunMode.Sim){
+			sim.Step(time, delta);
+			time += delta;
+		}
     }
 
 	//------------------------------------------------------------------------
@@ -386,6 +390,7 @@ public partial class PlayterDoll : Node3D
 		sbIcOmega[2].Editable = true;
 
 		timeLabel.Text = "0.0";
+		time = 0.0;
 
 		// ###### Reorient doll to upright
 
