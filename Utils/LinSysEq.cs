@@ -179,4 +179,13 @@ public class LinSysEq
 
         b[ii] = val;
     }
+
+    // Sol
+    public double Sol(int ii)
+    {
+        if(ii < 0 || ii >= n)
+            return 0.0;
+
+        return x[i];
+    }
 }
