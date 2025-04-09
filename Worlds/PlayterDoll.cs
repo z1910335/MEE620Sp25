@@ -19,6 +19,13 @@ public partial class PlayterDoll : Node3D
 
 	float cgHeight;
 
+	enum RunMode{
+		Config,    // Configuration mode (choose IC)
+		Sim,
+		Pause
+	}
+	RunMode runMode;
+
 	// simulation
 	PlayterSim sim;
 	double time;
@@ -37,10 +44,17 @@ public partial class PlayterDoll : Node3D
 	double theta;   // somersault angle for testing
 
 	Label armModeLabel;
+	CheckButton cButtonArmMode;
 	LineEdit[] icOmega;
 	SpinBox[] sbIcOmega;
 	Button simButton;
 	Button resetButton;
+
+	bool testing;
+	int nTestVals;
+	CheckButton testButton;
+	GridContainer testGrid;
+	Label[] testVals;
 
 	//------------------------------------------------------------------------
 	// _Ready: Called once when the node enters the scene tree for the first 
@@ -49,6 +63,8 @@ public partial class PlayterDoll : Node3D
 	public override void _Ready()
 	{
 		GD.Print("PlayterDoll");
+
+		runMode = RunMode.Config;
 
 		cgHeight = 6.0f;
 		sim = new PlayterSim();
@@ -194,15 +210,6 @@ public partial class PlayterDoll : Node3D
 		grid.Columns = 2;
 		vbox.AddChild(grid);
 
-		Label armLabel = new Label();
-		armLabel.Text = "Arm Mode:";
-		armModeLabel = new Label();
-		armModeLabel.Text = "Free";
-		grid.AddChild(armLabel);
-		grid.AddChild(armModeLabel);
-		grid.AddChild(new HSeparator());
-		grid.AddChild(new HSeparator());
-
 		Label[] icLabel;
 		icLabel = new Label[3];
 		icOmega = new LineEdit[3];
@@ -236,6 +243,13 @@ public partial class PlayterDoll : Node3D
 		grid.AddChild(new HSeparator());
 		grid.AddChild(new HSeparator());
 
+		cButtonArmMode = new CheckButton();
+		cButtonArmMode.Text = "Arm Free";
+		cButtonArmMode.ButtonPressed = true;
+		cButtonArmMode.Toggled += OnArmModeToggle;
+		vbox.AddChild(cButtonArmMode);
+		vbox.AddChild(new HSeparator());
+
 		simButton = new Button();
 		simButton.Text = "Simulate";
 		vbox.AddChild(simButton);
@@ -243,15 +257,80 @@ public partial class PlayterDoll : Node3D
 		resetButton = new Button();
 		resetButton.Text = "Reset";
 		vbox.AddChild(resetButton);
+
+
+		// Test grid in the upper right margin container
+		nTestVals = 16;
+		MarginContainer mcTR = GetNode<MarginContainer>("Control/MgCTR/pContain/MC");
+
+		VBoxContainer vboxTest = new VBoxContainer();
+		mcTR.AddChild(vboxTest);
+		
+		testButton = new CheckButton();
+		testButton.Text = "Not Testing";
+		testButton.Toggled += OnTestingToggle;
+		vboxTest.AddChild(testButton);
+		vboxTest.AddChild(new HSeparator());
+
+		testGrid = new GridContainer();
+		testGrid.Columns = 2;
+		vboxTest.AddChild(testGrid);
+
+		Label[] testLabels = new Label[nTestVals];
+		testVals = new Label[nTestVals];
+		for (i = 0; i<nTestVals; ++i){
+			testLabels[i] = new Label();
+			testLabels[i].Text = "TestVal_" + i.ToString() + ": ";
+			testVals[i] = new Label();
+			testVals[i].Text = "0.0000";
+			testGrid.AddChild(testLabels[i]);
+			testGrid.AddChild(testVals[i]);
+		} 
+		
+		testGrid.Hide();
 	}
 
-
+	//------------------------------------------------------------------------
+	// OnICValueChanged:
+	//------------------------------------------------------------------------
 	private void OnICValueChanged(double val)
 	{
 		double omX = sbIcOmega[0].Value;
 		double omY = sbIcOmega[1].Value;
 		double omZ = sbIcOmega[2].Value;
 		
-		GD.Print("Omega = " + omX + ", " + omY + ", " + omZ);
+		//GD.Print("Omega = " + omX + ", " + omY + ", " + omZ);
+	}
+
+	//------------------------------------------------------------------------
+	// OnArmModeToggle:
+	//------------------------------------------------------------------------
+	private void OnArmModeToggle(bool freeSelected)
+	{
+		if(freeSelected){
+			//GD.Print("Free");
+			cButtonArmMode.Text = "Arm Free";
+		}
+		else{
+			//GD.Print("Prescribed");
+			cButtonArmMode.Text = "Arm Prescribed";
+		}
+	}
+
+	//------------------------------------------------------------------------
+	// OnTestingToggle
+	//------------------------------------------------------------------------
+	private void OnTestingToggle(bool testingSelected)
+	{
+		if(testingSelected){
+			//GD.Print("Testing");
+			testButton.Text = "Testing";
+			testGrid.Show();
+		}
+		else{
+			//GD.Print("Not Testing");
+			testButton.Text = "Not Testing";
+			testGrid.Hide();
+		}
 	}
 }
