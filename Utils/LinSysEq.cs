@@ -186,6 +186,6 @@ public class LinSysEq
         if(ii < 0 || ii >= n)
             return 0.0;
 
-        return x[i];
+        return x[ii];
     }
 }
