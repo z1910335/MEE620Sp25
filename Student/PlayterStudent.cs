@@ -8,7 +8,58 @@ using System;
 
 public partial class PlayterSim : Simulator
 {
-    
+    // // Parameters
+    // double mA;     // dimensionless arm mass
+    // double rho;    // dimless radius if gyration for moment of inertia, I_Gx
+    // double gammaY; // ratio I_Gy/I_Gx
+    // double gammaZ; // ratio I_Gz/I_Gx
+    // double h;      // dimless vertical (b_y) distance of shoulder from body CG
+    // double L;      // dimless distance of arm mass from shoulder
+    // double k;      // dimless torsional stiffness of shoulder spring
+    // double c;      // dimless torsional damping coeff in shoulder damper
+    // double phi;    // angle of arm swing plane relative to vertical
+    // double cosPhi;
+    // double sinPhi;
+
+    // // generalized speeds
+    // double omegaX;
+    // double omegaY;
+    // double omegaZ;
+    // double omegaFL;
+    // double omegaFR;
+    // double vx;
+    // double vy;
+    // double vz;
+
+    // // generalized coordinates
+    // double q0;      // quaternion coords
+    // double q1;
+    // double q2;
+    // double q3;
+    // double thetaL;  // left arm angle
+    // double thetaR;  // right arm angle
+    // double xG;      // coordinates of body's center of mass
+    // double yG;
+    // double zG;
+
+    // Some extra stuff a student might want (feel free to define more.)
+    LinSysEq sys;    // linear algebraic equation solver
+    double[,] Amat;  // some arrays that might be handy 
+    double[] Bmat;
+
+
+
+    //------------------------------------------------------------------------
+    // StudentInit: Student might want to initialize things before simulation
+    //              begins
+    //------------------------------------------------------------------------
+    private void StudentInit()
+    {
+        sys = new LinSysEq(8);
+        Amat = new double[8,8];  // an 8 by 8 array of doubles
+        Bmat = new double[8];    // an 8 by 1 array of doubles
+        
+    }
 
     //------------------------------------------------------------------------
     // RHSFuncPlayter:  Evaluates the right sides of the differential

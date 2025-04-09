@@ -48,8 +48,6 @@ public partial class PlayterSim : Simulator
     }
     ShoulderDynamics shoulderDyn;
 
-    LinSysEq sys;
-
     //------------------------------------------------------------------------
     // Constructor 
     //------------------------------------------------------------------------
@@ -73,7 +71,7 @@ public partial class PlayterSim : Simulator
 
         Reinitialize();
 
-        
+        StudentInit();
     }
 
     //------------------------------------------------------------------------
