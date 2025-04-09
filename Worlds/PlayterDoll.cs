@@ -144,6 +144,10 @@ public partial class PlayterDoll : Node3D
 			for(i=0;i<16;++i){
 				testVals[i].Text = sim.GetDebugVal(i).ToString("0.0000");
 			}
+			dispCtr = 0;
+		}
+		else{
+			++dispCtr;
 		}
 	}
 
