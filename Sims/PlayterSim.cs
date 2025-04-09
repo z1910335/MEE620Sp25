@@ -120,7 +120,8 @@ public partial class PlayterSim : Simulator
         x[3] = omFL;
         x[4] = omFR;
 
-        x[8] = x[9] = x[10] = x[11] = 0.0;
+        x[8] = 1.0;
+        x[9] = x[10] = x[11] = 0.0;
         x[12] = thL;
         x[13] = thR;
         x[14] = x[15] = x[16] = 0.0;
