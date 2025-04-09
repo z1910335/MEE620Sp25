@@ -43,7 +43,7 @@ public partial class PlayterDoll : Node3D
 
 	double theta;   // somersault angle for testing
 
-	Label armModeLabel;
+	Label timeLabel;
 	CheckButton cButtonArmMode;
 	LineEdit[] icOmega;
 	SpinBox[] sbIcOmega;
@@ -210,6 +210,15 @@ public partial class PlayterDoll : Node3D
 		grid.Columns = 2;
 		vbox.AddChild(grid);
 
+		Label tlab = new Label();
+		tlab.Text = "Time: ";
+		timeLabel = new Label();
+		timeLabel.Text = "0.0";
+		grid.AddChild(tlab);
+		grid.AddChild(timeLabel);
+		grid.AddChild(new HSeparator());
+		grid.AddChild(new HSeparator());
+
 		Label[] icLabel;
 		icLabel = new Label[3];
 		icOmega = new LineEdit[3];
@@ -252,10 +261,13 @@ public partial class PlayterDoll : Node3D
 
 		simButton = new Button();
 		simButton.Text = "Simulate";
+		simButton.Pressed += OnButtonSimPause;
 		vbox.AddChild(simButton);
 
 		resetButton = new Button();
 		resetButton.Text = "Reset";
+		resetButton.Pressed += OnButtonReset;
+		resetButton.Disabled = true;
 		vbox.AddChild(resetButton);
 
 
@@ -332,5 +344,51 @@ public partial class PlayterDoll : Node3D
 			testButton.Text = "Not Testing";
 			testGrid.Hide();
 		}
+	}
+
+	//------------------------------------------------------------------------
+	// OnButtonSimPause
+	//------------------------------------------------------------------------
+	private void OnButtonSimPause()
+	{
+		if(runMode == RunMode.Config){ // switch from Config to Sim
+			simButton.Text = "Pause";
+			resetButton.Disabled = false;
+			sbIcOmega[0].Editable = false;
+			sbIcOmega[1].Editable = false;
+			sbIcOmega[2].Editable = false;
+
+			// ##### send IC to sim
+
+			runMode = RunMode.Sim;
+		}
+		else if(runMode == RunMode.Pause){ // switch from Pause to Sim
+			simButton.Text = "Pause";
+
+			runMode = RunMode.Sim;
+		}
+		else if(runMode == RunMode.Sim){  // switch from Sim to Pause
+			simButton.Text = "Simulate";
+
+			runMode = RunMode.Pause;
+		}
+	}
+
+	//------------------------------------------------------------------------
+	// OnButtonReset
+	//------------------------------------------------------------------------
+	private void OnButtonReset()
+	{
+		simButton.Text = "Simulate";
+		resetButton.Disabled = true;
+		sbIcOmega[0].Editable = true;
+		sbIcOmega[1].Editable = true;
+		sbIcOmega[2].Editable = true;
+
+		timeLabel.Text = "0.0";
+
+		// ###### Reorient doll to upright
+
+		runMode = RunMode.Config;
 	}
 }
