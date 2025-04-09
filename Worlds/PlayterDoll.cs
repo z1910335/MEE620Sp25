@@ -56,6 +56,9 @@ public partial class PlayterDoll : Node3D
 	GridContainer testGrid;
 	Label[] testVals;
 
+	int dispCtr;
+	int dispTHold;
+
 	//------------------------------------------------------------------------
 	// _Ready: Called once when the node enters the scene tree for the first 
 	//         time.
@@ -92,6 +95,8 @@ public partial class PlayterDoll : Node3D
 
 		theta = 0.0;
 
+		dispCtr = 0;
+		dispTHold = 3;
 
 		SetupUI();
 
@@ -118,6 +123,8 @@ public partial class PlayterDoll : Node3D
 	//------------------------------------------------------------------------
 	public override void _Process(double delta)
 	{
+		int i;
+
 		//model.SetSimpleRotation((float)theta);
 		float q0 = (float)sim.Q0;
 		float q1 = (float)sim.Q1;
@@ -132,6 +139,12 @@ public partial class PlayterDoll : Node3D
 		model.Update(q0, q1, q2, q3, thL, thR, xG, yG, zG);
 
 		timeLabel.Text = time.ToString("0.0");
+
+		if(dispCtr > dispTHold){
+			for(i=0;i<16;++i){
+				testVals[i].Text = sim.GetDebugVal(i).ToString("0.0000");
+			}
+		}
 	}
 
 	//------------------------------------------------------------------------

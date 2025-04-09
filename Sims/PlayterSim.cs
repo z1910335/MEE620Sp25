@@ -48,6 +48,9 @@ public partial class PlayterSim : Simulator
     }
     ShoulderDynamics shoulderDyn;
 
+    int ndbg;
+    double[] dbgVal;
+
     //------------------------------------------------------------------------
     // Constructor 
     //------------------------------------------------------------------------
@@ -66,6 +69,9 @@ public partial class PlayterSim : Simulator
         sinPhi = Math.Sin(phi);
 
         shoulderDyn = ShoulderDynamics.Free;
+
+        ndbg = 16;
+        dbgVal = new double[ndbg];
 
         SetRHSFunc(RHSFuncPlayter);
 
@@ -322,6 +328,27 @@ public partial class PlayterSim : Simulator
             cosPhi = Math.Cos(phi);
             sinPhi = Math.Sin(phi);
         }
+    }
+
+    // SetDebugVal
+    public void SetDebugVal(int idx, double val)
+    {
+        if(subStep != 0)
+            return;
+        
+        if(idx < 0 || idx >= ndbg)
+            return;
+
+        dbgVal[idx] = val;
+    }
+
+    // GetDebugVal
+    public double GetDebugVal(int idx)
+    {
+        if(idx < 0 || idx >= ndbg)
+            return(0.0);
+
+        return dbgVal[idx];
     }
 
 }// end class
