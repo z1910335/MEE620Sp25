@@ -88,7 +88,7 @@ public partial class PDollModel : Node3D
 		aRodMeshL.TopRadius = 0.1f;
 		aRodMeshL.BottomRadius = 0.1f;
 		aRodMeshL.Height = Lrod;
-		GD.Print("Lrod = " + Lrod);
+		//GD.Print("Lrod = " + Lrod);
 
 		MeshInstance3D aMassL = afL.GetNode<MeshInstance3D>("Mass");
 		aMassL.Position = new Vector3(L, 0.0f, 0.0f);
