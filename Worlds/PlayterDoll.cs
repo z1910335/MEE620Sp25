@@ -315,6 +315,8 @@ public partial class PlayterDoll : Node3D
 		double omY = sbIcOmega[1].Value;
 		double omZ = sbIcOmega[2].Value;
 		
+		//######### Hmmmmm. Do I need to do anything here???
+
 		//GD.Print("Omega = " + omX + ", " + omY + ", " + omZ);
 	}
 
@@ -362,7 +364,11 @@ public partial class PlayterDoll : Node3D
 			sbIcOmega[1].Editable = false;
 			sbIcOmega[2].Editable = false;
 
-			// ##### send IC to sim
+			// send IC to sim
+			double omX = sbIcOmega[0].Value;
+			double omY = sbIcOmega[1].Value;
+			double omZ = sbIcOmega[2].Value;
+			sim.SetSpinIC(omX, omY, omZ);
 
 			runMode = RunMode.Sim;
 		}
@@ -392,7 +398,7 @@ public partial class PlayterDoll : Node3D
 		timeLabel.Text = "0.0";
 		time = 0.0;
 
-		// ###### Reorient doll to upright
+		sim.SetSpinIC(0.0); // reorient doll to upright
 
 		runMode = RunMode.Config;
 	}

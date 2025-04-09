@@ -82,43 +82,51 @@ public partial class PlayterSim : Simulator
     //------------------------------------------------------------------------
     private void Reinitialize()
     {
+        SetSpinIC(1.0);
+        // // Generalized Speeds
+        // x[0] = 0.0;      // omegaX
+        // x[1] = 0.0;      // omegaY
+        // x[2] = 0.0;      // omegaZ
+        // x[3] = 0.0;      // omegaFL
+        // x[4] = 0.0;      // omegaFR
+        // x[5] = 0.0;      // vx
+        // x[6] = 0.0;      // vy
+        // x[7] = 0.0;      // vz
 
-        // Generalized Speeds
-        x[0] = 0.0;      // omegaX
-        x[1] = 0.0;      // omegaY
-        x[2] = 0.0;      // omegaZ
-        x[3] = 0.0;      // omegaFL
-        x[4] = 0.0;      // omegaFR
-        x[5] = 0.0;      // vx
-        x[6] = 0.0;      // vy
-        x[7] = 0.0;      // vz
-
-        // Generalized Coordinates
-        x[8]  = 1.0;      // q0
-        x[9]  = 0.0;      // q1
-        x[10] = 0.0;      // q2
-        x[11] = 0.0;      // q3
-        x[12] = 0.0;      // thetaL
-        x[13] = 0.0;      // thetaR
-        x[14] = 0.0;      // xG
-        x[15] = 0.0;      // yG
-        x[16] = 0.0;      // zG
+        // // Generalized Coordinates
+        // x[8]  = 1.0;      // q0
+        // x[9]  = 0.0;      // q1
+        // x[10] = 0.0;      // q2
+        // x[11] = 0.0;      // q3
+        // x[12] = 0.0;      // thetaL
+        // x[13] = 0.0;      // thetaR
+        // x[14] = 0.0;      // xG
+        // x[15] = 0.0;      // yG
+        // x[16] = 0.0;      // zG
     }  // end Reinitialize
 
     //------------------------------------------------------------------------
     // SetSpinIC - Set initial conditions corresponding to a pure spin
     //      about the doll's center of mass. The center of mass of the body
     //      will have to be given a velocity so that the doll's center of mass
-    //      is stationary. OmegaX is set to 1.0. OmegaY and omegaZ can be set
-    //      to other values. Arm angles are not reset, so they can be given
-    //      any valid values
+    //      is stationary. 
     //------------------------------------------------------------------------
-    public void SetSpinIC(double omY = 0.0, double omZ = 0.0)
+    public void SetSpinIC(double omX, double omY=0.0, double omZ=0.0,
+        double omFL=0.0, double omFR=0.0, double thL=0.0, double thR=0.0)
     {
-        // #### Not sure what to do here
-        x[0] = 1.0;
+        x[0] = omX;
         x[1] = omY;
         x[2] = omZ;
+        x[3] = omFL;
+        x[4] = omFR;
+
+        x[8] = x[9] = x[10] = x[11] = 0.0;
+        x[12] = thL;
+        x[13] = thR;
+        x[14] = x[15] = x[16] = 0.0;
+
+        // need to fix these ####################
+        x[5] = x[6] = x[7] = 0.0;
     }
 
     //------------------------------------------------------------------------
