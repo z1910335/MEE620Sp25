@@ -55,7 +55,7 @@ public partial class PDollModel : Node3D
 		this.Quaternion = new Quaternion(q1, q2, q3, q0);
 
 		rG.X = xG;   rG.Y = yG;  rG.Z = zG;
-		this.Position = rG;
+		rootNode.Position = rG;
 
 		armRotL.Z = thetaL;
 		afL.Rotation = armRotL;
