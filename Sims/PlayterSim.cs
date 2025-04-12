@@ -48,6 +48,9 @@ public partial class PlayterSim : Simulator
     }
     ShoulderDynamics shoulderDyn;
 
+    double shKp = 100.0;   // proportional gain for shoulder PD controller
+    double shKd = 20.0;    // derivative gain for shoulder PD controller
+
     int ndbg;
     double[] dbgVal;
 
@@ -74,6 +77,8 @@ public partial class PlayterSim : Simulator
         dbgVal = new double[ndbg];
 
         SetRHSFunc(RHSFuncPlayter);
+
+        RunTest();
 
         Reinitialize();
 
@@ -138,6 +143,49 @@ public partial class PlayterSim : Simulator
             dbgVal[i] = 0.0;
         }
     }
+
+    //------------------------------------------------------------------------
+    // RunTest: Run test that will allow users to test intermediate
+    //          steps in writing equations of motion.
+    //------------------------------------------------------------------------
+    private void RunTest()
+    {
+        phi=1.0;
+        cosPhi = Math.Cos(phi);
+        sinPhi = Math.Sin(phi);
+
+        double[] xt = new double[17];
+
+        // Generalized Speeds
+        xt[0] = 0.7;      // omegaX
+        xt[1] = -0.2;      // omegaY
+        xt[2] = 0.3;      // omegaZ
+        xt[3] = 0.5;      // omegaFL
+        xt[4] = -0.22;      // omegaFR
+        xt[5] = 0.4;      // vx
+        xt[6] = 0.3;      // vy
+        xt[7] = -0.15;      // vz
+
+        // Generalized Coordinates
+        xt[8]  = 0.3;      // q0
+        xt[9]  = -0.42;      // q1
+        xt[10] = 0.18;      // q2
+        xt[11] = Math.Sqrt(1.0-q0*q0-q1*q1-q2*q2);      // q3
+        xt[12] = 0.7;      // thetaL
+        xt[13] = 0.1;      // thetaR
+        xt[14] = 0.1;      // xG
+        xt[15] = 0.2;      // yG
+        xt[16] = 0.3;      // zG
+
+        double[] dumf = new double[17];
+
+        RHSFuncPlayter(xt, 2.6, dumf);
+
+        phi=1.0;
+        cosPhi = Math.Cos(phi);
+        sinPhi = Math.Sin(phi);
+    }
+
 
     //------------------------------------------------------------------------
     // Getters/Setters
@@ -333,6 +381,18 @@ public partial class PlayterSim : Simulator
             cosPhi = Math.Cos(phi);
             sinPhi = Math.Sin(phi);
         }
+    }
+
+    // SetArmFree --------------------
+    public void SetArmFree()
+    {
+        shoulderDyn = ShoulderDynamics.Free;
+    }
+
+    // SetArmPrescribed --------------
+    public void SetArmPrescribed()
+    {
+        shoulderDyn = ShoulderDynamics.Prescribed;
     }
 
     // SetDebugVal
