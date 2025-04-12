@@ -139,9 +139,9 @@ public partial class PlayterSim : Simulator
         x[5] = x[6] = x[7] = 0.0;
 
         // reset the debug data
-        for(int i=0; i<ndbg; ++i){
-            dbgVal[i] = 0.0;
-        }
+        // for(int i=0; i<ndbg; ++i){
+        //     dbgVal[i] = 0.0;
+        // }
     }
 
     //------------------------------------------------------------------------
