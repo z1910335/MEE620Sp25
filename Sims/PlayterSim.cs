@@ -78,11 +78,10 @@ public partial class PlayterSim : Simulator
 
         SetRHSFunc(RHSFuncPlayter);
 
-        RunTest();
-
-        Reinitialize();
-
         StudentInit();
+        RunTest();
+        Reinitialize();
+        //StudentInit();
     }
 
     //------------------------------------------------------------------------
