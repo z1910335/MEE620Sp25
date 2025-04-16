@@ -18,25 +18,39 @@ public partial class SpinTopSim : Simulator
     //     and vertical component of angular momentum of the simulation
     //     formulated in the BODY FRAME
     //------------------------------------------------------------------------
-    private void AuxFuncBody()
-    {
-        double psi = x[0];
-        double phi = x[1];
-        double theta = x[2];
-        double omegaX = x[3];
-        double omegaY = x[4];
-        double omegaZ = x[5];
+private void AuxFuncBody()
+{
+    //Given
+    double psi = x[0];
+    double phi = x[1];
+    double theta = x[2];
+    //Added
+    double psiDot = x[3];
+    double phiDot = x[4];
+    double thetaDot = x[5];
 
-        double cosPhi = Math.Cos(phi);
-        double sinPhi = Math.Sin(phi);
-        double tanPhi = Math.Tan(phi);
-        double cosTheta = Math.Cos(theta);
-        double sinTheta = Math.Sin(theta);
+    //Given
+    double cosPhi = Math.Cos(phi);
+    double sinPhi = Math.Sin(phi);
+    double tanPhi = Math.Tan(phi);
+    double cosTheta = Math.Cos(theta);
+    double sinTheta = Math.Sin(theta);
 
-        ke = 0.0;
-        pe = 0.0;
-        angMoY = 0.0;
-    }
+    // Added
+    double omegaX = phiDot*cosTheta + psiDot*sinPhi*sinTheta;
+    double omegaY = thetaDot + psiDot*cosPhi;
+    double omegaZ = -phiDot*sinTheta + psiDot*sinPhi*cosTheta;
+
+    // Kinetic energy
+    ke = 0.5*IGp*omegaX*omegaX + 0.5*IGp*omegaZ*omegaZ + 0.5*IGa*omegaY*omegaY;
+
+    // Potential energy
+    pe = m*g*h * cosPhi;
+
+    // Vertical angular momentum
+    angMoY = IGa*omegaY*cosPhi;
+}
+
 
     //------------------------------------------------------------------------
     // RHSFuncSpinTopLean:  Evaluates the right sides of the differential

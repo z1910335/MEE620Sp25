@@ -86,13 +86,29 @@ public partial class PlayterSim : Simulator
         yG      = xx[15];
         zG      = xx[16];
 
+        double rho2 = rho*rho;
+        Vex angVel = new Vex(omegaX, omegaY, omegaZ);
+        Vex angMo = new Vex(rho2*omegaX, rho2*gammaY*omegaY, rho2*gammaZ*omegaZ);
+        Vex angVelCrosAngMo = Vex.Cross(angVel, angMo);
 
+        ff[0] = -angVelCrosAngMo.x/rho2;
+        ff[1] = -angVelCrosAngMo.y/(rho2*gammaY);
+        ff[2] = -angVelCrosAngMo.y/(rho2*gammaZ);
+
+        SetDebugVal(0, omegaX);
+        SetDebugVal(1, omegaY);
+        SetDebugVal(2, omegaZ);
+
+        ff[8] = 0.5*(-q1*omegaX - q2*omegaY - q3*omegaZ);
+        ff[9] = 0.5*(q0*omegaX - q3*omegaY + q2*omegaZ);
+        ff[10] = 0.5*(q3*omegaX + q0*omegaY - q1*omegaZ);
+        ff[11] = 0.5*(-q2*omegaX + q1*omegaY + q0*omegaZ);
 
         // COMMENT THESE OUT OR REMOVE WHEN READY
-        ff[0] = ff[1] = ff[2] = 0.0;   // derivs of body angular velocities set to zero
+        //ff[0] = ff[1] = ff[2] = 0.0;   // derivs of body angular velocities set to zero
         ff[3] = ff[4] = 0.0;           // derivs of arm angular velocities
         ff[5] = ff[6] = ff[7] = 0.0;   // derivs of cener of mass velocities
-        ff[8] = ff[9] = ff[10] = ff[11] = 0.0;  // derivs of quaternion coords
+        //ff[8] = ff[9] = ff[10] = ff[11] = 0.0;  // derivs of quaternion coords
         ff[12] = ff[13] = 0.0;         // derivs of arm angles
         ff[14] = ff[15] = ff[16] = 0.0;  // derivs of CG coordinates
     }
