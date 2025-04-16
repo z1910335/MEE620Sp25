@@ -166,10 +166,10 @@ public partial class PlayterSim : Simulator
         xt[7] = -0.15;      // vz
 
         // Generalized Coordinates
-        xt[8]  = 0.3;      // q0
+        xt[8]  = 0.6;      // q0
         xt[9]  = -0.42;      // q1
-        xt[10] = 0.18;      // q2
-        xt[11] = Math.Sqrt(1.0-q0*q0-q1*q1-q2*q2);      // q3
+        xt[10] = 0.24;      // q2
+        xt[11] = Math.Sqrt(1.0-xt[8]*xt[8]-xt[9]*xt[9]-xt[10]*xt[10]);      // q3
         xt[12] = 0.7;      // thetaL
         xt[13] = 0.1;      // thetaR
         xt[14] = 0.1;      // xG
