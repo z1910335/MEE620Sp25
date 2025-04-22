@@ -134,8 +134,35 @@ public partial class PlayterSim : Simulator
         x[13] = thR;
         x[14] = x[15] = x[16] = 0.0;
 
+        // work on finding velocity of the body center of mass
+        // start with arm positions
+        Vex rSLG = new Vex( 1.0, h, 0.0);   // position of left shoulder rel G
+        Vex rSRG = new Vex(-1.0, h, 0.0);   // pos of right shoulder rel G
+        Vex rFLS = new Vex( L*Math.Cos(thL),  L*Math.Sin(thL)*cosPhi, 
+            L*Math.Sin(thL)*sinPhi);     // pos of left arm rel to shoulder
+        Vex rFRS = new Vex(-L*Math.Cos(thL), -L*Math.Sin(thL)*cosPhi, 
+            -L*Math.Sin(thL)*sinPhi);    // pos of right arm rel to shoulder
+        Vex rFLG = rFLS + rSLG;   // pos left arm rel to body center of mass
+        Vex rFRG = rFRS + rSRG;   // pos right arm rel to body center of mass
+
+        // angular velocities
+        Vex omegaNB = new Vex(omX, omY, omZ);  // angular vel body frame rel N
+        Vex basisSz = new Vex(0.0, -sinPhi, cosPhi);   // basis vector S.z
+        Vex omegaFLB = omFL*basisSz;
+        Vex omegaFRB = omFR*basisSz;
+
+        // arm velocities relative to G
+        Vex vArmLrG = Vex.Cross(omegaNB, rFLG) + Vex.Cross(omegaFLB, rFLS);
+        Vex vArmRrG = Vex.Cross(omegaNB, rFRG) + Vex.Cross(omegaFRB, rFRS);
+
+        // compensatory vG
+        Vex vGComp = (-mA/(1.0 + 2*mA))*(vArmLrG + vArmRrG);
+        x[5] = vGComp.x;
+        x[6] = vGComp.y;
+        x[7] = vGComp.z;
+
         // need to fix these ####################
-        x[5] = x[6] = x[7] = 0.0;
+        //x[5] = x[6] = x[7] = 0.0;
 
         // reset the debug data
         // for(int i=0; i<ndbg; ++i){
