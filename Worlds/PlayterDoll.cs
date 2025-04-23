@@ -136,6 +136,13 @@ public partial class PlayterDoll : Node3D
 		float yG = (float)sim.YG;
 		float zG = (float)sim.ZG;
 
+		float sig1 = Input.GetAxis("ui_down1", "ui_up1");
+		float sig2 = Input.GetAxis("ui_down2", "ui_up2");
+		sim.ISig1 = (double)sig1;
+		sim.ISig2 = (double)sig2;
+		//sim.SetDebugVal(14, sig1);
+		//sim.SetDebugVal(15, sig2);
+
 		model.Update(q0, q1, q2, q3, thL, thR, xG, yG, zG);
 
 		timeLabel.Text = time.ToString("0.0");
@@ -148,6 +155,16 @@ public partial class PlayterDoll : Node3D
 		}
 		else{
 			++dispCtr;
+		}
+
+		// switch mode
+		if(Input.IsActionJustPressed("ui_Dup")){
+			//GD.Print("Dup");
+			cButtonArmMode.ButtonPressed = true;
+		}
+		if(Input.IsActionJustPressed("ui_Ddown")){
+			//GD.Print("Ddown");
+			cButtonArmMode.ButtonPressed = false;
 		}
 	}
 
@@ -321,6 +338,12 @@ public partial class PlayterDoll : Node3D
 		} 
 		
 		testGrid.Hide();
+
+		// Joystick dead zones
+		InputMap.ActionSetDeadzone("ui_up1", 0.1f);
+		InputMap.ActionSetDeadzone("ui_down1", 0.1f);
+		InputMap.ActionSetDeadzone("ui_up2", 0.1f);
+		InputMap.ActionSetDeadzone("ui_down2", 0.1f);
 	}
 
 	//------------------------------------------------------------------------

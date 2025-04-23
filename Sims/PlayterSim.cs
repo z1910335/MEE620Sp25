@@ -51,6 +51,9 @@ public partial class PlayterSim : Simulator
     double shKp = 100.0;   // proportional gain for shoulder PD controller
     double shKd = 20.0;    // derivative gain for shoulder PD controller
 
+    double iSig1;     // input signal 1
+    double iSig2;     // input signal 2
+
     int ndbg;
     double[] dbgVal;
 
@@ -66,6 +69,9 @@ public partial class PlayterSim : Simulator
         gammaZ = 1.05;
         h = 1.56;
         L = 1.65;
+
+        iSig1 = 0.0;   // default zero input signal
+        iSig2 = 0.0;
 
         phi = 0.0;
         cosPhi = Math.Cos(phi);
@@ -406,6 +412,22 @@ public partial class PlayterSim : Simulator
             phi = value;
             cosPhi = Math.Cos(phi);
             sinPhi = Math.Sin(phi);
+        }
+    }
+
+    // ISig1 -----------------------
+    public double ISig1
+    {
+        set{
+            iSig1 = value;
+        }
+    }
+
+    // ISig2 -----------------------
+    public double ISig2
+    {
+        set{
+            iSig2 = value;
         }
     }
 
