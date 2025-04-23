@@ -87,6 +87,7 @@ public partial class PlayterSim : Simulator
         StudentInit();
         RunTest();
         Reinitialize();
+        //RunTestIC();
         //StudentInit();
     }
 
@@ -181,7 +182,9 @@ public partial class PlayterSim : Simulator
     //------------------------------------------------------------------------
     private void RunTestIC()
     {
+        double[] dumf = new double[17];
 
+        RHSFuncPlayter(x, 0.0, dumf);
     }
 
     //------------------------------------------------------------------------
