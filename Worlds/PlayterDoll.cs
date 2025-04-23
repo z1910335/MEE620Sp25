@@ -29,6 +29,7 @@ public partial class PlayterDoll : Node3D
 	// simulation
 	PlayterSim sim;
 	double time;
+	int nSimSubsteps;
 
 	// model
 	PDollModel model;
@@ -76,6 +77,7 @@ public partial class PlayterDoll : Node3D
 		cgHeight = 6.0f;
 		sim = new PlayterSim();
 		time = 0.0;
+		nSimSubsteps = 8;
 		SetParamsDoll();
 
 		// set up doll model
@@ -226,7 +228,11 @@ public partial class PlayterDoll : Node3D
         base._PhysicsProcess(delta);
 
 		if(runMode == RunMode.Sim){
-			sim.Step(time, delta);
+			double subDt = delta/nSimSubsteps;
+			for (int i=0;i<nSimSubsteps;++i){
+				sim.Step(time + i*subDt, subDt);
+			}
+			
 			time += delta;
 		}
     }
