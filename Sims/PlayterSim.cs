@@ -412,7 +412,7 @@ public partial class PlayterSim : Simulator
     // ShoulderStiffness ----------------
     public double ShoulderStiffness
     {
-        set{h = value;}
+        set{k = value;}
     }
 
     // ShoulderDamping ------------------
