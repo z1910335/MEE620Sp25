@@ -280,7 +280,7 @@ public partial class PlayterDoll : Node3D
 			//grid.AddChild(icOmega[i]);
 			grid.AddChild(sbIcOmega[i]);
 			//icOmega[i] = sbIcOmega[i].GetLineEdit();
-			sbIcOmega[i].Step = 0.02f;
+			sbIcOmega[i].Step = 0.01f;
 			sbIcOmega[i].MaxValue = 2.0f;
 			sbIcOmega[i].ValueChanged += OnICValueChanged;
 			//sbIcOmega[i].Suffix = "rad/s";
@@ -303,8 +303,8 @@ public partial class PlayterDoll : Node3D
 		Label labelK = new Label();
 		labelK.Text = "Spring K:";
 		spinBoxK = new SpinBox();
-		spinBoxK.Value = 2.0f;
-		spinBoxK.Step = 0.02f;
+		spinBoxK.Value = 6.0f;
+		spinBoxK.Step = 0.01f;
 		spinBoxK.ValueChanged += OnSpringKValueChanged;
 		grid.AddChild(labelK);
 		grid.AddChild(spinBoxK);
@@ -312,8 +312,8 @@ public partial class PlayterDoll : Node3D
 		Label labelC = new Label();
 		labelC.Text = "Damper c:";
 		spinBoxC = new SpinBox();
-		spinBoxC.Step = 0.02f;
-		spinBoxC.Value = 0.5f;
+		spinBoxC.Step = 0.01f;
+		spinBoxC.Value = 0.25f;
 		spinBoxC.ValueChanged += OnDamperCValueChanged;
 		grid.AddChild(labelC);
 		grid.AddChild(spinBoxC);
