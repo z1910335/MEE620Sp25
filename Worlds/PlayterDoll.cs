@@ -479,6 +479,9 @@ public partial class PlayterDoll : Node3D
 			double omZ = sbIcOmega[2].Value;
 			sim.SetSpinIC(omX, omY, omZ);
 
+			sim.ShoulderStiffness = spinBoxK.Value;
+			sim.ShoulderDamping = spinBoxC.Value;
+
 			runMode = RunMode.Sim;
 		}
 		else if(runMode == RunMode.Pause){ // switch from Pause to Sim
