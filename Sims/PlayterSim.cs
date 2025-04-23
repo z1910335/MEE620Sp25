@@ -177,6 +177,14 @@ public partial class PlayterSim : Simulator
     }
 
     //------------------------------------------------------------------------
+    // RunTestIC: Run test with actual initial conditions
+    //------------------------------------------------------------------------
+    private void RunTestIC()
+    {
+
+    }
+
+    //------------------------------------------------------------------------
     // RunTest: Run test that will allow users to test intermediate
     //          steps in writing equations of motion.
     //------------------------------------------------------------------------
@@ -213,7 +221,7 @@ public partial class PlayterSim : Simulator
 
         RHSFuncPlayter(xt, 2.6, dumf);
 
-        phi=1.0;
+        phi=0.0;
         cosPhi = Math.Cos(phi);
         sinPhi = Math.Sin(phi);
     }
