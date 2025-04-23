@@ -38,6 +38,7 @@ public partial class PlayterSim : Simulator
     double q3;
     double thetaL;  // left arm angle
     double thetaR;  // right arm angle
+    double theta0;  // natural angle of left arm... semetric for right
     double xG;      // coordinates of body's center of mass
     double yG;
     double zG;
@@ -54,6 +55,7 @@ public partial class PlayterSim : Simulator
     double iSig1;     // input signal 1
     double iSig2;     // input signal 2
 
+    bool toRunGenTest;  // general test if true, other wise test with spec IC
     int ndbg;
     double[] dbgVal;
 
@@ -69,6 +71,7 @@ public partial class PlayterSim : Simulator
         gammaZ = 1.05;
         h = 1.56;
         L = 1.65;
+        theta0 = 0.0;
 
         iSig1 = 0.0;   // default zero input signal
         iSig2 = 0.0;
@@ -84,10 +87,13 @@ public partial class PlayterSim : Simulator
 
         SetRHSFunc(RHSFuncPlayter);
 
+        toRunGenTest = true;
         StudentInit();
-        RunTest();
+        if(toRunGenTest)
+            RunTest();
         Reinitialize();
-        //RunTestIC();
+        if(!toRunGenTest)
+            RunTestIC();
         //StudentInit();
     }
 
@@ -330,6 +336,14 @@ public partial class PlayterSim : Simulator
         get{ return x[13];}
 
         set{ x[13] = value; }
+    }
+
+    // ThetaNatural -----------------------------
+    public double ThetaNatural
+    {
+        get{ return theta0; }
+
+        set{ theta0 = value; }
     }
 
     // XG -----------------------------------

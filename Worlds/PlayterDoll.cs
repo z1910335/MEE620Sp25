@@ -49,6 +49,7 @@ public partial class PlayterDoll : Node3D
 	SpinBox[] sbIcOmega;
 	SpinBox spinBoxK;
 	SpinBox spinBoxC;
+	SpinBox spinBoxTheta;
 
 	Button simButton;
 	Button resetButton;
@@ -311,6 +312,17 @@ public partial class PlayterDoll : Node3D
 		grid.AddChild(labelC);
 		grid.AddChild(spinBoxC);
 
+		Label labelNat = new Label();
+		labelNat.Text = "Arm Angl deg:";
+		spinBoxTheta = new SpinBox();
+		spinBoxTheta.Step = 2.0f;
+		spinBoxTheta.Value = 0.0f;
+		spinBoxTheta.MinValue = -80.0f;
+		spinBoxTheta.MaxValue = 80.0f;
+		spinBoxTheta.ValueChanged += OnArmAngleNatValueChanged;
+		grid.AddChild(labelNat);
+		grid.AddChild(spinBoxTheta);
+
 		grid.AddChild(new HSeparator());
 		grid.AddChild(new HSeparator());
 
@@ -400,6 +412,18 @@ public partial class PlayterDoll : Node3D
 	}
 
 	//------------------------------------------------------------------------
+	// OnArmAngleNatValueChanged
+	//------------------------------------------------------------------------
+	private void OnArmAngleNatValueChanged(double val)
+	{
+		//  GD.Print("ThetaNat: " + val);
+		double vv = val*Math.PI/180.0;
+		sim.ThetaNatural = vv;
+		sim.ThetaL = vv;
+		sim.ThetaR = -vv;
+	}
+
+	//------------------------------------------------------------------------
 	// OnArmModeToggle:
 	//------------------------------------------------------------------------
 	private void OnArmModeToggle(bool freeSelected)
@@ -447,6 +471,7 @@ public partial class PlayterDoll : Node3D
 
 			spinBoxK.Editable = false;
 			spinBoxC.Editable = false;
+			spinBoxTheta.Editable = false;
 
 			// send IC to sim
 			double omX = sbIcOmega[0].Value;
@@ -481,6 +506,7 @@ public partial class PlayterDoll : Node3D
 
 		spinBoxK.Editable = true;
 		spinBoxC.Editable = true;
+		spinBoxTheta.Editable = true;
 
 		timeLabel.Text = "0.0";
 		time = 0.0;
