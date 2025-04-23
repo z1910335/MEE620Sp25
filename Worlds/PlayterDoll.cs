@@ -47,6 +47,9 @@ public partial class PlayterDoll : Node3D
 	CheckButton cButtonArmMode;
 	LineEdit[] icOmega;
 	SpinBox[] sbIcOmega;
+	SpinBox spinBoxK;
+	SpinBox spinBoxC;
+
 	Button simButton;
 	Button resetButton;
 
@@ -240,7 +243,7 @@ public partial class PlayterDoll : Node3D
 		mcTL.AddChild(vbox);
 
 		Label titleLabel = new Label();
-		titleLabel.Text = "Playter Doll Simulator";
+		titleLabel.Text = "Playter Doll Simulator v1.2";
 		vbox.AddChild(titleLabel);
 		vbox.AddChild(new HSeparator());
 
@@ -270,7 +273,7 @@ public partial class PlayterDoll : Node3D
 			//grid.AddChild(icOmega[i]);
 			grid.AddChild(sbIcOmega[i]);
 			//icOmega[i] = sbIcOmega[i].GetLineEdit();
-			sbIcOmega[i].Step = 0.01f;
+			sbIcOmega[i].Step = 0.02f;
 			sbIcOmega[i].MaxValue = 2.0f;
 			sbIcOmega[i].ValueChanged += OnICValueChanged;
 			//sbIcOmega[i].Suffix = "rad/s";
@@ -286,6 +289,27 @@ public partial class PlayterDoll : Node3D
 		// icOmega[0].Text = "1.0";
 		// icOmega[1].Text = "0.0";
 		// icOmega[2].Text = "0.0";
+
+		grid.AddChild(new HSeparator());
+		grid.AddChild(new HSeparator());
+
+		Label labelK = new Label();
+		labelK.Text = "Spring K:";
+		spinBoxK = new SpinBox();
+		spinBoxK.Value = 2.0f;
+		spinBoxK.Step = 0.02f;
+		spinBoxK.ValueChanged += OnSpringKValueChanged;
+		grid.AddChild(labelK);
+		grid.AddChild(spinBoxK);
+
+		Label labelC = new Label();
+		labelC.Text = "Damper c:";
+		spinBoxC = new SpinBox();
+		spinBoxC.Step = 0.02f;
+		spinBoxC.Value = 0.5f;
+		spinBoxC.ValueChanged += OnDamperCValueChanged;
+		grid.AddChild(labelC);
+		grid.AddChild(spinBoxC);
 
 		grid.AddChild(new HSeparator());
 		grid.AddChild(new HSeparator());
@@ -355,9 +379,24 @@ public partial class PlayterDoll : Node3D
 		double omY = sbIcOmega[1].Value;
 		double omZ = sbIcOmega[2].Value;
 		
-		//######### Hmmmmm. Do I need to do anything here???
+	}
 
-		//GD.Print("Omega = " + omX + ", " + omY + ", " + omZ);
+	//------------------------------------------------------------------------
+	// OnSpringKValueChanged:
+	//------------------------------------------------------------------------
+	private void OnSpringKValueChanged(double val)
+	{
+		//GD.Print("Spring K: " + val);
+		sim.ShoulderStiffness = val;
+	}
+
+	//------------------------------------------------------------------------
+	// OnDamperCValueChanged:
+	//------------------------------------------------------------------------
+	private void OnDamperCValueChanged(double val)
+	{
+		//GD.Print("DamperC: " + val);
+		sim.ShoulderDamping = val;
 	}
 
 	//------------------------------------------------------------------------
@@ -406,6 +445,9 @@ public partial class PlayterDoll : Node3D
 			sbIcOmega[1].Editable = false;
 			sbIcOmega[2].Editable = false;
 
+			spinBoxK.Editable = false;
+			spinBoxC.Editable = false;
+
 			// send IC to sim
 			double omX = sbIcOmega[0].Value;
 			double omY = sbIcOmega[1].Value;
@@ -436,6 +478,9 @@ public partial class PlayterDoll : Node3D
 		sbIcOmega[0].Editable = true;
 		sbIcOmega[1].Editable = true;
 		sbIcOmega[2].Editable = true;
+
+		spinBoxK.Editable = true;
+		spinBoxC.Editable = true;
 
 		timeLabel.Text = "0.0";
 		time = 0.0;

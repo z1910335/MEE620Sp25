@@ -384,6 +384,18 @@ public partial class PlayterSim : Simulator
         }
     }
 
+    // ShoulderStiffness ----------------
+    public double ShoulderStiffness
+    {
+        set{h = value;}
+    }
+
+    // ShoulderDamping ------------------
+    public double ShoulderDamping
+    {
+        set{c = value;}
+    }
+
     // ShoulderHeight -------------------
     public double ShoulderHeight
     {
