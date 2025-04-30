@@ -203,6 +203,7 @@ public partial class PlayterSim : Simulator
         RHSFuncPlayter(x, 0.0, dumf);
         
         tq0 = tqCalcL;
+        shoulderDyn = psd;
     }
 
     //------------------------------------------------------------------------
