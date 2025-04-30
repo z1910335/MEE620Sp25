@@ -17,6 +17,7 @@ public partial class PlayterSim : Simulator
     double L;      // dimless distance of arm mass from shoulder
     double k;      // dimless torsional stiffness of shoulder spring
     double c;      // dimless torsional damping coeff in shoulder damper
+    double tq0;    // shoulder pre-torque;
     double phi;    // angle of arm swing plane relative to vertical
     double cosPhi;
     double sinPhi;
@@ -38,7 +39,7 @@ public partial class PlayterSim : Simulator
     double q3;
     double thetaL;  // left arm angle
     double thetaR;  // right arm angle
-    double theta0;  // natural angle of left arm... semetric for right
+    double theta0;  // natural angle of left arm... symetric for right
     double xG;      // coordinates of body's center of mass
     double yG;
     double zG;
@@ -48,6 +49,7 @@ public partial class PlayterSim : Simulator
         Prescribed,  // Prescribed by user input
     }
     ShoulderDynamics shoulderDyn;
+    bool hasPrescribed;
 
     double shKp = 100.0;   // proportional gain for shoulder PD controller
     double shKd = 20.0;    // derivative gain for shoulder PD controller
@@ -72,6 +74,7 @@ public partial class PlayterSim : Simulator
         h = 1.56;
         L = 1.65;
         theta0 = 0.0;
+        tq0 = 0.0;
 
         iSig1 = 0.0;   // default zero input signal
         iSig2 = 0.0;
@@ -81,6 +84,7 @@ public partial class PlayterSim : Simulator
         sinPhi = Math.Sin(phi);
 
         shoulderDyn = ShoulderDynamics.Free;
+        hasPrescribed = false;
 
         ndbg = 16;
         dbgVal = new double[ndbg];
@@ -135,6 +139,11 @@ public partial class PlayterSim : Simulator
     public void SetSpinIC(double omX, double omY=0.0, double omZ=0.0,
         double omFL=0.0, double omFR=0.0, double thL=0.0, double thR=0.0)
     {
+        if(Math.Abs(thL) < 0.000001 && Math.Abs(thR) < 0.000001){
+            thL = theta0;
+            thR = -theta0;
+        }
+
         x[0] = omX;
         x[1] = omY;
         x[2] = omZ;
@@ -174,13 +183,9 @@ public partial class PlayterSim : Simulator
         x[6] = vGComp.y;
         x[7] = vGComp.z;
 
-        // need to fix these ####################
-        //x[5] = x[6] = x[7] = 0.0;
-
-        // reset the debug data
-        // for(int i=0; i<ndbg; ++i){
-        //     dbgVal[i] = 0.0;
-        // }
+        if(hasPrescribed){
+            // nothing yet
+        }
     }
 
     //------------------------------------------------------------------------
@@ -427,6 +432,12 @@ public partial class PlayterSim : Simulator
         get{ return h;}
 
         set{ h = value;}
+    }
+
+    // ShoulderPreTorque ---------------
+    public double ShoulderPreTorque
+    {
+        set{tq0 = value;}
     }
 
     // ArmLength -----------------------

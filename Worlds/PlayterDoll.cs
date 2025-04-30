@@ -305,6 +305,7 @@ public partial class PlayterDoll : Node3D
 		spinBoxK = new SpinBox();
 		spinBoxK.Value = 6.0f;
 		spinBoxK.Step = 0.01f;
+		spinBoxK.MinValue = -1.0f;
 		spinBoxK.ValueChanged += OnSpringKValueChanged;
 		grid.AddChild(labelK);
 		grid.AddChild(spinBoxK);
