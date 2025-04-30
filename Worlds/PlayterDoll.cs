@@ -484,6 +484,11 @@ public partial class PlayterDoll : Node3D
 			double omX = sbIcOmega[0].Value;
 			double omY = sbIcOmega[1].Value;
 			double omZ = sbIcOmega[2].Value;
+
+			if(sim.CanPrescribeShoulder){
+				sim.SetSpinIC(omX, 0.0, 0.0);
+				sim.CalcPreTorque();
+			}
 			sim.SetSpinIC(omX, omY, omZ);
 
 			sim.ShoulderStiffness = spinBoxK.Value;

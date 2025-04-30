@@ -18,6 +18,8 @@ public partial class PlayterSim : Simulator
     double k;      // dimless torsional stiffness of shoulder spring
     double c;      // dimless torsional damping coeff in shoulder damper
     double tq0;    // shoulder pre-torque;
+    double tqCalcL;// calculated torque for prescribed motion Left
+    double tqCalcR;// calculated torque for prescribed motion Right 
     double phi;    // angle of arm swing plane relative to vertical
     double cosPhi;
     double sinPhi;
@@ -75,6 +77,7 @@ public partial class PlayterSim : Simulator
         L = 1.65;
         theta0 = 0.0;
         tq0 = 0.0;
+        tqCalcL = tqCalcR = 0.0;
 
         iSig1 = 0.0;   // default zero input signal
         iSig2 = 0.0;
@@ -183,9 +186,23 @@ public partial class PlayterSim : Simulator
         x[6] = vGComp.y;
         x[7] = vGComp.z;
 
-        if(hasPrescribed){
-            // nothing yet
-        }
+    }
+
+    //------------------------------------------------------------------------
+    // CalcPreTorque: 
+    //------------------------------------------------------------------------
+    public void CalcPreTorque()
+    {
+        if(!hasPrescribed)
+            return;
+
+        ShoulderDynamics psd = shoulderDyn;
+        shoulderDyn = ShoulderDynamics.Prescribed;
+
+        double[] dumf = new double[17];
+        RHSFuncPlayter(x, 0.0, dumf);
+        
+        tq0 = tqCalcL;
     }
 
     //------------------------------------------------------------------------
@@ -438,6 +455,12 @@ public partial class PlayterSim : Simulator
     public double ShoulderPreTorque
     {
         set{tq0 = value;}
+    }
+
+    // CanPrescribeShoulder
+    public bool CanPrescribeShoulder
+    {
+        get{ return hasPrescribed; }
     }
 
     // ArmLength -----------------------
