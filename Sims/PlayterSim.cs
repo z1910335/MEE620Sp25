@@ -66,6 +66,9 @@ public partial class PlayterSim : Simulator
         gammaZ = 1.05;
         h = 1.56;
         L = 1.65;
+        k = 0.2;    // shoulder spring stiffness
+        c = 0.05;   // shoulder damping
+
 
         phi = 0.0;
         cosPhi = Math.Cos(phi);
@@ -414,5 +417,11 @@ public partial class PlayterSim : Simulator
 
         return dbgVal[idx];
     }
+
+        public bool GetArmPrescribed()
+    {
+        return (shoulderDyn == ShoulderDynamics.Prescribed);
+    }
+
 
 }// end class

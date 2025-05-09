@@ -136,6 +136,17 @@ public partial class PlayterDoll : Node3D
 		float yG = (float)sim.YG;
 		float zG = (float)sim.ZG;
 
+		// === Sanity Check: Ensure all values going into transform are finite ===
+		if (!double.IsFinite(q0) || !double.IsFinite(q1) || !double.IsFinite(q2) || !double.IsFinite(q3))
+		{
+			GD.PrintErr("❌ NaN detected in quaternion: ", q0, q1, q2, q3);
+		}
+		if (!double.IsFinite(xG) || !double.IsFinite(yG) || !double.IsFinite(zG))
+		{
+			GD.PrintErr("❌ NaN detected in COM position: ", xG, yG, zG);
+		}
+
+
 		model.Update(q0, q1, q2, q3, thL, thR, xG, yG, zG);
 
 		timeLabel.Text = time.ToString("0.0");
