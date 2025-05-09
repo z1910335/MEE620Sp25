@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://lrgbvfvjoc32"]
+[gd_scene load_steps=26 format=3 uid="uid://lrgbvfvjoc32"]
 
 [ext_resource type="Script" path="res://Models/PDollModel.cs" id="1_emh1q"]
 [ext_resource type="Texture2D" uid="uid://nfvi33lt5l7e" path="res://Textures/boxTex3GrBuArr.png" id="2_jfwed"]
@@ -7,6 +7,13 @@
 [ext_resource type="Script" path="res://Models/PdLowerBody.cs" id="4_6hpi8"]
 [ext_resource type="Texture2D" uid="uid://dqafirdm2me3f" path="res://Textures/cylTex3bWR.png" id="6_p46kd"]
 [ext_resource type="Texture2D" uid="uid://cd85hw6f5f4w0" path="res://Textures/cylTex3bWB.png" id="7_wj8t4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0lr25"]
+albedo_color = Color(0.419608, 0.741176, 0.309804, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_n3cru"]
+material = SubResource("StandardMaterial3D_0lr25")
+height = 1.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57fcr"]
 albedo_color = Color(1, 1, 0.988235, 1)
@@ -82,6 +89,10 @@ script = ExtResource("1_emh1q")
 [node name="RootNode" type="Node3D" parent="."]
 
 [node name="VertShift" type="Node3D" parent="RootNode"]
+
+[node name="Head" type="MeshInstance3D" parent="RootNode/VertShift"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+mesh = SubResource("SphereMesh_n3cru")
 
 [node name="PDUpperBody" type="MeshInstance3D" parent="RootNode/VertShift"]
 material_override = SubResource("StandardMaterial3D_57fcr")
